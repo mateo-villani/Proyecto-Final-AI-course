@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Verificación del informe Leidenfrost</title>
+<style>
+body { font: 15px/1.6 -apple-system, "Helvetica Neue", sans-serif;
+       max-width: 980px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; }
+h1 { font-size: 1.6rem; margin-bottom: .2rem; }
+h2 { font-size: 1.25rem; margin-top: 2.5rem; border-bottom: 2px solid #e8a05c; padding-bottom: .3rem; }
+h3 { font-size: 1.02rem; margin-top: 1.6rem; }
+.subtitle { color: #555; font-size: .95rem; margin-top: 0; }
+table { border-collapse: collapse; width: 100%; margin: .8rem 0; font-size: .9rem; }
+th, td { border: 1px solid #ddd; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f4f4; }
+code { background: #f4f4f4; padding: .05em .35em; font-size: .88em; border-radius: 3px; }
+pre { background: #f6f6f6; border: 1px solid #e2e2e2; border-radius: 4px; padding: .7rem 1rem;
+      overflow-x: auto; font-size: .84rem; }
+.src { display: inline-block; font-size: .74rem; font-weight: 600; letter-spacing: .02em;
+       text-transform: uppercase; padding: .12em .5em; border-radius: 3px; margin-left: .4em; }
+.src.doc { background: #e7f0ff; color: #1a4d99; }
+.src.calc { background: #eaf7ea; color: #1a7a2a; }
+.src.ext { background: #fdeee0; color: #a85400; }
+.verdict { display: inline-block; font-size: .78rem; font-weight: 700; padding: .15em .6em;
+           border-radius: 3px; margin-bottom: .3rem; }
+.verdict.ok { background: #e2f5e2; color: #1a7a2a; }
+.verdict.bad { background: #fdeaea; color: #b03030; }
+.verdict.warn { background: #fff7e0; color: #8a6100; }
+.box { border-left: 3px solid #e8a05c; background: #fafafa; padding: .8rem 1.1rem; margin: 1rem 0; }
+.box.bad { border-left-color: #b03030; background: #fdf4f4; }
+.frac { display: inline-flex; flex-direction: column; vertical-align: middle;
+        text-align: center; margin: 0 .15em; font-size: .95em; }
+.frac .num { border-bottom: 1px solid #1a1a1a; padding: 0 .2em .05em; }
+.frac .den { padding: .05em .2em 0; }
+.eqline { text-align: center; margin: .9rem 0; font-size: 1.05rem; }
+.steps { counter-reset: step; list-style: none; padding-left: 0; }
+.steps li { counter-increment: step; margin: .6rem 0; padding-left: 2.2rem; position: relative; }
+.steps li::before { content: "Paso " counter(step); position: absolute; left: 0; top: 0;
+                     font-size: .72rem; font-weight: 700; color: #a85400; }
+footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #ddd; font-size: .82rem; color: #666; }
+.idea { margin: 1rem 0; padding-bottom: .8rem; border-bottom: 1px dashed #e2e2e2; }
+.idea:last-child { border-bottom: none; }
+.origin { display: block; font-size: .8rem; color: #666; font-style: italic; margin-top: .3rem; }
+.origin b { font-style: normal; color: #444; }
+.toc { background: #fafafa; border: 1px solid #eee; border-radius: 4px; padding: 1rem 1.4rem; }
+.toc a { color: #1a4d99; text-decoration: none; }
+.toc a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<h1>Verificación del informe "Estudio del efecto Leidenfrost para cilindros de cobre sumergidos en nitrógeno líquido"</h1>
+<p class="subtitle">Reproducción de la estructura, verificación teórica de ecuaciones y conceptos, y control de consistencia entre cálculos, gráficos y conclusiones. Grupo 3 (Maximenco, Gomez Leiva, Kacuk) — Laboratorio 4, FCEyN-UBA, Mayo 2026.</p>
+
+<div class="toc">
+<strong>Contenido</strong><br>
+<a href="#metodologia">1. Metodología de verificación</a><br>
+<a href="#estructura">2. Reproducción de la estructura</a><br>
+<a href="#numerica">3. Consistencia numérica interna</a><br>
+<a href="#teoria">4. Verificación teórica de ecuaciones</a><br>
+<a href="#conexion">5. Conexión ecuación–concepto–gráfico</a><br>
+<a href="#conclusiones">6. Consistencia de las conclusiones</a><br>
+<a href="#resumen">7. Resumen de hallazgos</a><br>
+<a href="#repeticion">8. Sugerencias para una repetición del experimento</a><br>
+<a href="#nuevos-analisis">9. Ideas para nuevos análisis</a>
+</div>
+
+<h2 id="metodologia">1. Metodología de verificación</h2>
+<p>Esta verificación se hizo contra un único documento de origen: <code>Grupo_3___Informe_Leidenfrost_Reentrega.pdf</code> (13 páginas), presente en este mismo repositorio. No se usaron conversiones automáticas a texto (PyMuPDF/pdftohtml) como fuente de los datos citados, porque la extracción automática rompe subíndices y exponentes de las ecuaciones; se usaron únicamente para una comparación exploratoria previa, descartada para este análisis.</p>
+<ol class="steps">
+<li>Se renderizó cada una de las 13 páginas del PDF a imagen PNG a 150&nbsp;dpi con <code>pdftoppm</code> (Poppler 26.07.0), para poder leer texto, ecuaciones, tablas y figuras exactamente como aparecen en el documento, sin pasar por un extractor de texto.</li>
+<li>Se leyó cada imagen de página de forma secuencial (p.&nbsp;1 a 13), registrando el contenido de cada sección, tabla, ecuación y figura, y el número de página donde aparece.</li>
+<li>Para la Ecuación 3 (modelo de Einstein), al detectarse una posible inconsistencia de notación, se volvió a renderizar únicamente la página 3 a 400&nbsp;dpi, recortando la región de la ecuación en dos mitades (<code>pdftoppm -x -y -W -H</code>), para leer los subíndices sin ambigüedad antes de reportar el hallazgo.</li>
+<li>Todos los valores numéricos "recalculados" en este documento se obtuvieron aplicando fórmulas (geométricas, estadísticas o del propio informe) a los <em>datos de entrada</em> que el informe reporta en sus tablas y figuras — no se repite el resultado que el informe dice haber obtenido, sino que se rehace la cuenta desde cero.</li>
+<li>Cuando una verificación requiere conocimiento físico externo al documento (p. ej. la forma estándar del modelo de Einstein, o las etapas de la curva de ebullición), la fuente se marca explícitamente como externa, distinguiéndola de los datos que provienen del PDF. Es importante precisar qué significa "externo" en este documento: <strong>no proviene de una búsqueda, consulta o lectura hecha durante esta verificación</strong> — no se usaron herramientas de búsqueda web ni se abrió ningún libro o paper en el proceso. Se trata de conocimiento ya adquirido por el modelo durante su entrenamiento (equivalente a recordar de memoria contenido de física de manuales estándar), sin una cita verificable página por página. Cuando ese conocimiento sirve para una comparación matemática autocontenida (como contrastar la forma de una ecuación del informe contra la forma canónica de un modelo), la verificación es sólida por sí misma, independientemente de la fuente; pero la afirmación de que esa es "la forma estándar" descansa en memoria del modelo, no en una fuente consultada en vivo. Si se necesita una referencia verificable con cita precisa, debe hacerse una búsqueda explícita aparte, que no fue parte de este proceso.</li>
+</ol>
+<p>Convención de etiquetas usada en todo el documento:</p>
+<p>
+<span class="src doc">Doc</span> dato tomado literalmente del PDF (se indica página/tabla/figura/ecuación) &nbsp;
+<span class="src calc">Cálculo</span> cuenta rehecha de forma independiente a partir de datos del PDF &nbsp;
+<span class="src ext">Externo</span> conocimiento de física/matemática adquirido por el modelo durante su entrenamiento, no proviene del informe ni de una búsqueda o cita verificada en esta sesión (ver aclaración en el Paso 5)
+</p>
+
+<h2 id="estructura">2. Reproducción de la estructura del informe</h2>
+<p><span class="src doc">Doc — p.1–13</span> Reconstrucción del índice a partir de los encabezados reales de cada página:</p>
+<table>
+<tr><th>Sección</th><th>Contenido</th><th>Página</th><th>Objetos</th></tr>
+<tr><td>Resumen</td><td>Síntesis de objetivo, método y hallazgos principales</td><td>1</td><td>—</td></tr>
+<tr><td>1. Introducción</td><td>Física del efecto Leidenfrost, curva de ebullición en 6 etapas, deducción de <i>Q̇/A</i> desde <i>T(t)</i> y desde <i>m(t)</i>, modelo de Einstein para <i>C<sub>l</sub>(T)</i></td><td>2–3</td><td>Fig. 1, Ec. 1–3</td></tr>
+<tr><td>2. Procedimiento experimental</td><td>Tres cilindros de Cu (A, B, C), termocupla tipo K + multímetro Agilent 34401A, balanza</td><td>3–4</td><td>Tabla 1, Fig. 2</td></tr>
+<tr><td>3.1 Temperatura en función del tiempo</td><td>3.1.1 comparación entre cilindros; 3.1.2 efecto del recubrimiento con film</td><td>5–7</td><td>Fig. 3, Fig. 4</td></tr>
+<tr><td>3.2 Masa del nitrógeno en función del tiempo</td><td>Evaporación del N₂, ajustes lineales de la 1ª y 3ª etapa</td><td>8–9</td><td>Fig. 5, Fig. 6</td></tr>
+<tr><td>3.3 Transferencia de calor en función de ΔT y Δm</td><td><i>Q̇/A</i> vs ΔT y vs Δm para el cilindro B</td><td>9–11</td><td>Fig. 7</td></tr>
+<tr><td>4. Conclusiones</td><td>Síntesis de 3.1–3.3</td><td>11</td><td>—</td></tr>
+<tr><td>5. Apéndice</td><td>Réplicas de Fig. 7 para cilindros A y C; discusión del error en escala logarítmica</td><td>12</td><td>Fig. 8–10</td></tr>
+<tr><td>Referencias</td><td>Atkins &amp; de Paula (<i>Physical Chemistry</i>); Zemansky &amp; Dittman (<i>Heat and Thermodynamics</i>)</td><td>13</td><td>—</td></tr>
+</table>
+<p>La numeración de secciones, ecuaciones y figuras es correlativa; toda referencia cruzada ("ver Figura N", "Ecuación N") encontrada en el texto apunta a un objeto que efectivamente existe en la página correspondiente. No se detectaron referencias rotas ni saltos de numeración.</p>
+
+<h2 id="numerica">3. Consistencia numérica interna</h2>
+<p>Se recalcularon de forma independiente los valores derivados que el informe reporta, partiendo de sus datos de entrada tabulados.</p>
+
+<h3>3.1 Área de los cilindros</h3>
+<p><span class="src ext">Externo</span> Fórmula geométrica estándar de área de un cilindro sólido (lateral + 2 tapas), no está en el informe:</p>
+<div class="eqline">A = πDh + 2π(D/2)²</div>
+<p><span class="src doc">Doc — Tabla 1, p.4</span> Dimensiones de entrada. <span class="src calc">Cálculo</span> Área obtenida vs. tabulada:</p>
+<table>
+<tr><th>Cilindro</th><th>h [cm]</th><th>D [cm]</th><th>Cálculo</th><th>A obtenida</th><th>A en Tabla 1</th></tr>
+<tr><td>A</td><td>9,4</td><td>3,8</td><td>π(3,8)(9,4) + 2π(1,9)² = 112,19 + 22,68</td><td>134,9 cm²</td><td>135 ± 4 <span class="verdict ok">✓</span></td></tr>
+<tr><td>B</td><td>4,9</td><td>2,2</td><td>π(2,2)(4,9) + 2π(1,1)² = 33,87 + 7,60</td><td>41,5 cm²</td><td>42 ± 2 <span class="verdict ok">✓</span></td></tr>
+<tr><td>C</td><td>2,7</td><td>3,5</td><td>π(3,5)(2,7) + 2π(1,75)² = 29,69 + 19,24</td><td>48,9 cm²</td><td>49 ± 2 <span class="verdict ok">✓</span></td></tr>
+</table>
+
+<h3>3.2 Moles y parámetro p = masa/área</h3>
+<p><span class="src doc">Doc — p.3</span> Masa molar del cobre: M = 63,5 g/mol. <span class="src doc">Doc — Tabla 1, p.4</span> masas y áreas. <span class="src calc">Cálculo</span> n = m/M y p = m/A:</p>
+<table>
+<tr><th>Cilindro</th><th>n = m/M</th><th>n en Tabla 1</th><th>p = m/A</th><th>p en el texto (p.6)</th></tr>
+<tr><td>A</td><td>941,0/63,5 = 14,819 mol</td><td>14,820 <span class="verdict ok">✓</span></td><td>941,0/135 = 6,970 g/cm²</td><td>7,0 ± 0,2 <span class="verdict ok">✓</span></td></tr>
+<tr><td>B</td><td>165,8/63,5 = 2,611 mol</td><td>2,611 <span class="verdict ok">✓</span></td><td>165,8/42 = 3,948 g/cm²</td><td>3,9 ± 0,2 <span class="verdict ok">✓</span></td></tr>
+<tr><td>C</td><td>226,2/63,5 = 3,562 mol</td><td>3,562 <span class="verdict ok">✓</span></td><td>226,2/49 = 4,616 g/cm²</td><td>4,6 ± 0,2 <span class="verdict ok">✓</span></td></tr>
+</table>
+<p><span class="src calc">Cálculo</span> Orden de los tres pares (p, t<sub>c</sub>) — con t<sub>c</sub> tomado de <span class="src doc">Doc — p.6</span>: B (3,9 g/cm²; 129,5 s) &lt; C (4,6 g/cm²; 172,6 s) &lt; A (7,0 g/cm²; 302,1 s). La monotonía p↔t<sub>c</sub> que el informe afirma queda verificada con los tres valores, no solo de forma cualitativa. <span class="verdict ok">Verificado</span></p>
+
+<h3>3.3 Pendientes de evaporación (Fig. 6) y su "compatibilidad"</h3>
+<p><span class="src doc">Doc — pie de Fig. 6, p.9</span> Pendientes ajustadas: primera etapa −0,0952 ± 0,0002 g/s; tercera etapa −0,131 ± 0,003 g/s.</p>
+<div class="eqline">
+Δ% =
+<span class="frac"><span class="num">0,131 − 0,0952</span><span class="den">0,0952</span></span>
+= 0,376 = 37,6&nbsp;%
+</div>
+<p><span class="src calc">Cálculo</span> Coincide con el "≈37%" citado en el texto. <span class="verdict ok">✓</span></p>
+<p><span class="src calc">Cálculo</span> — no está en el informe: comparación de compatibilidad estadística usando la diferencia sobre el error combinado:</p>
+<div class="eqline">
+σ<sub>comb</sub> = √(0,003² + 0,0002²) = 0,00301 g/s&nbsp;&nbsp;&nbsp;&nbsp;
+<span class="frac"><span class="num">0,0358</span><span class="den">0,00301</span></span>
+≈ 11,9 σ
+</div>
+<div class="box bad">
+<span class="verdict bad">Inconsistencia</span>
+<p><strong>Qué se está comparando exactamente.</strong> No se trata de contrastar una medición experimental contra una predicción teórica independiente — no existe tal cálculo en el informe. Se comparan <strong>dos mediciones experimentales entre sí</strong>: la pendiente de la masa de N₂ vs. tiempo en la 1ª etapa (antes de sumergir el cilindro) contra la de la 3ª etapa (después de que el cilindro ya alcanzó el equilibrio térmico a 77 K). Ambas provienen del mismo tipo de medición (balanza + ajuste lineal), solo que en dos ventanas temporales distintas del mismo experimento.</p>
+<p><strong>Por qué tiene sentido compararlas.</strong> La expectativa de que deberían coincidir no la introduce esta verificación: es una hipótesis que <span class="src doc">Doc — p.8</span> el propio informe formula explícitamente. Una vez que el cilindro alcanza los 77 K, deja de cederle calor al nitrógeno, de modo que en ambas etapas la evaporación debería estar causada únicamente por el intercambio de calor con el ambiente (el laboratorio calentando el recipiente desde afuera) — el mismo mecanismo físico en los dos casos. El texto lo dice así: <em>"el cobre ya no aporta calor al sistema y la evaporación vuelve a estar dominada únicamente por las pérdidas con el ambiente, lo cual sugiere que la pendiente del gráfico en la primera y tercera fase deberían tender a ser las mismas"</em>. Es, entonces, una predicción que el grupo se hace a sí mismo a partir de su propio modelo físico, y que se puede poner a prueba con sus propios datos.</p>
+<p><strong>El test de compatibilidad.</strong> <span class="src calc">Cálculo</span> Para poner a prueba esa hipótesis con las dos pendientes medidas (<span class="src doc">Doc — pie de Fig. 6, p.9</span>: $-0{,}0952\pm0{,}0002$ g/s y $-0{,}131\pm0{,}003$ g/s), se aplica el criterio estándar para comparar dos mediciones independientes con incertidumbre: dividir la diferencia entre ambas por el error combinado (suma en cuadratura de los dos errores individuales). Si el resultado es del orden de 1–2, las mediciones son compatibles con ser iguales dentro del error; si es mucho mayor, no lo son.</p>
+<div class="eqline">
+σ<sub>comb</sub> = √(0,003² + 0,0002²) = 0,00301 g/s&nbsp;&nbsp;&nbsp;&nbsp;
+<span class="frac"><span class="num">|−0,131 − (−0,0952)|</span><span class="den">0,00301</span></span>
+= <span class="frac"><span class="num">0,0358</span><span class="den">0,00301</span></span>
+≈ 11,9 σ
+</div>
+<p><strong>Interpretación.</strong> Con ~12 desvíos estándar de separación, las dos pendientes <strong>no son estadísticamente compatibles</strong>: la hipótesis de "misma pendiente en ambas etapas" queda refutada por los propios datos del grupo, precisamente porque sus errores reportados son muy chicos (0,0002 y 0,003 g/s) frente a la diferencia real (0,0358 g/s). Esto contradice la frase del informe (p.9) "ambas pendientes son compatibles dentro del rango de unidad". Más aún, el propio informe se contradice a sí mismo dentro del mismo párrafo: inmediatamente después de decir que son "compatibles", dedica el resto del párrafo a explicar la diferencia mediante un mecanismo físico (calor residual cedido por el cobre, ≈7,1 W). Si las pendientes realmente fueran compatibles dentro del error, esa explicación adicional no haría falta — el hecho de que la den es indicio de que, en los hechos, ya habían notado que la diferencia era real y no ruido estadístico.</p>
+</div>
+<p><span class="src doc">Doc — p.9, L<sub>vap</sub>≈199 J/g de p.3</span> Cálculo de la potencia residual, <span class="src calc">Cálculo</span> rehecho:</p>
+<div class="eqline">Q̇ = δm · L<sub>vap</sub> = 0,0358 g/s × 199 J/g = 7,12 W</div>
+<p>Coincide con "≈7,1 W" del texto. <span class="verdict ok">Esta cuenta puntual está bien hecha</span> — el problema no es el cálculo de los 7,1 W, sino la etiqueta "compatibles" aplicada a las pendientes que lo motivan.</p>
+
+<h2 id="teoria">4. Verificación teórica de ecuaciones</h2>
+
+<h3>Ecuación 1 — balance de calor sensible</h3>
+<p><span class="src doc">Doc — Ec. 1, p.2</span></p>
+<div class="eqline">
+<span class="frac"><span class="num">Q̇</span><span class="den">A</span></span> =
+<span class="frac"><span class="num">n</span><span class="den">A</span></span> C<sub>P</sub>(T)
+<span class="frac"><span class="num">dT</span><span class="den">dt</span></span>
+</div>
+<p>Forma funcional correcta para un modelo de capacitancia concentrada (razonable si el número de Biot es bajo, lo cual es plausible para cobre por su alta conductividad térmica). <span class="verdict warn">Observación menor</span>: a diferencia de la Ec. 2, que sí incluye valor absoluto en <code>|dm/dt|</code>, la Ec. 1 no lo incluye — tal como está escrita, con dT/dt&lt;0 durante el enfriamiento, daría Q̇ negativo. En la práctica deben haber tomado |dT/dt| para obtener los valores positivos que muestran en la Fig. 7, pero la ecuación tal como aparece impresa no es rigurosa en ese punto. Detectado por comparación directa entre las Ec. 1 y 2 en la misma página.</p>
+
+<h3>Ecuación 2 — balance por pérdida de masa</h3>
+<p><span class="src doc">Doc — Ec. 2, p.3</span></p>
+<div class="eqline">
+<span class="frac"><span class="num">Q̇</span><span class="den">A</span></span> =
+<span class="frac"><span class="num">L<sub>vap</sub></span><span class="den">A</span></span> |dm/dt|
+</div>
+<p><span class="verdict ok">Correcta</span>, dimensional y físicamente, con el valor absoluto incluido.</p>
+
+<h3>Ecuación 3 — modelo de Einstein: error confirmado</h3>
+<p><span class="src doc">Doc — Ec. 3, p.3, releída a 400 dpi para confirmar los subíndices</span></p>
+<div class="eqline">
+C<sub>l</sub> = 3R(θ<sub>E</sub>/T)² ·
+<span class="frac"><span class="num">exp(θ<sub>D</sub>/T)</span><span class="den">[exp(θ<sub>D</sub>/T) − 1]²</span></span>
+</div>
+<p><span class="src ext">Externo</span> Forma canónica del modelo de Einstein para el calor específico de un sólido (física del estado sólido de manual — p. ej. Kittel, o Ashcroft &amp; Mermin — no proviene del informe):</p>
+<div class="eqline">
+C<sub>V</sub><sup>Einstein</sup> = 3R(θ<sub>E</sub>/T)² ·
+<span class="frac"><span class="num">exp(θ<sub>E</sub>/T)</span><span class="den">[exp(θ<sub>E</sub>/T) − 1]²</span></span>
+</div>
+<div class="box bad">
+<span class="verdict bad">Error confirmado</span>
+<p>El modelo estándar usa <strong>la misma</strong> temperatura característica en el prefactor y en el exponencial. El informe usa θ<sub>E</sub> en el prefactor pero θ<sub>D</sub> = 315 K en el exponencial — y define explícitamente θ<sub>E</sub> ≠ θ<sub>D</sub> (<span class="src doc">Doc — p.3</span>):</p>
+<div class="eqline">θ<sub>E</sub> = θ<sub>D</sub> [0,77 + 0,26 · exp(−9,17 T/θ<sub>D</sub>)]</div>
+<p><span class="src calc">Cálculo</span> — con θ<sub>D</sub>=315 K (<span class="src doc">Doc — p.3</span>) evaluado en los extremos del rango experimental (77 K y 300 K, de Tabla 1 y Fig. 3):</p>
+<table>
+<tr><th>T</th><th>T/θ<sub>D</sub></th><th>9,17·T/θ<sub>D</sub></th><th>exp(−·)</th><th>θ<sub>E</sub>(T)</th><th>Diferencia vs θ<sub>D</sub>=315K</th></tr>
+<tr><td>300 K</td><td>0,9524</td><td>8,734</td><td>1,61×10⁻⁴</td><td>315(0,77+0,26·1,61×10⁻⁴) = 242,6 K</td><td>−23,0 %</td></tr>
+<tr><td>77 K</td><td>0,2444</td><td>2,242</td><td>0,1063</td><td>315(0,77+0,26·0,1063) = 251,3 K</td><td>−20,2 %</td></tr>
+</table>
+<p>θ<sub>E</sub> vale entre 242,6 K y 251,3 K en todo el rango de interés — entre 20,2% y 23,0% menor que los 315 K que la ecuación usa en el exponencial. Al estar dentro de una exponencial, esa diferencia no es despreciable: se propaga a C<sub>P</sub>(T) y, vía la Ecuación 1, a todos los valores de Q̇/A de la Figura 7 y el Apéndice.</p>
+<p><strong>Límite de esta verificación</strong>: no se tuvo acceso al script/notebook real que generó las curvas de Q̇/A, por lo que no se puede confirmar si el error está solo en la transcripción a LaTeX del informe o si también está presente en el código de análisis. Es el punto concreto que el grupo debería chequear contra su propia fuente de cálculo antes de la entrega final.</p>
+</div>
+
+<h3>Otros conceptos físicos</h3>
+<p><span class="src ext">Externo</span> La descripción de las 6 etapas de la curva de ebullición (convección natural → ebullición nucleada → flujo crítico → ebullición de transición → film boiling → radiación) coincide con la curva de Nukiyama estándar de manuales de transferencia de calor. <span class="src doc">Doc — p.2</span> T<sub>sat</sub>=77 K y <span class="src doc">Doc — p.3</span> L<sub>vap</sub>≈199 J/g para nitrógeno son consistentes con los valores de tabla del punto de ebullición normal del N₂ (<span class="src ext">Externo</span>). La justificación de C<sub>P</sub>≈C<sub>V</sub> (diferencia ≤3%, <span class="src doc">Doc — p.3</span>, ref. [1]) y de despreciar la contribución electrónica frente a la fonónica en Cu son físicamente razonables para el rango 77–300 K. <span class="verdict ok">Sin objeciones</span></p>
+
+<h2 id="conexion">5. Conexión ecuación–concepto–gráfico</h2>
+<p><span class="src doc">Doc — comparación cruzada Fig. 1 (p.2), Fig. 3 (p.6) y Fig. 7 (p.10)</span></p>
+<ul>
+<li>La Fig. 1 (curva cualitativa de 6 etapas) se conecta correctamente con las Fig. 3, 8 y 9: el informe explica que el proceso real recorre la curva de derecha a izquierda (el sólido se enfría, no se calienta), y esa inversión está aplicada de forma consistente en la lectura de todos los gráficos de Q̇/A vs ΔT. <span class="verdict ok">Consistente</span></li>
+<li>La Ecuación 2 sustenta directamente las Fig. 5, 6 y 7(c): la vinculación entre pérdida de masa y flujo de calor está bien hilada, y los ajustes lineales de la Fig. 6 la respaldan cuantitativamente. <span class="verdict ok">Consistente</span></li>
+<li>Las Ecuaciones 1 y 3 sustentan la Fig. 7(b): el pico de Q̇/A coincide con el colapso de película visible en la Fig. 3, y esa correspondencia está bien argumentada — aunque hereda el posible sesgo de la Ecuación 3 señalado arriba. <span class="verdict warn">Consistente, con la salvedad anterior</span></li>
+</ul>
+
+<h2 id="conclusiones">6. Consistencia de las conclusiones con el cuerpo del informe</h2>
+<p><span class="src doc">Doc — Sección 4 (p.11) contrastada oración por oración contra 3.1.1 (p.6) y 3.1.2 (p.7)</span></p>
+
+<div class="box bad">
+<span class="verdict bad">Tensión no resuelta</span>
+<p>La conclusión generaliza que el colapso de la película ocurre en <strong>111–119 K</strong> "independientemente de las dimensiones de la muestra", atribuyéndolo a las propiedades del líquido. Pero en la Sección 3.1.2, el mismo cilindro C con recubrimiento de film colapsa a <strong>T ≈ 270 K</strong> (<span class="src doc">Doc — línea roja punteada "T<sub>caída</sub>≈270K", Fig. 4, p.7</span>) — un rango completamente distinto, mucho más cercano a temperatura ambiente. Si el colapso dependiera solo del líquido, una rugosidad superficial no debería desplazar la temperatura de colapso en ~150 K. El informe trata este caso como "aceleración del mismo colapso", pero los propios datos sugieren un mecanismo distinto (nucleación inducida por rugosidad, que rompe la película mucho antes del punto de Leidenfrost "intrínseco"). La Sección 4 no menciona ni matiza este resultado de 3.1.2 al enunciar la conclusión de universalidad.</p>
+</div>
+
+<p>El resto de las conclusiones sí están bien sustentadas por las figuras correspondientes:</p>
+<ul>
+<li>Etapa inicial de enfriamiento lento seguida de colapso abrupto → consistente con Fig. 3, 8, 9. <span class="verdict ok">✓</span></li>
+<li>p = masa/área correlacionado con t<sub>c</sub> → verificado cuantitativamente en la Sección 3 de este documento con los tres pares de valores. <span class="verdict ok">✓</span></li>
+<li>El recubrimiento desestabiliza la película de vapor → consistente con Fig. 4; el informe además es honesto al calificar como "contraintuitiva" la diferencia entre una y tres capas, sin sobreafirmar una explicación no verificada. <span class="verdict ok">✓</span></li>
+<li>El pico de Q̇/A se asocia al colapso de la película → consistente con Fig. 7. <span class="verdict ok">✓</span></li>
+</ul>
+
+<h2 id="resumen">7. Resumen de hallazgos</h2>
+<table>
+<tr><th>#</th><th>Hallazgo</th><th>Severidad</th><th>Ubicación</th></tr>
+<tr><td>1</td><td>Ecuación 3 mezcla θ<sub>E</sub> y θ<sub>D</sub> — no corresponde a la forma estándar del modelo de Einstein; propaga un sesgo de 20–25% a C<sub>P</sub>(T)</td><td><span class="verdict bad">Alta</span> (afecta todos los Q̇/A calculados) — a confirmar contra el código real</td><td>Ec. 3, p.3</td></tr>
+<tr><td>2</td><td>Las pendientes de evaporación de la 1ª y 3ª etapa se declaran "compatibles" pero están a ~12σ de distancia entre sí</td><td><span class="verdict warn">Media</span> (contradicción de redacción; el cálculo posterior de 7,1 W es correcto)</td><td>Sección 3.2, p.9</td></tr>
+<tr><td>3</td><td>La conclusión de universalidad del rango de colapso (111–119K) no se concilia con el colapso a ~270K observado con recubrimiento</td><td><span class="verdict warn">Media</span> (afecta la generalidad de una conclusión central)</td><td>Sección 4, p.11 vs. 3.1.2, p.7</td></tr>
+<tr><td>4</td><td>La Ecuación 1 no incluye valor absoluto, a diferencia de la Ecuación 2</td><td><span class="verdict warn">Baja</span> (formalismo, no afecta los resultados numéricos si se tomó |dT/dt| en el cálculo real)</td><td>Ec. 1, p.2</td></tr>
+</table>
+<p>Todo lo que pudo verificarse de forma independiente en la Sección 3 (áreas, moles, parámetro p, orden de tiempos críticos, diferencia porcentual de pendientes, potencia residual de 7,1 W) resultó numéricamente correcto. Los hallazgos 1–3 son los puntos concretos que conviene revisar antes de considerar cerrada la entrega.</p>
+
+<h2 id="repeticion">8. Sugerencias para una repetición del experimento</h2>
+<p>Cada sugerencia indica de dónde surge: de un hallazgo concreto de este documento, de una observación directa del procedimiento descripto en el informe, o de conocimiento general de diseño experimental (externo, no proviene del informe ni de una búsqueda hecha en esta sesión — ver aclaración de la Sección 1, Paso 5).</p>
+
+<div class="idea">
+<strong>1. Repetir cada configuración de recubrimiento (sin film, una vuelta, tres vueltas) más de una vez.</strong>
+<span class="origin"><b>Origen:</b> observación directa del procedimiento (<span class="src doc">Doc — p.6–7</span>). A diferencia de la comparación entre cilindros A/B/C, que tiene una medición por cilindro pero se contrasta entre sí, cada condición de recubrimiento se midió una sola vez. Sin repeticiones no se puede distinguir variabilidad real del recubrimiento de variabilidad de cómo quedó colocado el film esa vez puntual — algo relevante dado que el propio informe describe el acomodo del film como irregular ("pliegues y rugosidades concentrados en regiones localizadas").</span>
+</div>
+
+<div class="idea">
+<strong>2. Medir la rugosidad superficial de forma cuantitativa (p. ej. con un perfilómetro o rugosímetro) en vez de solo describirla cualitativamente.</strong>
+<span class="origin"><b>Origen:</b> surge directamente del hallazgo de la <a href="#conclusiones">Sección 6</a> de este documento. La hipótesis de que la rugosidad del film explica el colapso a ~270K en vez de 111–119K es plausible, pero el propio informe la presenta como "explicaciones plausibles" sin medición de respaldo (<span class="src doc">Doc — p.7</span>). Cuantificar la rugosidad permitiría poner a prueba esa hipótesis en vez de dejarla como especulación razonable.</span>
+</div>
+
+<div class="idea">
+<strong>3. Sincronizar una cámara de alta velocidad (o al menos video convencional) con la adquisición de temperatura y masa.</strong>
+<span class="origin"><b>Origen:</b> conocimiento externo de metodología experimental en estudios de ebullición en película — no proviene del informe ni de esta verificación (ver Sección 1, Paso 5). Permitiría correlacionar directamente el instante visual de colapso de la película de vapor con la caída abrupta de T(t) y el pico de Q̇/A, en vez de inferir el colapso solo indirectamente a partir de la curva de temperatura.</span>
+</div>
+
+<div class="idea">
+<strong>4. Validar C<sub>P</sub>(T) del cobre contra una fuente tabulada independiente (p. ej. tablas de referencia de calor específico de sólidos en el rango 77–300 K) en vez de derivarlo únicamente del modelo de Einstein ajustado.</strong>
+<span class="origin"><b>Origen:</b> surge directamente del hallazgo #1 de la <a href="#resumen">Sección 7</a> de este documento (el error θ<sub>E</sub>/θ<sub>D</sub> en la Ecuación 3). Contrastar contra una fuente tabulada permitiría detectar si ese error realmente afecta los valores de Q̇/A reportados, o si en el código ya se usó θ<sub>E</sub> de forma consistente y el problema es solo de transcripción en el PDF.</span>
+</div>
+
+<div class="idea">
+<strong>5. Propagar cuantitativamente la incertidumbre de la calibración del termopar hasta el resultado final, no solo mencionarla cualitativamente.</strong>
+<span class="origin"><b>Origen:</b> observación directa del informe. El propio texto (<span class="src doc">Doc — p.4–5</span>) señala que el polinomio de calibración amplifica de forma no lineal el error del multímetro, pero no se muestra cómo esa amplificación se propaga numéricamente hasta el error final de T(t) ni, por lo tanto, hasta Q̇/A.</span>
+</div>
+
+<h2 id="nuevos-analisis">9. Ideas para nuevos análisis</h2>
+<p>Aplicables tanto sobre los datos ya existentes como en una futura repetición.</p>
+
+<div class="idea">
+<strong>1. Comparar el rango de colapso medido (111–119 K, es decir ΔT≈34–42 K sobre T<sub>sat</sub>) contra correlaciones estándar de temperatura mínima de film boiling para nitrógeno líquido sobre superficies metálicas.</strong>
+<span class="origin"><b>Origen:</b> conocimiento externo de correlaciones de ingeniería térmica (p. ej. del tipo Baumeister-Simon o Henry para el punto de Leidenfrost) — no proviene del informe ni de una búsqueda hecha en esta sesión. Daría un punto de referencia independiente para saber si 111–119K es un valor típico o si está desplazado por las condiciones particulares del montaje.</span>
+</div>
+
+<div class="idea">
+<strong>2. Cuantificar el impacto real del error de la Ecuación 3 recalculando C<sub>P</sub>(T) con θ<sub>E</sub> consistente en ambos términos y comparando las curvas de Q̇/A resultantes contra las ya publicadas en el informe.</strong>
+<span class="origin"><b>Origen:</b> surge directamente del hallazgo de la <a href="#teoria">Sección 4</a> de este documento — es la forma concreta de saber si el error de notación tiene consecuencia numérica real o es despreciable.</span>
+</div>
+
+<div class="idea">
+<strong>3. Cuantificar (no solo describir cualitativamente) cuánto del error visual en la Fig. 7(b)-(c) es amplificación de la escala logarítmica y cuánto es error real de medición.</strong>
+<span class="origin"><b>Origen:</b> extensión directa de una observación que el propio informe ya hace en el Apéndice (<span class="src doc">Doc — p.12</span>): reconocen el efecto de amplificación visual en escala log, pero no lo separan numéricamente del error real.</span>
+</div>
+
+<div class="idea">
+<strong>4. Triangular Q̇/A con una tercera vía de medición independiente (p. ej. un sensor de flujo de calor embebido en el cilindro), además de las dos ya usadas (Ec. 1, a partir de C<sub>P</sub> del sólido, y Ec. 2, a partir de la masa del líquido).</strong>
+<span class="origin"><b>Origen:</b> buena práctica general de validación cruzada en física experimental (conocimiento externo, no proviene del informe). Actualmente ambos métodos dependen de modelos (capacidad calorífica del cobre, calor latente del N₂) en vez de una medición directa de flujo de calor.</span>
+</div>
+
+<div class="idea">
+<strong>5. Estudio sistemático variando el material del cilindro (no solo cobre) para separar el efecto de la conductividad térmica del sólido del efecto puramente geométrico (parámetro p=masa/área) ya identificado.</strong>
+<span class="origin"><b>Origen:</b> extensión natural de la conclusión que el propio informe ya alcanza en 3.1.1 (<span class="src doc">Doc — p.6</span>) sobre la dependencia de t<sub>c</sub> con p — probar con otro metal permitiría saber si esa dependencia es específica del cobre o generalizable.</span>
+</div>
+
+<footer>
+Documento generado a partir de la lectura directa de <code>Grupo_3___Informe_Leidenfrost_Reentrega.pdf</code> (13 páginas), renderizado con Poppler 26.07.0 (<code>pdftoppm</code>) a 150 dpi para lectura general y 400 dpi para la verificación puntual de la Ecuación 3. Ningún dato fue tomado de las conversiones automáticas a HTML (PyMuPDF / pdftohtml) generadas previamente en este repositorio; esas conversiones se usaron solo como prueba de herramientas, no como fuente de este análisis. Todas las cuentas mostradas fueron rehechas de forma independiente a partir de los datos de entrada del informe; las citadas como "Externo" provienen de conocimiento estándar de física del estado sólido y termodinámica, no del documento revisado.
+</footer>
+
+</body>
+</html>
