@@ -1,0 +1,111 @@
+GOAL
+====
+Reproducí, desde cero y sin haber visto ningún informe previo, el análisis
+completo del efecto Leidenfrost para cilindros de cobre sumergidos en
+nitrógeno líquido, a partir de los datos crudos en datos/ y las consignas
+originales del laboratorio en guia/.
+
+Concretamente:
+
+1. Respondé las preguntas de guia/Leidenfrost-preguntas.pdf y las preguntas
+   entre paréntesis embebidas en guia/Leidenfrost-guia.pdf (por qué se usó
+   cobre, por qué tan masivo, por qué una termocupla, por qué amplificar la
+   señal, cómo modificar la superficie reversiblemente, etc.), con
+   justificación física, no solo la respuesta.
+
+2. A partir de datos/CilindroA_sumergido.csv, CilindroB_sumergido.csv y
+   CilindroC_sumergido.csv: calculá el calor específico Cv(T) del cobre
+   usando el modelo de Einstein (ecuaciones 4 y 5 de la guía), y con eso
+   Q/A(t) vía la ecuación 1. Graficá T(t) para los tres cilindros juntos.
+   Identificá el tiempo crítico t_c de colapso de la capa de vapor para
+   cada uno (el rango de temperatura donde ocurre la caída abrupta).
+
+3. Calculá el área superficial y el número de moles de cada cilindro a
+   partir de sus dimensiones geométricas (buscá o pedime las dimensiones
+   si no están en los datos; si no las tenés, dejalo como parámetro libre
+   y decilo explícitamente). Definí p = masa/área para cada cilindro y
+   relacioná p con t_c.
+
+4. A partir de datos/medicion_balanza.csv: graficá la masa del nitrógeno
+   en función del tiempo, identificá las tres etapas (evaporación
+   ambiente, inmersión con transferencia del cobre, evaporación final por
+   convección), y ajustá rectas a la primera y tercera etapa. Compará las
+   pendientes.
+
+5. Usando los tres archivos del cilindro C (datos/CilindroC_sumergido.csv
+   sin film, datos/cilindroC(aislado con 1 vuelta).csv con 1 vuelta,
+   datos/cilindroC(aislado con 3 vueltas).csv con 3 vueltas de film):
+   compará los tres t_c y discutí el efecto del recubrimiento sobre la
+   estabilidad de la capa de vapor.
+
+6. Graficá Q/A en función de ΔT = T - T_sat (77 K), en escala lineal y
+   logarítmica, para al menos un cilindro, y relacioná las regiones del
+   gráfico con las 6 etapas descriptas en la guía.
+
+
+SOURCES
+=======
+`datos/` -- todos los CSV de temperatura y de balanza, medidos por mí.
+`guia/Leidenfrost-guia.pdf` -- la guía teórica original del laboratorio,
+con las ecuaciones y preguntas a responder.
+`guia/Leidenfrost-preguntas.pdf` -- preguntas previas al experimento.
+
+El paper de Curzon (1978) y el de Listerman, Boshinski y Knese (1986)
+citados en la guía, si los podés encontrar en la literatura abierta, para
+contexto -- pero la derivación y el análisis son tuyos.
+
+
+FENCE -- read nothing else
+==========================
+Do NOT read, search, glob or open anything under:
+
+  informe-original/
+
+Esa carpeta contiene el informe ya redactado con todos los resultados.
+Leerlo invalida el ejercicio. Si en algún momento accedés a ese archivo,
+decilo explícitamente en el reporte final.
+
+
+WHAT YOU CANNOT GET FROM THE SOURCES
+====================================
+- Las dimensiones exactas de los cilindros (altura, diámetro, masa) no
+  están en los CSV -- decime qué necesitás o marcá el supuesto que
+  hiciste explícitamente si asumís valores típicos de la guía (~10 cm,
+  ~4 cm, ~1 kg).
+- Dónde exactamente ocurre la transición entre "primera etapa" (antes de
+  sumergir) y "segunda etapa" (después de sumergir) en el archivo de
+  balanza -- identificalo vos de los datos, no asumas un tiempo fijo.
+- Qué tan ancho tiene que ser el intervalo de temperatura para considerar
+  "colapso abrupto" -- justificá el criterio que uses.
+
+
+DISCIPLINE
+==========
+- Todo cálculo sale de código corrido en este job, no de memoria.
+- Decí explícitamente qué pasos derivaste vos y cuáles tomaste de la guía
+  tal cual.
+- Decí qué NO verificaste.
+- Cada elección con alternativa razonable (ej. criterio de t_c, ventana
+  de ajuste lineal) tiene que quedar justificada.
+
+
+DEFINITION OF DONE
+==================
+- `out/provenance.json` -- registro de cada número: qué script/función lo
+  generó, qué datos de entrada usó, y si fue derivado o tomado de la guía.
+- `out/checks.py` -- corre validaciones automáticas (ej. que Q/A sea
+  positivo donde corresponde, que t_c caiga dentro de un rango de
+  temperatura físicamente razonable, coherencia entre las dos formas de
+  calcular Q/A si las comparás) e imprime cobertura, no solo un veredicto.
+- Pegá el output de los checks en el reporte final.
+
+
+DELIVERABLE
+===========
+1. `out/report.html` -- autocontenido, abre con file:// sin red. Todas las
+   figuras inline. Las respuestas a la guía, el análisis cuantitativo, y
+   las conclusiones, pensado para que lo lea un físico.
+2. `out/report.py` -- notebook marimo con el mismo contenido, parámetros
+   (ej. qué cilindro, ventana de ajuste) dejados libres para explorar.
+
+`out/provenance.json` es el registro contra el que ambos resuelven.

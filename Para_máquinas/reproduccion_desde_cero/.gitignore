@@ -1,0 +1,10 @@
+# Archivos temporales de Python
+__pycache__/
+*.pyc
+
+# Productos intermedios regenerables
+work/fig/
+work/results.json
+work/checks_output.txt
+work/w2/provenance_physics.json
+out/report.html

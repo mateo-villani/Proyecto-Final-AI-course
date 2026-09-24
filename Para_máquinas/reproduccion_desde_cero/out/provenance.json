@@ -1,0 +1,5846 @@
+{
+ "phys.T_sat_K": {
+  "statement": "Saturation temperature of liquid N2 at 1 atm",
+  "type": "source",
+  "reproduce": "guia/Leidenfrost-guia.pdf p.2",
+  "detail": "",
+  "value": 77.0,
+  "unit": "K",
+  "origin": "guide",
+  "inputs": []
+ },
+ "phys.R": {
+  "statement": "Gas constant",
+  "type": "source",
+  "reproduce": "CODATA 2018",
+  "detail": "",
+  "value": 8.314462618,
+  "unit": "J/(mol K)",
+  "origin": "literature",
+  "inputs": []
+ },
+ "phys.M_Cu": {
+  "statement": "Molar mass of Cu",
+  "type": "source",
+  "reproduce": "IUPAC standard atomic weight 63.546",
+  "detail": "",
+  "value": 0.063546,
+  "unit": "kg/mol",
+  "origin": "literature",
+  "inputs": []
+ },
+ "phys.rho_Cu": {
+  "statement": "Density of Cu at 293 K",
+  "type": "source",
+  "reproduce": "CRC Handbook",
+  "detail": "",
+  "value": 8960.0,
+  "unit": "kg/m3",
+  "origin": "literature",
+  "inputs": []
+ },
+ "phys.L_v_N2": {
+  "statement": "Latent heat of vaporisation of N2 at 77 K, 1 atm",
+  "type": "source",
+  "reproduce": "CRC Handbook / NIST webbook (199 kJ/kg)",
+  "detail": "",
+  "value": 199000.0,
+  "unit": "J/kg",
+  "origin": "literature",
+  "inputs": []
+ },
+ "phys.rho_LN2": {
+  "statement": "Density of liquid N2 at 77 K",
+  "type": "source",
+  "reproduce": "CRC Handbook (0.807 g/cm3)",
+  "detail": "",
+  "value": 807.0,
+  "unit": "kg/m3",
+  "origin": "literature",
+  "inputs": []
+ },
+ "cv.thetaD_K": {
+  "statement": "Debye temperature of Cu",
+  "type": "source",
+  "reproduce": "guia/Leidenfrost-guia.pdf p.3, eq.(5)",
+  "detail": "",
+  "value": 315.0,
+  "unit": "K",
+  "origin": "guide",
+  "inputs": []
+ },
+ "cv.a": {
+  "statement": "eq.5 coefficient a",
+  "type": "source",
+  "reproduce": "guia/Leidenfrost-guia.pdf p.3, eq.(5)",
+  "detail": "",
+  "value": 0.77,
+  "unit": "",
+  "origin": "guide",
+  "inputs": []
+ },
+ "cv.b": {
+  "statement": "eq.5 coefficient b",
+  "type": "source",
+  "reproduce": "guia/Leidenfrost-guia.pdf p.3, eq.(5)",
+  "detail": "",
+  "value": 0.26,
+  "unit": "",
+  "origin": "guide",
+  "inputs": []
+ },
+ "cv.c": {
+  "statement": "eq.5 coefficient c",
+  "type": "source",
+  "reproduce": "guia/Leidenfrost-guia.pdf p.3, eq.(5)",
+  "detail": "",
+  "value": 9.17,
+  "unit": "",
+  "origin": "guide",
+  "inputs": []
+ },
+ "cv.thetaE_300K": {
+  "statement": "Einstein temperature from eq.5 at 300 K",
+  "type": "script",
+  "reproduce": "work/analysis.py::theta_E",
+  "detail": "",
+  "value": 242.56319609478908,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": [
+   "cv.thetaD_K",
+   "cv.a",
+   "cv.b",
+   "cv.c"
+  ]
+ },
+ "cv.thetaE_77K": {
+  "statement": "Einstein temperature from eq.5 at 77 K",
+  "type": "script",
+  "reproduce": "work/analysis.py::theta_E",
+  "detail": "",
+  "value": 251.25539923859014,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": [
+   "cv.thetaD_K",
+   "cv.a",
+   "cv.b",
+   "cv.c"
+  ]
+ },
+ "cv.Cv_300K": {
+  "statement": "Einstein Cv of Cu at 300 K (eq.4 with theta_E everywhere)",
+  "type": "script",
+  "reproduce": "work/analysis.py::cv_einstein",
+  "detail": "",
+  "value": 23.62779812993904,
+  "unit": "J/(mol K)",
+  "origin": "derived",
+  "inputs": [
+   "cv.thetaE_300K",
+   "phys.R"
+  ]
+ },
+ "cv.Cv_77K": {
+  "statement": "Einstein Cv of Cu at 77 K",
+  "type": "script",
+  "reproduce": "work/analysis.py::cv_einstein",
+  "detail": "",
+  "value": 10.989346377836187,
+  "unit": "J/(mol K)",
+  "origin": "derived",
+  "inputs": [
+   "cv.thetaE_77K",
+   "phys.R"
+  ]
+ },
+ "cv.Cv_300K_over_3R": {
+  "statement": "Cv(300K)/3R, Dulong-Petit ratio",
+  "type": "script",
+  "reproduce": "work/analysis.py::cv_einstein",
+  "detail": "",
+  "value": 0.947256975204754,
+  "unit": "",
+  "origin": "derived",
+  "inputs": []
+ },
+ "cv.debye_Cv_300K": {
+  "statement": "Debye Cv of Cu at 300 K, theta_D=315 K (cross-check)",
+  "type": "script",
+  "reproduce": "work/analysis.py::cv_debye",
+  "detail": "",
+  "value": 23.620738553203516,
+  "unit": "J/(mol K)",
+  "origin": "derived",
+  "inputs": []
+ },
+ "cv.debye_Cv_77K": {
+  "statement": "Debye Cv of Cu at 77 K (cross-check)",
+  "type": "script",
+  "reproduce": "work/analysis.py::cv_debye",
+  "detail": "",
+  "value": 12.212404062455702,
+  "unit": "J/(mol K)",
+  "origin": "derived",
+  "inputs": []
+ },
+ "cv.einstein_vs_debye_maxdev_pct": {
+  "statement": "Max |Einstein(eq.4-5) - Debye| / Debye over 77-300 K",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "max deviation at T=77 K; Einstein is low at 77 K by 10.0 %",
+  "value": 10.014880594882479,
+  "unit": "%",
+  "origin": "derived",
+  "inputs": []
+ },
+ "cv.eq4_literal_Cv_300K": {
+  "statement": "Eq.4 evaluated exactly as printed (theta_D in the exponentials): unphysical, shows the typo",
+  "type": "script",
+  "reproduce": "work/analysis.py::cv_einstein_literal",
+  "detail": "",
+  "value": 13.50341585600116,
+  "unit": "J/(mol K)",
+  "origin": "derived",
+  "inputs": []
+ },
+ "cv.enthalpy_77_296_Jmol": {
+  "statement": "Integral of Einstein Cv dT from 77 K to 296 K",
+  "type": "script",
+  "reproduce": "work/analysis.py::enthalpy_change",
+  "detail": "",
+  "value": 4480.066205750849,
+  "unit": "J/mol",
+  "origin": "derived",
+  "inputs": []
+ },
+ "cv.enthalpy_77_296_Jkg": {
+  "statement": "Same per kg of Cu",
+  "type": "script",
+  "reproduce": "work/analysis.py::enthalpy_change",
+  "detail": "",
+  "value": 70501.15201194173,
+  "unit": "J/kg",
+  "origin": "derived",
+  "inputs": [
+   "cv.enthalpy_77_296_Jmol",
+   "phys.M_Cu"
+  ]
+ },
+ "cv.enthalpy_77_296_debye_Jmol": {
+  "statement": "Same integral with Debye Cv (cross-check)",
+  "type": "script",
+  "reproduce": "work/analysis.py::enthalpy_change",
+  "detail": "",
+  "value": 4514.042130991532,
+  "unit": "J/mol",
+  "origin": "derived",
+  "inputs": []
+ },
+ "geom.density_check_m_kg": {
+  "statement": "Mass implied by rho_Cu x pi r^2 h for the guide's nominal 10 cm x 4 cm (consistency remark only; nominal geometry is NOT used)",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 1.125946807046582,
+  "unit": "kg",
+  "origin": "derived",
+  "inputs": [
+   "phys.rho_Cu"
+  ]
+ },
+ "geom.A.h_m": {
+  "statement": "Cylinder A h = 0.094 +/- 0.001 m, measured by the human (caliper/balance), supplied in inbox.jsonl 2026-09-18",
+  "type": "source",
+  "reproduce": "inbox.jsonl (human direction, 2026-09-18 21:12 and 21:35)",
+  "detail": "uncertainty +/- 0.001 m as stated by the human",
+  "value": 0.094,
+  "unit": "m",
+  "origin": "measured",
+  "inputs": []
+ },
+ "geom.A.dh_m": {
+  "statement": "Stated uncertainty of h_m for cylinder A",
+  "type": "source",
+  "reproduce": "inbox.jsonl (human direction)",
+  "detail": "",
+  "value": 0.001,
+  "unit": "m",
+  "origin": "measured",
+  "inputs": []
+ },
+ "geom.A.d_m": {
+  "statement": "Cylinder A d = 0.038 +/- 0.001 m, measured by the human (caliper/balance), supplied in inbox.jsonl 2026-09-18",
+  "type": "source",
+  "reproduce": "inbox.jsonl (human direction, 2026-09-18 21:12 and 21:35)",
+  "detail": "uncertainty +/- 0.001 m as stated by the human",
+  "value": 0.038,
+  "unit": "m",
+  "origin": "measured",
+  "inputs": []
+ },
+ "geom.A.dd_m": {
+  "statement": "Stated uncertainty of d_m for cylinder A",
+  "type": "source",
+  "reproduce": "inbox.jsonl (human direction)",
+  "detail": "",
+  "value": 0.001,
+  "unit": "m",
+  "origin": "measured",
+  "inputs": []
+ },
+ "geom.A.m_kg": {
+  "statement": "Cylinder A m = 0.941 +/- 0.0001 kg, measured by the human (caliper/balance), supplied in inbox.jsonl 2026-09-18",
+  "type": "source",
+  "reproduce": "inbox.jsonl (human direction, 2026-09-18 21:12 and 21:35)",
+  "detail": "uncertainty +/- 0.0001 kg as stated by the human",
+  "value": 0.941,
+  "unit": "kg",
+  "origin": "measured",
+  "inputs": []
+ },
+ "geom.A.dm_kg": {
+  "statement": "Stated uncertainty of m_kg for cylinder A",
+  "type": "source",
+  "reproduce": "inbox.jsonl (human direction)",
+  "detail": "",
+  "value": 0.0001,
+  "unit": "kg",
+  "origin": "measured",
+  "inputs": []
+ },
+ "geom.A.area_m2": {
+  "statement": "Total surface pi d^2/2 + pi d h of cylinder A from measured h, d",
+  "type": "script",
+  "reproduce": "work/analysis.py::geometry",
+  "detail": "= 134.9 +/- 4.3 cm2; human stated 135.0 +/- 4.0 cm2",
+  "value": 0.01348999885451457,
+  "unit": "m2",
+  "origin": "derived",
+  "inputs": [
+   "geom.A.h_m",
+   "geom.A.d_m"
+  ]
+ },
+ "geom.A.darea_m2": {
+  "statement": "Uncertainty of the area of cylinder A: sqrt[(pi(d+h) dd)^2 + (pi d dh)^2]",
+  "type": "script",
+  "reproduce": "work/analysis.py::geometry",
+  "detail": "",
+  "value": 0.0004315318016551666,
+  "unit": "m2",
+  "origin": "derived",
+  "inputs": [
+   "geom.A.dh_m",
+   "geom.A.dd_m"
+  ]
+ },
+ "geom.A.area_stated_cm2": {
+  "statement": "Area of cylinder A as stated by the human (+/- 4.0 cm2)",
+  "type": "source",
+  "reproduce": "inbox.jsonl (human direction)",
+  "detail": "",
+  "value": 135.0,
+  "unit": "cm2",
+  "origin": "measured",
+  "inputs": []
+ },
+ "geom.A.area_agrees_with_stated": {
+  "statement": "Recomputed area of A within the human's stated +/-",
+  "type": "script",
+  "reproduce": "work/analysis.py::geometry",
+  "detail": "|134.9 - 135.0| = 0.1 cm2 vs +/- 4.0",
+  "value": true,
+  "unit": "bool",
+  "origin": "derived",
+  "inputs": []
+ },
+ "geom.A.n_mol": {
+  "statement": "Moles of Cu in cylinder A = m/M",
+  "type": "script",
+  "reproduce": "work/analysis.py::geometry",
+  "detail": "= 14.808 +/- 0.0016 mol; human stated 14.82 +/- 0.002",
+  "value": 14.808170459194912,
+  "unit": "mol",
+  "origin": "derived",
+  "inputs": [
+   "geom.A.m_kg",
+   "phys.M_Cu"
+  ]
+ },
+ "geom.A.dn_mol": {
+  "statement": "Uncertainty of n for cylinder A = dm/M",
+  "type": "script",
+  "reproduce": "work/analysis.py::geometry",
+  "detail": "",
+  "value": 0.0015736631731344223,
+  "unit": "mol",
+  "origin": "derived",
+  "inputs": [
+   "geom.A.dm_kg"
+  ]
+ },
+ "geom.A.n_stated_mol": {
+  "statement": "n of cylinder A as stated by the human (+/- 0.002 mol)",
+  "type": "source",
+  "reproduce": "inbox.jsonl (human direction)",
+  "detail": "",
+  "value": 14.82,
+  "unit": "mol",
+  "origin": "measured",
+  "inputs": []
+ },
+ "geom.A.n_agrees_with_stated": {
+  "statement": "Recomputed n of A within the stated +/- (both uncertainties added)",
+  "type": "script",
+  "reproduce": "work/analysis.py::geometry",
+  "detail": "|14.8082 - 14.82| = 0.0118 mol",
+  "value": false,
+  "unit": "bool",
+  "origin": "derived",
+  "inputs": []
+ },
+ "geom.A.p_kgm2": {
+  "statement": "p = m/A for cylinder A",
+  "type": "script",
+  "reproduce": "work/analysis.py::geometry",
+  "detail": "= 69.8 +/- 2.2 kg/m2",
+  "value": 69.75538027455684,
+  "unit": "kg/m2",
+  "origin": "derived",
+  "inputs": [
+   "geom.A.m_kg",
+   "geom.A.area_m2"
+  ]
+ },
+ "geom.A.dp_kgm2": {
+  "statement": "Uncertainty of p for cylinder A: p sqrt[(dm/m)^2 + (dA/A)^2]",
+  "type": "script",
+  "reproduce": "work/analysis.py::geometry",
+  "detail": "",
+  "value": 2.2314183531793033,
+  "unit": "kg/m2",
+  "origin": "derived",
+  "inputs": [
+   "geom.A.darea_m2",
+   "geom.A.dm_kg"
+  ]
+ },
+ "geom.A.n_over_A_molm2": {
+  "statement": "n/A for cylinder A (the prefactor of eq. 1)",
+  "type": "script",
+  "reproduce": "work/analysis.py::geometry",
+  "detail": "",
+  "value": 1097.7147306605739,
+  "unit": "mol/m2",
+  "origin": "derived",
+  "inputs": [
+   "geom.A.n_mol",
+   "geom.A.area_m2"
+  ]
+ },
+ "geom.A.rho_from_mV_kgm3": {
+  "statement": "m/V of cylinder A (should be ~8960 kg/m3 if solid Cu; less if it has a thermocouple hole)",
+  "type": "script",
+  "reproduce": "work/analysis.py::geometry",
+  "detail": "",
+  "value": 8826.828634966318,
+  "unit": "kg/m3",
+  "origin": "derived",
+  "inputs": [
+   "geom.A.m_kg",
+   "geom.A.h_m",
+   "geom.A.d_m"
+  ]
+ },
+ "geom.A.Lc_m": {
+  "statement": "Characteristic length V/A of cylinder A",
+  "type": "script",
+  "reproduce": "work/analysis.py::geometry",
+  "detail": "",
+  "value": 0.007902654867256638,
+  "unit": "m",
+  "origin": "derived",
+  "inputs": []
+ },
+ "geom.B.h_m": {
+  "statement": "Cylinder B h = 0.049 +/- 0.001 m, measured by the human (caliper/balance), supplied in inbox.jsonl 2026-09-18",
+  "type": "source",
+  "reproduce": "inbox.jsonl (human direction, 2026-09-18 21:12 and 21:35)",
+  "detail": "uncertainty +/- 0.001 m as stated by the human",
+  "value": 0.049,
+  "unit": "m",
+  "origin": "measured",
+  "inputs": []
+ },
+ "geom.B.dh_m": {
+  "statement": "Stated uncertainty of h_m for cylinder B",
+  "type": "source",
+  "reproduce": "inbox.jsonl (human direction)",
+  "detail": "",
+  "value": 0.001,
+  "unit": "m",
+  "origin": "measured",
+  "inputs": []
+ },
+ "geom.B.d_m": {
+  "statement": "Cylinder B d = 0.022 +/- 0.001 m, measured by the human (caliper/balance), supplied in inbox.jsonl 2026-09-18",
+  "type": "source",
+  "reproduce": "inbox.jsonl (human direction, 2026-09-18 21:12 and 21:35)",
+  "detail": "uncertainty +/- 0.001 m as stated by the human",
+  "value": 0.022,
+  "unit": "m",
+  "origin": "measured",
+  "inputs": []
+ },
+ "geom.B.dd_m": {
+  "statement": "Stated uncertainty of d_m for cylinder B",
+  "type": "source",
+  "reproduce": "inbox.jsonl (human direction)",
+  "detail": "",
+  "value": 0.001,
+  "unit": "m",
+  "origin": "measured",
+  "inputs": []
+ },
+ "geom.B.m_kg": {
+  "statement": "Cylinder B m = 0.1658 +/- 0.0001 kg, measured by the human (caliper/balance), supplied in inbox.jsonl 2026-09-18",
+  "type": "source",
+  "reproduce": "inbox.jsonl (human direction, 2026-09-18 21:12 and 21:35)",
+  "detail": "uncertainty +/- 0.0001 kg as stated by the human",
+  "value": 0.1658,
+  "unit": "kg",
+  "origin": "measured",
+  "inputs": []
+ },
+ "geom.B.dm_kg": {
+  "statement": "Stated uncertainty of m_kg for cylinder B",
+  "type": "source",
+  "reproduce": "inbox.jsonl (human direction)",
+  "detail": "",
+  "value": 0.0001,
+  "unit": "kg",
+  "origin": "measured",
+  "inputs": []
+ },
+ "geom.B.area_m2": {
+  "statement": "Total surface pi d^2/2 + pi d h of cylinder B from measured h, d",
+  "type": "script",
+  "reproduce": "work/analysis.py::geometry",
+  "detail": "= 41.5 +/- 2.3 cm2; human stated 42.0 +/- 2.0 cm2",
+  "value": 0.004146902302738526,
+  "unit": "m2",
+  "origin": "derived",
+  "inputs": [
+   "geom.B.h_m",
+   "geom.B.d_m"
+  ]
+ },
+ "geom.B.darea_m2": {
+  "statement": "Uncertainty of the area of cylinder B: sqrt[(pi(d+h) dd)^2 + (pi d dh)^2]",
+  "type": "script",
+  "reproduce": "work/analysis.py::geometry",
+  "detail": "",
+  "value": 0.00023351566182168323,
+  "unit": "m2",
+  "origin": "derived",
+  "inputs": [
+   "geom.B.dh_m",
+   "geom.B.dd_m"
+  ]
+ },
+ "geom.B.area_stated_cm2": {
+  "statement": "Area of cylinder B as stated by the human (+/- 2.0 cm2)",
+  "type": "source",
+  "reproduce": "inbox.jsonl (human direction)",
+  "detail": "",
+  "value": 42.0,
+  "unit": "cm2",
+  "origin": "measured",
+  "inputs": []
+ },
+ "geom.B.area_agrees_with_stated": {
+  "statement": "Recomputed area of B within the human's stated +/-",
+  "type": "script",
+  "reproduce": "work/analysis.py::geometry",
+  "detail": "|41.5 - 42.0| = 0.5 cm2 vs +/- 2.0",
+  "value": true,
+  "unit": "bool",
+  "origin": "derived",
+  "inputs": []
+ },
+ "geom.B.n_mol": {
+  "statement": "Moles of Cu in cylinder B = m/M",
+  "type": "script",
+  "reproduce": "work/analysis.py::geometry",
+  "detail": "= 2.609 +/- 0.0016 mol; human stated 2.611 +/- 0.002",
+  "value": 2.609133541056872,
+  "unit": "mol",
+  "origin": "derived",
+  "inputs": [
+   "geom.B.m_kg",
+   "phys.M_Cu"
+  ]
+ },
+ "geom.B.dn_mol": {
+  "statement": "Uncertainty of n for cylinder B = dm/M",
+  "type": "script",
+  "reproduce": "work/analysis.py::geometry",
+  "detail": "",
+  "value": 0.0015736631731344223,
+  "unit": "mol",
+  "origin": "derived",
+  "inputs": [
+   "geom.B.dm_kg"
+  ]
+ },
+ "geom.B.n_stated_mol": {
+  "statement": "n of cylinder B as stated by the human (+/- 0.002 mol)",
+  "type": "source",
+  "reproduce": "inbox.jsonl (human direction)",
+  "detail": "",
+  "value": 2.611,
+  "unit": "mol",
+  "origin": "measured",
+  "inputs": []
+ },
+ "geom.B.n_agrees_with_stated": {
+  "statement": "Recomputed n of B within the stated +/- (both uncertainties added)",
+  "type": "script",
+  "reproduce": "work/analysis.py::geometry",
+  "detail": "|2.6091 - 2.611| = 0.0019 mol",
+  "value": true,
+  "unit": "bool",
+  "origin": "derived",
+  "inputs": []
+ },
+ "geom.B.p_kgm2": {
+  "statement": "p = m/A for cylinder B",
+  "type": "script",
+  "reproduce": "work/analysis.py::geometry",
+  "detail": "= 40.0 +/- 2.3 kg/m2",
+  "value": 39.98165085550947,
+  "unit": "kg/m2",
+  "origin": "derived",
+  "inputs": [
+   "geom.B.m_kg",
+   "geom.B.area_m2"
+  ]
+ },
+ "geom.B.dp_kgm2": {
+  "statement": "Uncertainty of p for cylinder B: p sqrt[(dm/m)^2 + (dA/A)^2]",
+  "type": "script",
+  "reproduce": "work/analysis.py::geometry",
+  "detail": "",
+  "value": 2.2515305413374938,
+  "unit": "kg/m2",
+  "origin": "derived",
+  "inputs": [
+   "geom.B.darea_m2",
+   "geom.B.dm_kg"
+  ]
+ },
+ "geom.B.n_over_A_molm2": {
+  "statement": "n/A for cylinder B (the prefactor of eq. 1)",
+  "type": "script",
+  "reproduce": "work/analysis.py::geometry",
+  "detail": "",
+  "value": 629.1765155243363,
+  "unit": "mol/m2",
+  "origin": "derived",
+  "inputs": [
+   "geom.B.n_mol",
+   "geom.B.area_m2"
+  ]
+ },
+ "geom.B.rho_from_mV_kgm3": {
+  "statement": "m/V of cylinder B (should be ~8960 kg/m3 if solid Cu; less if it has a thermocouple hole)",
+  "type": "script",
+  "reproduce": "work/analysis.py::geometry",
+  "detail": "",
+  "value": 8901.295181189493,
+  "unit": "kg/m3",
+  "origin": "derived",
+  "inputs": [
+   "geom.B.m_kg",
+   "geom.B.h_m",
+   "geom.B.d_m"
+  ]
+ },
+ "geom.B.Lc_m": {
+  "statement": "Characteristic length V/A of cylinder B",
+  "type": "script",
+  "reproduce": "work/analysis.py::geometry",
+  "detail": "",
+  "value": 0.004491666666666667,
+  "unit": "m",
+  "origin": "derived",
+  "inputs": []
+ },
+ "geom.C.h_m": {
+  "statement": "Cylinder C h = 0.027 +/- 0.001 m, measured by the human (caliper/balance), supplied in inbox.jsonl 2026-09-18",
+  "type": "source",
+  "reproduce": "inbox.jsonl (human direction, 2026-09-18 21:12 and 21:35)",
+  "detail": "uncertainty +/- 0.001 m as stated by the human",
+  "value": 0.027,
+  "unit": "m",
+  "origin": "measured",
+  "inputs": []
+ },
+ "geom.C.dh_m": {
+  "statement": "Stated uncertainty of h_m for cylinder C",
+  "type": "source",
+  "reproduce": "inbox.jsonl (human direction)",
+  "detail": "",
+  "value": 0.001,
+  "unit": "m",
+  "origin": "measured",
+  "inputs": []
+ },
+ "geom.C.d_m": {
+  "statement": "Cylinder C d = 0.035 +/- 0.001 m, measured by the human (caliper/balance), supplied in inbox.jsonl 2026-09-18",
+  "type": "source",
+  "reproduce": "inbox.jsonl (human direction, 2026-09-18 21:12 and 21:35)",
+  "detail": "uncertainty +/- 0.001 m as stated by the human",
+  "value": 0.035,
+  "unit": "m",
+  "origin": "measured",
+  "inputs": []
+ },
+ "geom.C.dd_m": {
+  "statement": "Stated uncertainty of d_m for cylinder C",
+  "type": "source",
+  "reproduce": "inbox.jsonl (human direction)",
+  "detail": "",
+  "value": 0.001,
+  "unit": "m",
+  "origin": "measured",
+  "inputs": []
+ },
+ "geom.C.m_kg": {
+  "statement": "Cylinder C m = 0.2262 +/- 0.0001 kg, measured by the human (caliper/balance), supplied in inbox.jsonl 2026-09-18",
+  "type": "source",
+  "reproduce": "inbox.jsonl (human direction, 2026-09-18 21:12 and 21:35)",
+  "detail": "uncertainty +/- 0.0001 kg as stated by the human",
+  "value": 0.2262,
+  "unit": "kg",
+  "origin": "measured",
+  "inputs": []
+ },
+ "geom.C.dm_kg": {
+  "statement": "Stated uncertainty of m_kg for cylinder C",
+  "type": "source",
+  "reproduce": "inbox.jsonl (human direction)",
+  "detail": "",
+  "value": 0.0001,
+  "unit": "kg",
+  "origin": "measured",
+  "inputs": []
+ },
+ "geom.C.area_m2": {
+  "statement": "Total surface pi d^2/2 + pi d h of cylinder C from measured h, d",
+  "type": "script",
+  "reproduce": "work/analysis.py::geometry",
+  "detail": "= 48.9 +/- 2.2 cm2; human stated 49.0 +/- 2.0 cm2",
+  "value": 0.0048930305579661035,
+  "unit": "m2",
+  "origin": "derived",
+  "inputs": [
+   "geom.C.h_m",
+   "geom.C.d_m"
+  ]
+ },
+ "geom.C.darea_m2": {
+  "statement": "Uncertainty of the area of cylinder C: sqrt[(pi(d+h) dd)^2 + (pi d dh)^2]",
+  "type": "script",
+  "reproduce": "work/analysis.py::geometry",
+  "detail": "",
+  "value": 0.00022367168955664003,
+  "unit": "m2",
+  "origin": "derived",
+  "inputs": [
+   "geom.C.dh_m",
+   "geom.C.dd_m"
+  ]
+ },
+ "geom.C.area_stated_cm2": {
+  "statement": "Area of cylinder C as stated by the human (+/- 2.0 cm2)",
+  "type": "source",
+  "reproduce": "inbox.jsonl (human direction)",
+  "detail": "",
+  "value": 49.0,
+  "unit": "cm2",
+  "origin": "measured",
+  "inputs": []
+ },
+ "geom.C.area_agrees_with_stated": {
+  "statement": "Recomputed area of C within the human's stated +/-",
+  "type": "script",
+  "reproduce": "work/analysis.py::geometry",
+  "detail": "|48.9 - 49.0| = 0.1 cm2 vs +/- 2.0",
+  "value": true,
+  "unit": "bool",
+  "origin": "derived",
+  "inputs": []
+ },
+ "geom.C.n_mol": {
+  "statement": "Moles of Cu in cylinder C = m/M",
+  "type": "script",
+  "reproduce": "work/analysis.py::geometry",
+  "detail": "= 3.560 +/- 0.0016 mol; human stated 3.562 +/- 0.002",
+  "value": 3.5596260976300633,
+  "unit": "mol",
+  "origin": "derived",
+  "inputs": [
+   "geom.C.m_kg",
+   "phys.M_Cu"
+  ]
+ },
+ "geom.C.dn_mol": {
+  "statement": "Uncertainty of n for cylinder C = dm/M",
+  "type": "script",
+  "reproduce": "work/analysis.py::geometry",
+  "detail": "",
+  "value": 0.0015736631731344223,
+  "unit": "mol",
+  "origin": "derived",
+  "inputs": [
+   "geom.C.dm_kg"
+  ]
+ },
+ "geom.C.n_stated_mol": {
+  "statement": "n of cylinder C as stated by the human (+/- 0.002 mol)",
+  "type": "source",
+  "reproduce": "inbox.jsonl (human direction)",
+  "detail": "",
+  "value": 3.562,
+  "unit": "mol",
+  "origin": "measured",
+  "inputs": []
+ },
+ "geom.C.n_agrees_with_stated": {
+  "statement": "Recomputed n of C within the stated +/- (both uncertainties added)",
+  "type": "script",
+  "reproduce": "work/analysis.py::geometry",
+  "detail": "|3.5596 - 3.562| = 0.0024 mol",
+  "value": true,
+  "unit": "bool",
+  "origin": "derived",
+  "inputs": []
+ },
+ "geom.C.p_kgm2": {
+  "statement": "p = m/A for cylinder C",
+  "type": "script",
+  "reproduce": "work/analysis.py::geometry",
+  "detail": "= 46.2 +/- 2.1 kg/m2",
+  "value": 46.22901846213384,
+  "unit": "kg/m2",
+  "origin": "derived",
+  "inputs": [
+   "geom.C.m_kg",
+   "geom.C.area_m2"
+  ]
+ },
+ "geom.C.dp_kgm2": {
+  "statement": "Uncertainty of p for cylinder C: p sqrt[(dm/m)^2 + (dA/A)^2]",
+  "type": "script",
+  "reproduce": "work/analysis.py::geometry",
+  "detail": "",
+  "value": 2.113333666205525,
+  "unit": "kg/m2",
+  "origin": "derived",
+  "inputs": [
+   "geom.C.darea_m2",
+   "geom.C.dm_kg"
+  ]
+ },
+ "geom.C.n_over_A_molm2": {
+  "statement": "n/A for cylinder C (the prefactor of eq. 1)",
+  "type": "script",
+  "reproduce": "work/analysis.py::geometry",
+  "detail": "",
+  "value": 727.4890388401132,
+  "unit": "mol/m2",
+  "origin": "derived",
+  "inputs": [
+   "geom.C.n_mol",
+   "geom.C.area_m2"
+  ]
+ },
+ "geom.C.rho_from_mV_kgm3": {
+  "statement": "m/V of cylinder C (should be ~8960 kg/m3 if solid Cu; less if it has a thermocouple hole)",
+  "type": "script",
+  "reproduce": "work/analysis.py::geometry",
+  "detail": "",
+  "value": 8707.688133608279,
+  "unit": "kg/m3",
+  "origin": "derived",
+  "inputs": [
+   "geom.C.m_kg",
+   "geom.C.h_m",
+   "geom.C.d_m"
+  ]
+ },
+ "geom.C.Lc_m": {
+  "statement": "Characteristic length V/A of cylinder C",
+  "type": "script",
+  "reproduce": "work/analysis.py::geometry",
+  "detail": "",
+  "value": 0.005308988764044943,
+  "unit": "m",
+  "origin": "derived",
+  "inputs": []
+ },
+ "geom.M_Cu_implied_by_stated_n": {
+  "statement": "Molar mass implied by the human's stated n = m/M (mean over A, B, C); 63.5 g/mol was evidently used, we use 63.546",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "relative difference to 63.546: +0.07 %, negligible for Q/A",
+  "value": 0.06349983359357982,
+  "unit": "kg/mol",
+  "origin": "derived",
+  "inputs": []
+ },
+ "run.dt_s": {
+  "statement": "Median sampling interval of the temperature CSVs",
+  "type": "script",
+  "reproduce": "work/analysis.py::load_run",
+  "detail": "A,B,C: 1.439 s; C1,C3: 1.416 s",
+  "value": 1.4385082721710205,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "run.sg_window": {
+  "statement": "Savitzky-Golay window (samples) for dT/dt",
+  "type": "script",
+  "reproduce": "work/analysis.py::derivative",
+  "detail": "5 samples = 7.2 s; shorter than the ~7-10 s collapse so it is not smeared",
+  "value": 5.0,
+  "unit": "samples",
+  "origin": "derived",
+  "inputs": []
+ },
+ "run.T_search_max_K": {
+  "statement": "Collapse searched only below this T",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": 200.0,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "run.frac": {
+  "statement": "Band fraction of max |dT/dt| defining the abrupt-drop interval (D3)",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": 0.5,
+  "unit": "",
+  "origin": "derived",
+  "inputs": []
+ },
+ "clean.A.n_outliers": {
+  "statement": "Samples replaced as spikes in run A (|T - median7| > 8.0 K)",
+  "type": "script",
+  "reproduce": "work/analysis.py::clean",
+  "detail": "",
+  "value": 0.0,
+  "unit": "samples",
+  "origin": "derived",
+  "inputs": [
+   "CilindroA_sumergido.csv"
+  ]
+ },
+ "tc.A.t_s": {
+  "statement": "t_c run A: time of max |dT/dt| (T<200 K), from file t=0",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": 303.96464467048645,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": [
+   "CilindroA_sumergido.csv"
+  ]
+ },
+ "tc.A.t0_s": {
+  "statement": "Immersion instant run A: first sample 1 K below the initial T",
+  "type": "script",
+  "reproduce": "work/analysis.py::cooling_start",
+  "detail": "",
+  "value": 9.068910598754885,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": [
+   "CilindroA_sumergido.csv"
+  ]
+ },
+ "tc.A.t_from_immersion_s": {
+  "statement": "t_c run A measured from immersion",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": 294.89573407173157,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": [
+   "tc.A.t_s",
+   "tc.A.t0_s"
+  ]
+ },
+ "tc.A.T_K": {
+  "statement": "Body temperature at t_c, run A",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": 103.20551867530423,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": [
+   "CilindroA_sumergido.csv"
+  ]
+ },
+ "tc.A.Thi_K": {
+  "statement": "Upper T of the abrupt-drop band (|dT/dt| >= 0.5 max), run A",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": 111.67386302990509,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.A.Tlo_K": {
+  "statement": "Lower T of the abrupt-drop band, run A",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": 87.56635849334208,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.A.dTdt_max_Ks": {
+  "statement": "Max cooling rate |dT/dt| at t_c, run A",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": 5.26884105855728,
+  "unit": "K/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.A.plateau_rate_Ks": {
+  "statement": "Median |dT/dt| on the film plateau (200 K .. T_c+20 K), run A",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": 0.47645298164408006,
+  "unit": "K/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.A.peak_over_plateau": {
+  "statement": "Peak/plateau rate ratio, run A; collapse 'detected' if >= 3.0",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": 11.058470114671692,
+  "unit": "",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.A.detected": {
+  "statement": "Whether an abrupt collapse is detected in run A",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": true,
+  "unit": "bool",
+  "origin": "derived",
+  "inputs": []
+ },
+ "qa.A.peak_Wm2": {
+  "statement": "Max Q/A (nucleate-boiling peak), run A, measured n/A of body A",
+  "type": "script",
+  "reproduce": "work/analysis.py::heat_flux",
+  "detail": "",
+  "value": 91526.20328331266,
+  "unit": "W/m2",
+  "origin": "derived",
+  "inputs": [
+   "geom.A.n_mol",
+   "geom.A.area_m2",
+   "cv.Cv_300K"
+  ]
+ },
+ "qa.A.dT_at_peak_K": {
+  "statement": "Delta T at the Q/A peak, run A",
+  "type": "script",
+  "reproduce": "work/analysis.py::heat_flux",
+  "detail": "",
+  "value": 26.205518675304234,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "qa.A.QA_at_tc_Wm2": {
+  "statement": "Q/A at t_c, run A",
+  "type": "script",
+  "reproduce": "work/analysis.py::heat_flux",
+  "detail": "",
+  "value": 91526.20328331266,
+  "unit": "W/m2",
+  "origin": "derived",
+  "inputs": []
+ },
+ "qa.A.min_film_Wm2": {
+  "statement": "Min Q/A in the film regime before collapse (Leidenfrost point), run A",
+  "type": "script",
+  "reproduce": "work/analysis.py::heat_flux",
+  "detail": "",
+  "value": 6925.571819995927,
+  "unit": "W/m2",
+  "origin": "derived",
+  "inputs": []
+ },
+ "qa.A.dT_at_min_K": {
+  "statement": "Delta T at the film-regime minimum, run A",
+  "type": "script",
+  "reproduce": "work/analysis.py::heat_flux",
+  "detail": "",
+  "value": 48.646189561324775,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "qa.A.plateau_Wm2": {
+  "statement": "Median Q/A for 150<T<250 K (film boiling), run A",
+  "type": "script",
+  "reproduce": "work/analysis.py::heat_flux",
+  "detail": "",
+  "value": 14590.026106435032,
+  "unit": "W/m2",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.A.full_range_t_s": {
+  "statement": "Time of max |dT/dt| over the whole run (no T<200 K restriction), run A",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 303.96464467048645,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.A.full_range_T_K": {
+  "statement": "T at the whole-run max |dT/dt|, run A",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 103.20551867530423,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.A.plateau_T_K": {
+  "statement": "Median T over the last 30 s of run A (bath plateau; A never reaches it)",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 116.11339961841875,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rate.A.dTdt_250K": {
+  "statement": "|dT/dt| at T=250 K, run A",
+  "type": "script",
+  "reproduce": "work/analysis.py::rate_at",
+  "detail": "",
+  "value": 0.8243631879181968,
+  "unit": "K/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rate.A.dTdt_200K": {
+  "statement": "|dT/dt| at T=200 K, run A",
+  "type": "script",
+  "reproduce": "work/analysis.py::rate_at",
+  "detail": "",
+  "value": 0.6304703726318763,
+  "unit": "K/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rate.A.dTdt_150K": {
+  "statement": "|dT/dt| at T=150 K, run A",
+  "type": "script",
+  "reproduce": "work/analysis.py::rate_at",
+  "detail": "",
+  "value": 0.4470709573860892,
+  "unit": "K/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rate.A.dTdt_120K": {
+  "statement": "|dT/dt| at T=120 K, run A",
+  "type": "script",
+  "reproduce": "work/analysis.py::rate_at",
+  "detail": "",
+  "value": 0.570503368436205,
+  "unit": "K/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rate.A.dTdt_100K": {
+  "statement": "|dT/dt| at T=100 K, run A",
+  "type": "script",
+  "reproduce": "work/analysis.py::rate_at",
+  "detail": "",
+  "value": 5.141685936802389,
+  "unit": "K/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "qa.A.n_cooling_samples": {
+  "statement": "Samples in the cooling window (t0+15 s .. end of drop band +15 s, T>79 K), run A",
+  "type": "script",
+  "reproduce": "work/analysis.py::heat_flux",
+  "detail": "",
+  "value": 203.0,
+  "unit": "samples",
+  "origin": "derived",
+  "inputs": []
+ },
+ "qa.A.n_nonpositive": {
+  "statement": "Samples with Q/A<=0 inside the cooling window (15 s after immersion skips the immersion glitch in B), run A",
+  "type": "script",
+  "reproduce": "work/analysis.py::heat_flux",
+  "detail": "",
+  "value": 0.0,
+  "unit": "samples",
+  "origin": "derived",
+  "inputs": []
+ },
+ "clean.B.n_outliers": {
+  "statement": "Samples replaced as spikes in run B (|T - median7| > 8.0 K)",
+  "type": "script",
+  "reproduce": "work/analysis.py::clean",
+  "detail": "",
+  "value": 12.0,
+  "unit": "samples",
+  "origin": "derived",
+  "inputs": [
+   "CilindroB_sumergido.csv"
+  ]
+ },
+ "tc.B.t_s": {
+  "statement": "t_c run B: time of max |dT/dt| (T<200 K), from file t=0",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": 131.3421721458435,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": [
+   "CilindroB_sumergido.csv"
+  ]
+ },
+ "tc.B.t0_s": {
+  "statement": "Immersion instant run B: first sample 1 K below the initial T",
+  "type": "script",
+  "reproduce": "work/analysis.py::cooling_start",
+  "detail": "",
+  "value": 7.63130521774292,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": [
+   "CilindroB_sumergido.csv"
+  ]
+ },
+ "tc.B.t_from_immersion_s": {
+  "statement": "t_c run B measured from immersion",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": 123.71086692810059,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": [
+   "tc.B.t_s",
+   "tc.B.t0_s"
+  ]
+ },
+ "tc.B.T_K": {
+  "statement": "Body temperature at t_c, run B",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": 104.56703733126005,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": [
+   "CilindroB_sumergido.csv"
+  ]
+ },
+ "tc.B.Thi_K": {
+  "statement": "Upper T of the abrupt-drop band (|dT/dt| >= 0.5 max), run B",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": 115.29506803513655,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.B.Tlo_K": {
+  "statement": "Lower T of the abrupt-drop band, run B",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": 82.63722812329569,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.B.dTdt_max_Ks": {
+  "statement": "Max cooling rate |dT/dt| at t_c, run B",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": 6.838511830332157,
+  "unit": "K/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.B.plateau_rate_Ks": {
+  "statement": "Median |dT/dt| on the film plateau (200 K .. T_c+20 K), run B",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": 1.2920664940487128,
+  "unit": "K/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.B.peak_over_plateau": {
+  "statement": "Peak/plateau rate ratio, run B; collapse 'detected' if >= 3.0",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": 5.292693419286466,
+  "unit": "",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.B.detected": {
+  "statement": "Whether an abrupt collapse is detected in run B",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": true,
+  "unit": "bool",
+  "origin": "derived",
+  "inputs": []
+ },
+ "qa.B.peak_Wm2": {
+  "statement": "Max Q/A (nucleate-boiling peak), run B, measured n/A of body B",
+  "type": "script",
+  "reproduce": "work/analysis.py::heat_flux",
+  "detail": "",
+  "value": 68899.23055637241,
+  "unit": "W/m2",
+  "origin": "derived",
+  "inputs": [
+   "geom.B.n_mol",
+   "geom.B.area_m2",
+   "cv.Cv_300K"
+  ]
+ },
+ "qa.B.dT_at_peak_K": {
+  "statement": "Delta T at the Q/A peak, run B",
+  "type": "script",
+  "reproduce": "work/analysis.py::heat_flux",
+  "detail": "",
+  "value": 27.567037331260053,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "qa.B.QA_at_tc_Wm2": {
+  "statement": "Q/A at t_c, run B",
+  "type": "script",
+  "reproduce": "work/analysis.py::heat_flux",
+  "detail": "",
+  "value": 68899.23055637241,
+  "unit": "W/m2",
+  "origin": "derived",
+  "inputs": []
+ },
+ "qa.B.min_film_Wm2": {
+  "statement": "Min Q/A in the film regime before collapse (Leidenfrost point), run B",
+  "type": "script",
+  "reproduce": "work/analysis.py::heat_flux",
+  "detail": "",
+  "value": 13784.90487859979,
+  "unit": "W/m2",
+  "origin": "derived",
+  "inputs": []
+ },
+ "qa.B.dT_at_min_K": {
+  "statement": "Delta T at the film-regime minimum, run B",
+  "type": "script",
+  "reproduce": "work/analysis.py::heat_flux",
+  "detail": "",
+  "value": 51.187147664392626,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "qa.B.plateau_Wm2": {
+  "statement": "Median Q/A for 150<T<250 K (film boiling), run B",
+  "type": "script",
+  "reproduce": "work/analysis.py::heat_flux",
+  "detail": "",
+  "value": 19093.841359853024,
+  "unit": "W/m2",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.B.full_range_t_s": {
+  "statement": "Time of max |dT/dt| over the whole run (no T<200 K restriction), run B",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 131.3421721458435,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.B.full_range_T_K": {
+  "statement": "T at the whole-run max |dT/dt|, run B",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 104.56703733126005,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.B.plateau_T_K": {
+  "statement": "Median T over the last 30 s of run B (bath plateau; A never reaches it)",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 77.55959530967922,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rate.B.dTdt_250K": {
+  "statement": "|dT/dt| at T=250 K, run B",
+  "type": "script",
+  "reproduce": "work/analysis.py::rate_at",
+  "detail": "",
+  "value": 1.5817083475649054,
+  "unit": "K/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rate.B.dTdt_200K": {
+  "statement": "|dT/dt| at T=200 K, run B",
+  "type": "script",
+  "reproduce": "work/analysis.py::rate_at",
+  "detail": "",
+  "value": 1.3439473207648833,
+  "unit": "K/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rate.B.dTdt_150K": {
+  "statement": "|dT/dt| at T=150 K, run B",
+  "type": "script",
+  "reproduce": "work/analysis.py::rate_at",
+  "detail": "",
+  "value": 1.2409915347811538,
+  "unit": "K/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rate.B.dTdt_120K": {
+  "statement": "|dT/dt| at T=120 K, run B",
+  "type": "script",
+  "reproduce": "work/analysis.py::rate_at",
+  "detail": "",
+  "value": 2.2452652981609633,
+  "unit": "K/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rate.B.dTdt_100K": {
+  "statement": "|dT/dt| at T=100 K, run B",
+  "type": "script",
+  "reproduce": "work/analysis.py::rate_at",
+  "detail": "",
+  "value": 6.720261448098692,
+  "unit": "K/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "qa.B.n_cooling_samples": {
+  "statement": "Samples in the cooling window (t0+15 s .. end of drop band +15 s, T>79 K), run B",
+  "type": "script",
+  "reproduce": "work/analysis.py::heat_flux",
+  "detail": "",
+  "value": 80.0,
+  "unit": "samples",
+  "origin": "derived",
+  "inputs": []
+ },
+ "qa.B.n_nonpositive": {
+  "statement": "Samples with Q/A<=0 inside the cooling window (15 s after immersion skips the immersion glitch in B), run B",
+  "type": "script",
+  "reproduce": "work/analysis.py::heat_flux",
+  "detail": "",
+  "value": 0.0,
+  "unit": "samples",
+  "origin": "derived",
+  "inputs": []
+ },
+ "clean.C.n_outliers": {
+  "statement": "Samples replaced as spikes in run C (|T - median7| > 8.0 K)",
+  "type": "script",
+  "reproduce": "work/analysis.py::clean",
+  "detail": "",
+  "value": 6.0,
+  "unit": "samples",
+  "origin": "derived",
+  "inputs": [
+   "CilindroC_sumergido.csv"
+  ]
+ },
+ "tc.C.t_s": {
+  "statement": "t_c run C: time of max |dT/dt| (T<200 K), from file t=0",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": 177.37721228599548,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": [
+   "CilindroC_sumergido.csv"
+  ]
+ },
+ "tc.C.t0_s": {
+  "statement": "Immersion instant run C: first sample 1 K below the initial T",
+  "type": "script",
+  "reproduce": "work/analysis.py::cooling_start",
+  "detail": "",
+  "value": 9.068952322006226,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": [
+   "CilindroC_sumergido.csv"
+  ]
+ },
+ "tc.C.t_from_immersion_s": {
+  "statement": "t_c run C measured from immersion",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": 168.30825996398926,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": [
+   "tc.C.t_s",
+   "tc.C.t0_s"
+  ]
+ },
+ "tc.C.T_K": {
+  "statement": "Body temperature at t_c, run C",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": 102.37237499986821,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": [
+   "CilindroC_sumergido.csv"
+  ]
+ },
+ "tc.C.Thi_K": {
+  "statement": "Upper T of the abrupt-drop band (|dT/dt| >= 0.5 max), run C",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": 111.77384067810884,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.C.Tlo_K": {
+  "statement": "Lower T of the abrupt-drop band, run C",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": 82.40706080487566,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.C.dTdt_max_Ks": {
+  "statement": "Max cooling rate |dT/dt| at t_c, run C",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": 6.152660398959222,
+  "unit": "K/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.C.plateau_rate_Ks": {
+  "statement": "Median |dT/dt| on the film plateau (200 K .. T_c+20 K), run C",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": 0.8693528507890806,
+  "unit": "K/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.C.peak_over_plateau": {
+  "statement": "Peak/plateau rate ratio, run C; collapse 'detected' if >= 3.0",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": 7.077287885321445,
+  "unit": "",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.C.detected": {
+  "statement": "Whether an abrupt collapse is detected in run C",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": true,
+  "unit": "bool",
+  "origin": "derived",
+  "inputs": []
+ },
+ "qa.C.peak_Wm2": {
+  "statement": "Max Q/A (nucleate-boiling peak), run C, measured n/A of body C",
+  "type": "script",
+  "reproduce": "work/analysis.py::heat_flux",
+  "detail": "",
+  "value": 70304.4732127234,
+  "unit": "W/m2",
+  "origin": "derived",
+  "inputs": [
+   "geom.C.n_mol",
+   "geom.C.area_m2",
+   "cv.Cv_300K"
+  ]
+ },
+ "qa.C.dT_at_peak_K": {
+  "statement": "Delta T at the Q/A peak, run C",
+  "type": "script",
+  "reproduce": "work/analysis.py::heat_flux",
+  "detail": "",
+  "value": 25.372374999868214,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "qa.C.QA_at_tc_Wm2": {
+  "statement": "Q/A at t_c, run C",
+  "type": "script",
+  "reproduce": "work/analysis.py::heat_flux",
+  "detail": "",
+  "value": 70304.4732127234,
+  "unit": "W/m2",
+  "origin": "derived",
+  "inputs": []
+ },
+ "qa.C.min_film_Wm2": {
+  "statement": "Min Q/A in the film regime before collapse (Leidenfrost point), run C",
+  "type": "script",
+  "reproduce": "work/analysis.py::heat_flux",
+  "detail": "",
+  "value": 8688.36992925479,
+  "unit": "W/m2",
+  "origin": "derived",
+  "inputs": []
+ },
+ "qa.C.dT_at_min_K": {
+  "statement": "Delta T at the film-regime minimum, run C",
+  "type": "script",
+  "reproduce": "work/analysis.py::heat_flux",
+  "detail": "",
+  "value": 47.558314710810706,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "qa.C.plateau_Wm2": {
+  "statement": "Median Q/A for 150<T<250 K (film boiling), run C",
+  "type": "script",
+  "reproduce": "work/analysis.py::heat_flux",
+  "detail": "",
+  "value": 17483.84288359638,
+  "unit": "W/m2",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.C.full_range_t_s": {
+  "statement": "Time of max |dT/dt| over the whole run (no T<200 K restriction), run C",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 177.37721228599548,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.C.full_range_T_K": {
+  "statement": "T at the whole-run max |dT/dt|, run C",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 102.37237499986821,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.C.plateau_T_K": {
+  "statement": "Median T over the last 30 s of run C (bath plateau; A never reaches it)",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 77.45129201179643,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rate.C.dTdt_250K": {
+  "statement": "|dT/dt| at T=250 K, run C",
+  "type": "script",
+  "reproduce": "work/analysis.py::rate_at",
+  "detail": "",
+  "value": 1.3843660114369427,
+  "unit": "K/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rate.C.dTdt_200K": {
+  "statement": "|dT/dt| at T=200 K, run C",
+  "type": "script",
+  "reproduce": "work/analysis.py::rate_at",
+  "detail": "",
+  "value": 1.0706614161092887,
+  "unit": "K/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rate.C.dTdt_150K": {
+  "statement": "|dT/dt| at T=150 K, run C",
+  "type": "script",
+  "reproduce": "work/analysis.py::rate_at",
+  "detail": "",
+  "value": 0.8444920969498463,
+  "unit": "K/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rate.C.dTdt_120K": {
+  "statement": "|dT/dt| at T=120 K, run C",
+  "type": "script",
+  "reproduce": "work/analysis.py::rate_at",
+  "detail": "",
+  "value": 0.8310301165129366,
+  "unit": "K/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rate.C.dTdt_100K": {
+  "statement": "|dT/dt| at T=100 K, run C",
+  "type": "script",
+  "reproduce": "work/analysis.py::rate_at",
+  "detail": "",
+  "value": 6.105355066991503,
+  "unit": "K/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "qa.C.n_cooling_samples": {
+  "statement": "Samples in the cooling window (t0+15 s .. end of drop band +15 s, T>79 K), run C",
+  "type": "script",
+  "reproduce": "work/analysis.py::heat_flux",
+  "detail": "",
+  "value": 111.0,
+  "unit": "samples",
+  "origin": "derived",
+  "inputs": []
+ },
+ "qa.C.n_nonpositive": {
+  "statement": "Samples with Q/A<=0 inside the cooling window (15 s after immersion skips the immersion glitch in B), run C",
+  "type": "script",
+  "reproduce": "work/analysis.py::heat_flux",
+  "detail": "",
+  "value": 0.0,
+  "unit": "samples",
+  "origin": "derived",
+  "inputs": []
+ },
+ "clean.C1.n_outliers": {
+  "statement": "Samples replaced as spikes in run C1 (|T - median7| > 8.0 K)",
+  "type": "script",
+  "reproduce": "work/analysis.py::clean",
+  "detail": "",
+  "value": 0.0,
+  "unit": "samples",
+  "origin": "derived",
+  "inputs": [
+   "cilindroC(aislado con 1 vuelta).csv"
+  ]
+ },
+ "tc.C1.t_s": {
+  "statement": "t_c run C1: time of max |dT/dt| (T<200 K), from file t=0",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": 10.320158004760742,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": [
+   "cilindroC(aislado con 1 vuelta).csv"
+  ]
+ },
+ "tc.C1.t0_s": {
+  "statement": "Immersion instant run C1: first sample 1 K below the initial T",
+  "type": "script",
+  "reproduce": "work/analysis.py::cooling_start",
+  "detail": "",
+  "value": 6.076047897338867,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": [
+   "cilindroC(aislado con 1 vuelta).csv"
+  ]
+ },
+ "tc.C1.t_from_immersion_s": {
+  "statement": "t_c run C1 measured from immersion",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": 4.244110107421875,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": [
+   "tc.C1.t_s",
+   "tc.C1.t0_s"
+  ]
+ },
+ "tc.C1.T_K": {
+  "statement": "Body temperature at t_c, run C1",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": 184.52209123795535,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": [
+   "cilindroC(aislado con 1 vuelta).csv"
+  ]
+ },
+ "tc.C1.Thi_K": {
+  "statement": "Upper T of the abrupt-drop band (|dT/dt| >= 0.5 max), run C1",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": 264.04962153894996,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.C1.Tlo_K": {
+  "statement": "Lower T of the abrupt-drop band, run C1",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": 82.46109799554387,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.C1.dTdt_max_Ks": {
+  "statement": "Max cooling rate |dT/dt| at t_c, run C1",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": 33.60173028910921,
+  "unit": "K/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.C1.plateau_rate_Ks": {
+  "statement": "Median |dT/dt| on the film plateau (200 K .. T_c+20 K), run C1",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": NaN,
+  "unit": "K/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.C1.peak_over_plateau": {
+  "statement": "Peak/plateau rate ratio, run C1; collapse 'detected' if >= 3.0",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": NaN,
+  "unit": "",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.C1.detected": {
+  "statement": "Whether an abrupt collapse is detected in run C1",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": false,
+  "unit": "bool",
+  "origin": "derived",
+  "inputs": []
+ },
+ "qa.C1.peak_Wm2": {
+  "statement": "Max Q/A (nucleate-boiling peak), run C1, measured n/A of body C",
+  "type": "script",
+  "reproduce": "work/analysis.py::heat_flux",
+  "detail": "",
+  "value": 528805.7016338219,
+  "unit": "W/m2",
+  "origin": "derived",
+  "inputs": [
+   "geom.C.n_mol",
+   "geom.C.area_m2",
+   "cv.Cv_300K"
+  ]
+ },
+ "qa.C1.dT_at_peak_K": {
+  "statement": "Delta T at the Q/A peak, run C1",
+  "type": "script",
+  "reproduce": "work/analysis.py::heat_flux",
+  "detail": "",
+  "value": 107.52209123795535,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "qa.C1.QA_at_tc_Wm2": {
+  "statement": "Q/A at t_c, run C1",
+  "type": "script",
+  "reproduce": "work/analysis.py::heat_flux",
+  "detail": "",
+  "value": 528805.7016338219,
+  "unit": "W/m2",
+  "origin": "derived",
+  "inputs": []
+ },
+ "qa.C1.plateau_Wm2": {
+  "statement": "Median Q/A for 150<T<250 K (film boiling), run C1",
+  "type": "script",
+  "reproduce": "work/analysis.py::heat_flux",
+  "detail": "",
+  "value": 511436.8789538875,
+  "unit": "W/m2",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.C1.full_range_t_s": {
+  "statement": "Time of max |dT/dt| over the whole run (no T<200 K restriction), run C1",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 10.320158004760742,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.C1.full_range_T_K": {
+  "statement": "T at the whole-run max |dT/dt|, run C1",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 184.52209123795535,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.C1.plateau_T_K": {
+  "statement": "Median T over the last 30 s of run C1 (bath plateau; A never reaches it)",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 76.56697936868113,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rate.C1.dTdt_250K": {
+  "statement": "|dT/dt| at T=250 K, run C1",
+  "type": "script",
+  "reproduce": "work/analysis.py::rate_at",
+  "detail": "",
+  "value": 24.544882961788755,
+  "unit": "K/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rate.C1.dTdt_200K": {
+  "statement": "|dT/dt| at T=200 K, run C1",
+  "type": "script",
+  "reproduce": "work/analysis.py::rate_at",
+  "detail": "",
+  "value": 32.49611899782317,
+  "unit": "K/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rate.C1.dTdt_150K": {
+  "statement": "|dT/dt| at T=150 K, run C1",
+  "type": "script",
+  "reproduce": "work/analysis.py::rate_at",
+  "detail": "",
+  "value": 32.37549886620198,
+  "unit": "K/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rate.C1.dTdt_120K": {
+  "statement": "|dT/dt| at T=120 K, run C1",
+  "type": "script",
+  "reproduce": "work/analysis.py::rate_at",
+  "detail": "",
+  "value": 31.309893007227494,
+  "unit": "K/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rate.C1.dTdt_100K": {
+  "statement": "|dT/dt| at T=100 K, run C1",
+  "type": "script",
+  "reproduce": "work/analysis.py::rate_at",
+  "detail": "",
+  "value": 24.400570739577475,
+  "unit": "K/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "qa.C1.n_cooling_samples": {
+  "statement": "Samples in the cooling window (t0+15 s .. end of drop band +15 s, T>79 K), run C1",
+  "type": "script",
+  "reproduce": "work/analysis.py::heat_flux",
+  "detail": "",
+  "value": 0.0,
+  "unit": "samples",
+  "origin": "derived",
+  "inputs": []
+ },
+ "qa.C1.n_nonpositive": {
+  "statement": "Samples with Q/A<=0 inside the cooling window (15 s after immersion skips the immersion glitch in B), run C1",
+  "type": "script",
+  "reproduce": "work/analysis.py::heat_flux",
+  "detail": "",
+  "value": 0.0,
+  "unit": "samples",
+  "origin": "derived",
+  "inputs": []
+ },
+ "clean.C3.n_outliers": {
+  "statement": "Samples replaced as spikes in run C3 (|T - median7| > 8.0 K)",
+  "type": "script",
+  "reproduce": "work/analysis.py::clean",
+  "detail": "",
+  "value": 0.0,
+  "unit": "samples",
+  "origin": "derived",
+  "inputs": [
+   "cilindroC(aislado con 3 vueltas).csv"
+  ]
+ },
+ "tc.C3.t_s": {
+  "statement": "t_c run C3: time of max |dT/dt| (T<200 K), from file t=0",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": 47.12132000923157,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": [
+   "cilindroC(aislado con 3 vueltas).csv"
+  ]
+ },
+ "tc.C3.t0_s": {
+  "statement": "Immersion instant run C3: first sample 1 K below the initial T",
+  "type": "script",
+  "reproduce": "work/analysis.py::cooling_start",
+  "detail": "",
+  "value": 8.904651880264282,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": [
+   "cilindroC(aislado con 3 vueltas).csv"
+  ]
+ },
+ "tc.C3.t_from_immersion_s": {
+  "statement": "t_c run C3 measured from immersion",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": 38.216668128967285,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": [
+   "tc.C3.t_s",
+   "tc.C3.t0_s"
+  ]
+ },
+ "tc.C3.T_K": {
+  "statement": "Body temperature at t_c, run C3",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": 198.69736429236667,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": [
+   "cilindroC(aislado con 3 vueltas).csv"
+  ]
+ },
+ "tc.C3.Thi_K": {
+  "statement": "Upper T of the abrupt-drop band (|dT/dt| >= 0.5 max), run C3",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": 292.5480378189325,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.C3.Tlo_K": {
+  "statement": "Lower T of the abrupt-drop band, run C3",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": 124.3949819520507,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.C3.dTdt_max_Ks": {
+  "statement": "Max cooling rate |dT/dt| at t_c, run C3",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": 2.524434001135659,
+  "unit": "K/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.C3.plateau_rate_Ks": {
+  "statement": "Median |dT/dt| on the film plateau (200 K .. T_c+20 K), run C3",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": NaN,
+  "unit": "K/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.C3.peak_over_plateau": {
+  "statement": "Peak/plateau rate ratio, run C3; collapse 'detected' if >= 3.0",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": NaN,
+  "unit": "",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.C3.detected": {
+  "statement": "Whether an abrupt collapse is detected in run C3",
+  "type": "script",
+  "reproduce": "work/analysis.py::find_tc",
+  "detail": "",
+  "value": false,
+  "unit": "bool",
+  "origin": "derived",
+  "inputs": []
+ },
+ "qa.C3.peak_Wm2": {
+  "statement": "Max Q/A (nucleate-boiling peak), run C3, measured n/A of body C",
+  "type": "script",
+  "reproduce": "work/analysis.py::heat_flux",
+  "detail": "",
+  "value": 58716.3478409389,
+  "unit": "W/m2",
+  "origin": "derived",
+  "inputs": [
+   "geom.C.n_mol",
+   "geom.C.area_m2",
+   "cv.Cv_300K"
+  ]
+ },
+ "qa.C3.dT_at_peak_K": {
+  "statement": "Delta T at the Q/A peak, run C3",
+  "type": "script",
+  "reproduce": "work/analysis.py::heat_flux",
+  "detail": "",
+  "value": 179.32120806517452,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "qa.C3.QA_at_tc_Wm2": {
+  "statement": "Q/A at t_c, run C3",
+  "type": "script",
+  "reproduce": "work/analysis.py::heat_flux",
+  "detail": "",
+  "value": 40509.96949886305,
+  "unit": "W/m2",
+  "origin": "derived",
+  "inputs": []
+ },
+ "qa.C3.plateau_Wm2": {
+  "statement": "Median Q/A for 150<T<250 K (film boiling), run C3",
+  "type": "script",
+  "reproduce": "work/analysis.py::heat_flux",
+  "detail": "",
+  "value": 39557.43014400887,
+  "unit": "W/m2",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.C3.full_range_t_s": {
+  "statement": "Time of max |dT/dt| over the whole run (no T<200 K restriction), run C3",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 24.471801042556763,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.C3.full_range_T_K": {
+  "statement": "T at the whole-run max |dT/dt|, run C3",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 256.3212080651745,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.C3.plateau_T_K": {
+  "statement": "Median T over the last 30 s of run C3 (bath plateau; A never reaches it)",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 77.78254004809327,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rate.C3.dTdt_250K": {
+  "statement": "|dT/dt| at T=250 K, run C3",
+  "type": "script",
+  "reproduce": "work/analysis.py::rate_at",
+  "detail": "",
+  "value": 3.1402953518751398,
+  "unit": "K/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rate.C3.dTdt_200K": {
+  "statement": "|dT/dt| at T=200 K, run C3",
+  "type": "script",
+  "reproduce": "work/analysis.py::rate_at",
+  "detail": "",
+  "value": 2.523312684428079,
+  "unit": "K/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rate.C3.dTdt_150K": {
+  "statement": "|dT/dt| at T=150 K, run C3",
+  "type": "script",
+  "reproduce": "work/analysis.py::rate_at",
+  "detail": "",
+  "value": 2.1025460644562806,
+  "unit": "K/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rate.C3.dTdt_120K": {
+  "statement": "|dT/dt| at T=120 K, run C3",
+  "type": "script",
+  "reproduce": "work/analysis.py::rate_at",
+  "detail": "",
+  "value": 1.1231563456733205,
+  "unit": "K/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rate.C3.dTdt_100K": {
+  "statement": "|dT/dt| at T=100 K, run C3",
+  "type": "script",
+  "reproduce": "work/analysis.py::rate_at",
+  "detail": "",
+  "value": 0.6499813948270061,
+  "unit": "K/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "qa.C3.n_cooling_samples": {
+  "statement": "Samples in the cooling window (t0+15 s .. end of drop band +15 s, T>79 K), run C3",
+  "type": "script",
+  "reproduce": "work/analysis.py::heat_flux",
+  "detail": "",
+  "value": 52.0,
+  "unit": "samples",
+  "origin": "derived",
+  "inputs": []
+ },
+ "qa.C3.n_nonpositive": {
+  "statement": "Samples with Q/A<=0 inside the cooling window (15 s after immersion skips the immersion glitch in B), run C3",
+  "type": "script",
+  "reproduce": "work/analysis.py::heat_flux",
+  "detail": "",
+  "value": 0.0,
+  "unit": "samples",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.A.sens_t_spread_s": {
+  "statement": "Spread of t_c over SG window 3..11 and frac 0.3..0.7, run A",
+  "type": "script",
+  "reproduce": "work/analysis.py::sensitivity",
+  "detail": "t_c in [304.0, 304.0] s",
+  "value": 0.0,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.A.sens_Tlo_range_K": {
+  "statement": "Range of T_lo over the sensitivity grid, run A",
+  "type": "script",
+  "reproduce": "work/analysis.py::sensitivity",
+  "detail": "",
+  "value": "80.6..94.0",
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.A.sens_Thi_range_K": {
+  "statement": "Range of T_hi over the sensitivity grid, run A",
+  "type": "script",
+  "reproduce": "work/analysis.py::sensitivity",
+  "detail": "",
+  "value": "103.7..120.4",
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.B.sens_t_spread_s": {
+  "statement": "Spread of t_c over SG window 3..11 and frac 0.3..0.7, run B",
+  "type": "script",
+  "reproduce": "work/analysis.py::sensitivity",
+  "detail": "t_c in [131.3, 131.3] s",
+  "value": 0.0,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.B.sens_Tlo_range_K": {
+  "statement": "Range of T_lo over the sensitivity grid, run B",
+  "type": "script",
+  "reproduce": "work/analysis.py::sensitivity",
+  "detail": "",
+  "value": "77.4..91.3",
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.B.sens_Thi_range_K": {
+  "statement": "Range of T_hi over the sensitivity grid, run B",
+  "type": "script",
+  "reproduce": "work/analysis.py::sensitivity",
+  "detail": "",
+  "value": "106.0..131.6",
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.C.sens_t_spread_s": {
+  "statement": "Spread of t_c over SG window 3..11 and frac 0.3..0.7, run C",
+  "type": "script",
+  "reproduce": "work/analysis.py::sensitivity",
+  "detail": "t_c in [177.4, 177.4] s",
+  "value": 0.0,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.C.sens_Tlo_range_K": {
+  "statement": "Range of T_lo over the sensitivity grid, run C",
+  "type": "script",
+  "reproduce": "work/analysis.py::sensitivity",
+  "detail": "",
+  "value": "77.5..90.4",
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.C.sens_Thi_range_K": {
+  "statement": "Range of T_hi over the sensitivity grid, run C",
+  "type": "script",
+  "reproduce": "work/analysis.py::sensitivity",
+  "detail": "",
+  "value": "103.4..120.0",
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.C1.sens_t_spread_s": {
+  "statement": "Spread of t_c over SG window 3..11 and frac 0.3..0.7, run C1",
+  "type": "script",
+  "reproduce": "work/analysis.py::sensitivity",
+  "detail": "t_c in [10.3, 10.3] s",
+  "value": 0.0,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.C1.sens_Tlo_range_K": {
+  "statement": "Range of T_lo over the sensitivity grid, run C1",
+  "type": "script",
+  "reproduce": "work/analysis.py::sensitivity",
+  "detail": "",
+  "value": "69.9..119.6",
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.C1.sens_Thi_range_K": {
+  "statement": "Range of T_hi over the sensitivity grid, run C1",
+  "type": "script",
+  "reproduce": "work/analysis.py::sensitivity",
+  "detail": "",
+  "value": "192.2..301.3",
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.C3.sens_t_spread_s": {
+  "statement": "Spread of t_c over SG window 3..11 and frac 0.3..0.7, run C3",
+  "type": "script",
+  "reproduce": "work/analysis.py::sensitivity",
+  "detail": "t_c in [47.1, 48.5] s",
+  "value": 1.4246482849121094,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.C3.sens_Tlo_range_K": {
+  "statement": "Range of T_lo over the sensitivity grid, run C3",
+  "type": "script",
+  "reproduce": "work/analysis.py::sensitivity",
+  "detail": "",
+  "value": "104.8..142.1",
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc.C3.sens_Thi_range_K": {
+  "statement": "Range of T_hi over the sensitivity grid, run C3",
+  "type": "script",
+  "reproduce": "work/analysis.py::sensitivity",
+  "detail": "",
+  "value": "269.7..294.1",
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "film.dtc_1_s": {
+  "statement": "t_c(C+1 vuelta(s)) - t_c(C sin film), both from immersion",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": -164.06414985656738,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": [
+   "tc.C1.t_from_immersion_s",
+   "tc.C.t_from_immersion_s"
+  ]
+ },
+ "film.dtc_3_s": {
+  "statement": "t_c(C+3 vuelta(s)) - t_c(C sin film), both from immersion",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": -130.09159183502197,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": [
+   "tc.C3.t_from_immersion_s",
+   "tc.C.t_from_immersion_s"
+  ]
+ },
+ "film.t_to_80K.C_s": {
+  "statement": "Time from immersion to T<80 K, C sin film",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 174.06245732307434,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "film.t_to_80K.C1_s": {
+  "statement": "Time from immersion to T<80 K, C + 1 vuelta",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 8.498958110809324,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "film.t_to_80K.C3_s": {
+  "statement": "Time from immersion to T<80 K, C + 3 vueltas",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 164.20777893066406,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rel.tc_ratio_BA": {
+  "statement": "t_c(B)/t_c(A) from immersion",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 0.4195071431518527,
+  "unit": "",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rel.inv_rate_ratio_BA_200K": {
+  "statement": "|dT/dt|_A/|dT/dt|_B at 200 K = implied p_B/p_A if q_film is body-independent",
+  "type": "script",
+  "reproduce": "work/analysis.py::rate_at",
+  "detail": "",
+  "value": 0.4691183671344019,
+  "unit": "",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rel.p_ratio_BA": {
+  "statement": "p_B/p_A from the measured geometry",
+  "type": "script",
+  "reproduce": "work/analysis.py::geometry",
+  "detail": "+/- 0.037",
+  "value": 0.5731694200238302,
+  "unit": "",
+  "origin": "derived",
+  "inputs": [
+   "geom.B.p_kgm2",
+   "geom.A.p_kgm2"
+  ]
+ },
+ "rel.p_ratio_BA_err": {
+  "statement": "Uncertainty of p_B/p_A",
+  "type": "script",
+  "reproduce": "work/analysis.py::geometry",
+  "detail": "",
+  "value": 0.037121674705741244,
+  "unit": "",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rel.tc_ratio_CA": {
+  "statement": "t_c(C)/t_c(A) from immersion",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 0.5707381983458917,
+  "unit": "",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rel.inv_rate_ratio_CA_200K": {
+  "statement": "|dT/dt|_A/|dT/dt|_C at 200 K = implied p_C/p_A if q_film is body-independent",
+  "type": "script",
+  "reproduce": "work/analysis.py::rate_at",
+  "detail": "",
+  "value": 0.5888606455278487,
+  "unit": "",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rel.p_ratio_CA": {
+  "statement": "p_C/p_A from the measured geometry",
+  "type": "script",
+  "reproduce": "work/analysis.py::geometry",
+  "detail": "+/- 0.037",
+  "value": 0.662730505950604,
+  "unit": "",
+  "origin": "derived",
+  "inputs": [
+   "geom.C.p_kgm2",
+   "geom.A.p_kgm2"
+  ]
+ },
+ "rel.p_ratio_CA_err": {
+  "statement": "Uncertainty of p_C/p_A",
+  "type": "script",
+  "reproduce": "work/analysis.py::geometry",
+  "detail": "",
+  "value": 0.036977265042783834,
+  "unit": "",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rel.tc_ratio_CB": {
+  "statement": "t_c(C)/t_c(B) from immersion",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 1.3604969728472454,
+  "unit": "",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rel.inv_rate_ratio_CB_200K": {
+  "statement": "|dT/dt|_B/|dT/dt|_C at 200 K = implied p_C/p_B if q_film is body-independent",
+  "type": "script",
+  "reproduce": "work/analysis.py::rate_at",
+  "detail": "",
+  "value": 1.255249606032033,
+  "unit": "",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rel.p_ratio_CB": {
+  "statement": "p_C/p_B from the measured geometry",
+  "type": "script",
+  "reproduce": "work/analysis.py::geometry",
+  "detail": "+/- 0.084",
+  "value": 1.1562558692036469,
+  "unit": "",
+  "origin": "derived",
+  "inputs": [
+   "geom.C.p_kgm2",
+   "geom.B.p_kgm2"
+  ]
+ },
+ "rel.p_ratio_CB_err": {
+  "statement": "Uncertainty of p_C/p_B",
+  "type": "script",
+  "reproduce": "work/analysis.py::geometry",
+  "detail": "",
+  "value": 0.08386711618923516,
+  "unit": "",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rel.p_B_over_pA_implied": {
+  "statement": "p_B/p_A implied by cooling rates at 200 K (same q_film assumption); compare rel.p_ratio_BA (measured)",
+  "type": "script",
+  "reproduce": "work/analysis.py::rate_at",
+  "detail": "",
+  "value": 0.4691183671344019,
+  "unit": "",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rel.p_C_over_pA_implied": {
+  "statement": "p_C/p_A implied by cooling rates at 200 K (same q_film assumption); compare rel.p_ratio_CA (measured)",
+  "type": "script",
+  "reproduce": "work/analysis.py::rate_at",
+  "detail": "",
+  "value": 0.5888606455278487,
+  "unit": "",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rel.tc_over_p.A": {
+  "statement": "t_c/p for cylinder A (t_c from immersion, measured p)",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "+/- 0.14 (half-sample on t_c and t0, dp from geometry)",
+  "value": 4.227569728829853,
+  "unit": "s m2/kg",
+  "origin": "derived",
+  "inputs": [
+   "tc.A.t_from_immersion_s",
+   "geom.A.p_kgm2"
+  ]
+ },
+ "rel.tc_over_p.A_err": {
+  "statement": "Uncertainty of t_c/p for A",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 0.1360204417117842,
+  "unit": "s m2/kg",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rel.tc_over_p.B": {
+  "statement": "t_c/p for cylinder B (t_c from immersion, measured p)",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "+/- 0.18 (half-sample on t_c and t0, dp from geometry)",
+  "value": 3.094191067176838,
+  "unit": "s m2/kg",
+  "origin": "derived",
+  "inputs": [
+   "tc.B.t_from_immersion_s",
+   "geom.B.p_kgm2"
+  ]
+ },
+ "rel.tc_over_p.B_err": {
+  "statement": "Uncertainty of t_c/p for B",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 0.1760940919299707,
+  "unit": "s m2/kg",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rel.tc_over_p.C": {
+  "statement": "t_c/p for cylinder C (t_c from immersion, measured p)",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "+/- 0.17 (half-sample on t_c and t0, dp from geometry)",
+  "value": 3.6407491563302488,
+  "unit": "s m2/kg",
+  "origin": "derived",
+  "inputs": [
+   "tc.C.t_from_immersion_s",
+   "geom.C.p_kgm2"
+  ]
+ },
+ "rel.tc_over_p.C_err": {
+  "statement": "Uncertainty of t_c/p for C",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 0.16788290392453747,
+  "unit": "s m2/kg",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rel.tc_over_p.mean": {
+  "statement": "Mean of t_c/p over A, B, C",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 3.6541699841123134,
+  "unit": "s m2/kg",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rel.tc_over_p.spread_pct": {
+  "statement": "(max-min)/mean of t_c/p over A, B, C",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 31.016035558847726,
+  "unit": "%",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rel.tc_over_p.std_pct": {
+  "statement": "Sample std / mean of t_c/p over A, B, C",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 15.511279227189187,
+  "unit": "%",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rel.tc_vs_p.slope_s_m2_per_kg": {
+  "statement": "Weighted least-squares slope of t_c = k p through the origin (A, B, C)",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 3.756464640068661,
+  "unit": "s m2/kg",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rel.tc_vs_p.chi2_dof": {
+  "statement": "chi2 per dof (2 dof) of t_c = k p with the propagated errors",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "chi2/dof >> 1 means the scatter of t_c/p exceeds the geometric uncertainty: q_film is not exactly body-independent (surface state, end effects)",
+  "value": 13.307626560608803,
+  "unit": "",
+  "origin": "derived",
+  "inputs": []
+ },
+ "rel.tc_vs_p.max_resid_pct": {
+  "statement": "Max |t_c - k p| / (k p) over A, B, C",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "residuals A, B, C: +12.5 %, -17.6 %, -3.1 %",
+  "value": 17.63023577615036,
+  "unit": "%",
+  "origin": "derived",
+  "inputs": []
+ },
+ "qa.plateau_spread_pct": {
+  "statement": "(max-min)/mean of the film-boiling plateau Q/A across A, B, C with measured geometry",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "with the round-1 nominal geometry (same m/A for all) this spread was ~78 %",
+  "value": 26.40619575873692,
+  "unit": "%",
+  "origin": "derived",
+  "inputs": [
+   "qa.A.plateau_Wm2",
+   "qa.B.plateau_Wm2",
+   "qa.C.plateau_Wm2"
+  ]
+ },
+ "bal.dt_s": {
+  "statement": "Balance sampling interval",
+  "type": "script",
+  "reproduce": "work/analysis.py::load_balance",
+  "detail": "",
+  "value": 1.0007979999999748,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "bal.t1_end_s": {
+  "statement": "End of stage 1 = instant of the largest upward step (Cu enters the bath)",
+  "type": "script",
+  "reproduce": "work/analysis.py::balance_stages",
+  "detail": "",
+  "value": 199.15543,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": [
+   "medicion_balanza.csv"
+  ]
+ },
+ "bal.jump_g": {
+  "statement": "Upward step in balance reading when the Cu enters (buoyancy of the immersed body)",
+  "type": "script",
+  "reproduce": "work/analysis.py::balance_stages",
+  "detail": "",
+  "value": 21.71,
+  "unit": "g",
+  "origin": "derived",
+  "inputs": []
+ },
+ "bal.t3_start_s": {
+  "statement": "Start of stage 3 = end of the burst (last 1-s step steeper than -1 g/s)",
+  "type": "script",
+  "reproduce": "work/analysis.py::balance_stages",
+  "detail": "",
+  "value": 407.319704,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "bal.burst_start_s": {
+  "statement": "Start of the violent-boiling burst (collapse of the vapour film)",
+  "type": "script",
+  "reproduce": "work/analysis.py::balance_stages",
+  "detail": "",
+  "value": 399.3138,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "bal.burst_peak_rate_gs": {
+  "statement": "Most negative smoothed dm/dt during the burst",
+  "type": "script",
+  "reproduce": "work/analysis.py::balance_stages",
+  "detail": "",
+  "value": -1.0771818181818158,
+  "unit": "g/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "bal.rate_post_immersion_gs": {
+  "statement": "Median smoothed dm/dt 8-30 s after immersion (film boiling, hot Cu)",
+  "type": "script",
+  "reproduce": "work/analysis.py::balance_stages",
+  "detail": "",
+  "value": -0.5900000000000007,
+  "unit": "g/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "bal.rate_preburst_gs": {
+  "statement": "Median smoothed dm/dt in the 25 s before the burst (film boiling, cold Cu)",
+  "type": "script",
+  "reproduce": "work/analysis.py::balance_stages",
+  "detail": "",
+  "value": -0.30631818181817827,
+  "unit": "g/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "bal.power_post_immersion_W": {
+  "statement": "Cu->bath power just after immersion = (rate - ambient rate) x L_v",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 99.08764132805035,
+  "unit": "W",
+  "origin": "derived",
+  "inputs": []
+ },
+ "bal.power_preburst_W": {
+  "statement": "Cu->bath power just before the burst",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 42.63495950986766,
+  "unit": "W",
+  "origin": "derived",
+  "inputs": []
+ },
+ "bal.burst_dm_g": {
+  "statement": "Mass evaporated during the burst",
+  "type": "script",
+  "reproduce": "work/analysis.py::analyse_balance",
+  "detail": "",
+  "value": 8.36,
+  "unit": "g",
+  "origin": "derived",
+  "inputs": []
+ },
+ "bal.stage2_duration_s": {
+  "statement": "Duration of stage 2 (immersion to end of burst)",
+  "type": "script",
+  "reproduce": "work/analysis.py::analyse_balance",
+  "detail": "",
+  "value": 208.164274,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "bal.slope1_gs": {
+  "statement": "Stage-1 slope, least squares after dropping 2 glitch points",
+  "type": "script",
+  "reproduce": "work/analysis.py::robust_linfit",
+  "detail": "+/- 1.83e-04 g/s, rms 0.15 g, n=197",
+  "value": -0.09207215413040107,
+  "unit": "g/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "bal.slope1_err_gs": {
+  "statement": "Std error of stage-1 slope",
+  "type": "script",
+  "reproduce": "work/analysis.py::linfit",
+  "detail": "",
+  "value": 0.00018324577276409982,
+  "unit": "g/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "bal.slope3_gs": {
+  "statement": "Stage-3 slope, least squares from end of burst to end of file (n=73)",
+  "type": "script",
+  "reproduce": "work/analysis.py::robust_linfit",
+  "detail": "+/- 2.14e-03 g/s, rms 0.38 g (curved: still-cooling Cu)",
+  "value": -0.12547594649946145,
+  "unit": "g/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "bal.slope3_err_gs": {
+  "statement": "Std error of stage-3 slope",
+  "type": "script",
+  "reproduce": "work/analysis.py::linfit",
+  "detail": "",
+  "value": 0.002138665928887493,
+  "unit": "g/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "bal.slope3_tail_gs": {
+  "statement": "Slope of the last 20 s (asymptotic stage 3)",
+  "type": "script",
+  "reproduce": "work/analysis.py::linfit",
+  "detail": "",
+  "value": -0.09552631123845405,
+  "unit": "g/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "bal.slope_ratio": {
+  "statement": "slope3/slope1",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 1.362800161292532,
+  "unit": "",
+  "origin": "derived",
+  "inputs": [
+   "bal.slope1_gs",
+   "bal.slope3_gs"
+  ]
+ },
+ "bal.slope_ratio_tail": {
+  "statement": "slope3(last 20 s)/slope1",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 1.0375157629434941,
+  "unit": "",
+  "origin": "derived",
+  "inputs": []
+ },
+ "bal.dm_stage2_g": {
+  "statement": "Raw mass drop over stage 2 (post-jump reading minus post-burst reading)",
+  "type": "script",
+  "reproduce": "work/analysis.py::analyse_balance",
+  "detail": "",
+  "value": 94.08,
+  "unit": "g",
+  "origin": "derived",
+  "inputs": []
+ },
+ "bal.dm_stage2_net_g": {
+  "statement": "Stage-2 mass drop minus the ambient baseline (slope1 x duration): evaporation attributable to the Cu",
+  "type": "script",
+  "reproduce": "work/analysis.py::analyse_balance",
+  "detail": "",
+  "value": 74.91386687982896,
+  "unit": "g",
+  "origin": "derived",
+  "inputs": [
+   "bal.dm_stage2_g",
+   "bal.slope1_gs",
+   "bal.stage2_duration_s"
+  ]
+ },
+ "bal.Q_balance_J": {
+  "statement": "Heat removed = net evaporated mass x L_v (vapour leaving at 77 K)",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 14907.859509085962,
+  "unit": "J",
+  "origin": "derived",
+  "inputs": [
+   "bal.dm_stage2_net_g",
+   "phys.L_v_N2"
+  ]
+ },
+ "bal.Q_cu_A_J": {
+  "statement": "Heat released by cylinder A (941.0 g) from 296 K to 77 K = n * integral Cv dT",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 66341.58404323715,
+  "unit": "J",
+  "origin": "derived",
+  "inputs": [
+   "geom.A.n_mol",
+   "cv.enthalpy_77_296_Jmol"
+  ]
+ },
+ "bal.Q_ratio_A": {
+  "statement": "Q_balance / Q_cu(A)",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 0.224713650180104,
+  "unit": "",
+  "origin": "derived",
+  "inputs": []
+ },
+ "bal.Q_cu_B_J": {
+  "statement": "Heat released by cylinder B (165.8 g) from 296 K to 77 K = n * integral Cv dT",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 11689.091003579937,
+  "unit": "J",
+  "origin": "derived",
+  "inputs": [
+   "geom.B.n_mol",
+   "cv.enthalpy_77_296_Jmol"
+  ]
+ },
+ "bal.Q_ratio_B": {
+  "statement": "Q_balance / Q_cu(B)",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 1.2753651677893718,
+  "unit": "",
+  "origin": "derived",
+  "inputs": []
+ },
+ "bal.Q_cu_C_J": {
+  "statement": "Heat released by cylinder C (226.2 g) from 296 K to 77 K = n * integral Cv dT",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 15947.360585101218,
+  "unit": "J",
+  "origin": "derived",
+  "inputs": [
+   "geom.C.n_mol",
+   "cv.enthalpy_77_296_Jmol"
+  ]
+ },
+ "bal.Q_ratio_C": {
+  "statement": "Q_balance / Q_cu(C)",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 0.9348167321815996,
+  "unit": "",
+  "origin": "derived",
+  "inputs": []
+ },
+ "bal.Q_cu_J": {
+  "statement": "Heat released by cylinder C (the body identified on the balance run) from 296 K to 77 K = n_C * integral Cv dT",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 15947.360585101218,
+  "unit": "J",
+  "origin": "derived",
+  "inputs": [
+   "geom.C.n_mol",
+   "cv.enthalpy_77_296_Jmol"
+  ]
+ },
+ "bal.Q_ratio": {
+  "statement": "Q_balance / Q_cu(C)",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 0.9348167321815996,
+  "unit": "",
+  "origin": "derived",
+  "inputs": []
+ },
+ "bal.m_eff_energy_kg": {
+  "statement": "Cu mass that would balance the energy budget (all heat into latent heat)",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 0.21145554481947781,
+  "unit": "kg",
+  "origin": "derived",
+  "inputs": [
+   "bal.Q_balance_J",
+   "cv.enthalpy_77_296_Jkg"
+  ]
+ },
+ "bal.m_eff_energy_upper_kg": {
+  "statement": "Same, upper bound if vapour leaves superheated to (296+77)/2 K",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 0.33246337117144836,
+  "unit": "kg",
+  "origin": "derived",
+  "inputs": []
+ },
+ "bal.V_buoyancy_m3": {
+  "statement": "Displaced LN2 volume implied by the buoyancy jump",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 2.6902106567534078e-05,
+  "unit": "m3",
+  "origin": "derived",
+  "inputs": [
+   "bal.jump_g",
+   "phys.rho_LN2"
+  ]
+ },
+ "bal.m_eff_buoy_kg": {
+  "statement": "Cu mass implied by the buoyancy jump if fully immersed",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 0.24104287484510534,
+  "unit": "kg",
+  "origin": "derived",
+  "inputs": [
+   "bal.V_buoyancy_m3",
+   "phys.rho_Cu"
+  ]
+ },
+ "bal.body_identified": {
+  "statement": "Cylinder on the balance run = the one whose measured mass is closest to the mean of the energy and buoyancy estimates",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "mean estimate 0.226 kg; measured A 0.941, B 0.166, C 0.226 kg",
+  "value": "C",
+  "unit": "",
+  "origin": "derived",
+  "inputs": [
+   "bal.m_eff_energy_kg",
+   "bal.m_eff_buoy_kg",
+   "geom.A.m_kg",
+   "geom.B.m_kg",
+   "geom.C.m_kg"
+  ]
+ },
+ "bal.m_bal_mean_kg": {
+  "statement": "Mean of the energy-budget and buoyancy mass estimates",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 0.22624920983229158,
+  "unit": "kg",
+  "origin": "derived",
+  "inputs": []
+ },
+ "bal.m_buoy_over_mC": {
+  "statement": "Buoyancy mass estimate / measured m_C",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 1.0656183680154965,
+  "unit": "",
+  "origin": "derived",
+  "inputs": []
+ },
+ "bal.m_energy_over_mC": {
+  "statement": "Energy-budget mass estimate / measured m_C",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 0.9348167321815994,
+  "unit": "",
+  "origin": "derived",
+  "inputs": []
+ },
+ "bal.V_C_m3": {
+  "statement": "Geometric volume of cylinder C (pi r^2 h)",
+  "type": "script",
+  "reproduce": "work/analysis.py::geometry",
+  "detail": "",
+  "value": 2.5977044254370603e-05,
+  "unit": "m3",
+  "origin": "derived",
+  "inputs": [
+   "geom.C.h_m",
+   "geom.C.d_m"
+  ]
+ },
+ "bal.V_buoy_over_V_C": {
+  "statement": "Displaced volume from the buoyancy step / geometric volume of C",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 1.0356107609512901,
+  "unit": "",
+  "origin": "derived",
+  "inputs": []
+ },
+ "bal.QA_post_immersion_Wm2": {
+  "statement": "Balance-derived Q/A 8-30 s after immersion = (evaporation rate - ambient rate) L_v / A_C",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 20250.771000547014,
+  "unit": "W/m2",
+  "origin": "derived",
+  "inputs": [
+   "bal.power_post_immersion_W",
+   "geom.C.area_m2"
+  ]
+ },
+ "bal.QA_preburst_Wm2": {
+  "statement": "Balance-derived Q/A in the 25 s before the burst, / A_C",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 8713.405527471266,
+  "unit": "W/m2",
+  "origin": "derived",
+  "inputs": [
+   "bal.power_preburst_W",
+   "geom.C.area_m2"
+  ]
+ },
+ "qa.C.calorimetric_hot_Wm2": {
+  "statement": "Calorimetric Q/A of run C (eq. 1), median for 230<T<290 K (just after immersion)",
+  "type": "script",
+  "reproduce": "work/analysis.py::heat_flux",
+  "detail": "",
+  "value": 23061.564966078393,
+  "unit": "W/m2",
+  "origin": "derived",
+  "inputs": []
+ },
+ "qa.C.calorimetric_cold_Wm2": {
+  "statement": "Calorimetric Q/A of run C, median in the 10-40 K above the drop band (just before collapse)",
+  "type": "script",
+  "reproduce": "work/analysis.py::heat_flux",
+  "detail": "",
+  "value": 10334.964512271992,
+  "unit": "W/m2",
+  "origin": "derived",
+  "inputs": []
+ },
+ "bal.QA_ratio_hot": {
+  "statement": "Balance Q/A / calorimetric Q/A just after immersion (two independent ways of getting Q/A)",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 0.8781178133545655,
+  "unit": "",
+  "origin": "derived",
+  "inputs": [
+   "bal.QA_post_immersion_Wm2",
+   "qa.C.calorimetric_hot_Wm2"
+  ]
+ },
+ "bal.QA_ratio_cold": {
+  "statement": "Balance Q/A / calorimetric Q/A just before the collapse",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": 0.8430997046119272,
+  "unit": "",
+  "origin": "derived",
+  "inputs": [
+   "bal.QA_preburst_Wm2",
+   "qa.C.calorimetric_cold_Wm2"
+  ]
+ },
+ "bal.stage2_vs_tc_C_s": {
+  "statement": "Stage-2 duration (immersion to burst end) minus t_c of the C temperature run from immersion",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "the balance run and the temperature run of C are different immersions; a difference of tens of s is a repeatability figure, not a contradiction",
+  "value": 39.85601403601075,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": [
+   "bal.stage2_duration_s",
+   "tc.C.t_from_immersion_s"
+  ]
+ },
+ "tc_check.B.max_abs_dev_K": {
+  "statement": "Max |T(NIST type-K inverse poly, coefficients from memory) - T(csv)| over non-spike samples, run B",
+  "type": "script",
+  "reproduce": "work/analysis.py::typeK_T_from_V",
+  "detail": "auxiliary only; NIST coefficients not verified against the table",
+  "value": 0.1500000000005457,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc_check.B.V_at_77K_mV": {
+  "statement": "Median thermocouple emf at the 77 K plateau, run B",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": -5.822229,
+  "unit": "mV",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc_check.C.max_abs_dev_K": {
+  "statement": "Max |T(NIST type-K inverse poly, coefficients from memory) - T(csv)| over non-spike samples, run C",
+  "type": "script",
+  "reproduce": "work/analysis.py::typeK_T_from_V",
+  "detail": "auxiliary only; NIST coefficients not verified against the table",
+  "value": 0.150000000000432,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "tc_check.C.V_at_77K_mV": {
+  "statement": "Median thermocouple emf at the 77 K plateau, run C",
+  "type": "script",
+  "reproduce": "work/analysis.py::main",
+  "detail": "",
+  "value": -5.82136,
+  "unit": "mV",
+  "origin": "derived",
+  "inputs": []
+ },
+ "phys.k_Cu": {
+  "statement": "thermal conductivity of Cu at 300 K (rises to ~500 W/mK near 77 K) = 400.0 W/(m K)",
+  "type": "source",
+  "reproduce": "CRC Handbook; Touloukian TPRC vol. 1",
+  "value": 400.0,
+  "unit": "W/(m K)",
+  "origin": "literature"
+ },
+ "phys.c_Cu": {
+  "statement": "specific heat of Cu at 300 K = 385.0 J/(kg K)",
+  "type": "source",
+  "reproduce": "CRC Handbook (0.385 J/gK)",
+  "value": 385.0,
+  "unit": "J/(kg K)",
+  "origin": "literature"
+ },
+ "phys.k_N2vap": {
+  "statement": "thermal conductivity of N2 vapour at ~100 K, 1 atm = 0.0075 W/(m K)",
+  "type": "source",
+  "reproduce": "NIST WebBook / Touloukian",
+  "value": 0.0075,
+  "unit": "W/(m K)",
+  "origin": "literature"
+ },
+ "phys.k_N2liq": {
+  "statement": "thermal conductivity of liquid N2 at 77 K = 0.14 W/(m K)",
+  "type": "source",
+  "reproduce": "NIST WebBook",
+  "value": 0.14,
+  "unit": "W/(m K)",
+  "origin": "literature"
+ },
+ "phys.h_film_Wm2K": {
+  "statement": "typical film-boiling heat-transfer coefficient of LN2 on cm-scale bodies (order of magnitude; range ~100-300) = 150.0 W/(m^2 K)",
+  "type": "source",
+  "reproduce": "Listerman et al. Am.J.Phys. 54, 554 (1986); Frederking & Clark (1963) film-boiling correlation, order of magnitude only",
+  "value": 150.0,
+  "unit": "W/(m^2 K)",
+  "origin": "literature"
+ },
+ "phys.h_nucleate_Wm2K": {
+  "statement": "order-of-magnitude nucleate-boiling coefficient of LN2 near the critical heat flux = 10000.0 W/(m^2 K)",
+  "type": "source",
+  "reproduce": "Brentari & Smith (1965) LN2 pool-boiling correlations, order of magnitude only",
+  "value": 10000.0,
+  "unit": "W/(m^2 K)",
+  "origin": "literature"
+ },
+ "phys.qmax_LN2_Wm2": {
+  "statement": "critical (peak nucleate) heat flux of LN2 at 1 atm, order of magnitude (literature 1-2e5) = 150000.0 W/m^2",
+  "type": "source",
+  "reproduce": "Brentari & Smith (1965); Kutateladze correlation",
+  "value": 150000.0,
+  "unit": "W/m^2",
+  "origin": "literature"
+ },
+ "phys.seebeck_K_uVK": {
+  "statement": "type K (chromel-alumel) Seebeck coefficient near room temperature = 41.0 uV/K",
+  "type": "source",
+  "reproduce": "NIST ITS-90 thermocouple tables (type K, ~41 uV/K at 20 C)",
+  "value": 41.0,
+  "unit": "uV/K",
+  "origin": "literature"
+ },
+ "phys.emf_K_77K_mV": {
+  "statement": "type K EMF at -196 C with 0 C reference (NIST: -5.73 mV at -190 C, -5.89 mV at -200 C) = -5.8 mV",
+  "type": "source",
+  "reproduce": "NIST ITS-90 type K table, interpolated",
+  "value": -5.8,
+  "unit": "mV",
+  "origin": "literature"
+ },
+ "phys.seebeck_K_77K_uVK": {
+  "statement": "type K Seebeck coefficient near 77 K (table slope between -200 and -190 C) = 16.0 uV/K",
+  "type": "source",
+  "reproduce": "NIST ITS-90 type K table",
+  "value": 16.0,
+  "unit": "uV/K",
+  "origin": "literature"
+ },
+ "phys.dTdt_tc_typ_s": {
+  "statement": "typical time constant of an exposed, welded ~0.5 mm type-K junction in a liquid = 0.5 s",
+  "type": "source",
+  "reproduce": "Omega thermocouple response-time tables (order of magnitude)",
+  "value": 0.5,
+  "unit": "s",
+  "origin": "literature"
+ },
+ "phys.pt100_alpha": {
+  "statement": "Pt100 temperature coefficient (IEC 60751) = 0.00385 1/K",
+  "type": "source",
+  "reproduce": "IEC 60751",
+  "value": 0.00385,
+  "unit": "1/K",
+  "origin": "literature"
+ },
+ "phys.pt100_R77": {
+  "statement": "Pt100 resistance at 77 K (Callendar-Van Dusen, ~20 ohm) = 20.0 ohm",
+  "type": "source",
+  "reproduce": "IEC 60751, Callendar-Van Dusen A,B,C coefficients",
+  "value": 20.0,
+  "unit": "ohm",
+  "origin": "literature"
+ },
+ "guide.thetaD_K": {
+  "statement": "Debye temperature of Cu used by the guide = 315.0 K",
+  "type": "source",
+  "reproduce": "guia/Leidenfrost-guia.pdf, p.3, after eq. (5)",
+  "value": 315.0,
+  "unit": "K",
+  "detail": "taken from the guide as-is, not re-derived",
+  "origin": "guide"
+ },
+ "guide.a": {
+  "statement": "eq. (5) coefficient a = 0.77",
+  "type": "source",
+  "reproduce": "guia/Leidenfrost-guia.pdf, p.3",
+  "value": 0.77,
+  "unit": "",
+  "detail": "taken from the guide as-is, not re-derived",
+  "origin": "guide"
+ },
+ "guide.b": {
+  "statement": "eq. (5) coefficient b = 0.26",
+  "type": "source",
+  "reproduce": "guia/Leidenfrost-guia.pdf, p.3",
+  "value": 0.26,
+  "unit": "",
+  "detail": "taken from the guide as-is, not re-derived",
+  "origin": "guide"
+ },
+ "guide.c": {
+  "statement": "eq. (5) coefficient c = 9.17",
+  "type": "source",
+  "reproduce": "guia/Leidenfrost-guia.pdf, p.3",
+  "value": 9.17,
+  "unit": "",
+  "detail": "taken from the guide as-is, not re-derived",
+  "origin": "guide"
+ },
+ "guide.h_m": {
+  "statement": "nominal cylinder length = 0.1 m",
+  "type": "source",
+  "reproduce": "guia/Leidenfrost-guia.pdf, p.3, 'aproximadamente 10 cm de longitud'",
+  "value": 0.1,
+  "unit": "m",
+  "detail": "taken from the guide as-is, not re-derived",
+  "origin": "guide"
+ },
+ "guide.d_m": {
+  "statement": "nominal cylinder diameter = 0.04 m",
+  "type": "source",
+  "reproduce": "guia/Leidenfrost-guia.pdf, p.3, 'y 4 cm de diametro'",
+  "value": 0.04,
+  "unit": "m",
+  "detail": "taken from the guide as-is, not re-derived",
+  "origin": "guide"
+ },
+ "guide.m_kg": {
+  "statement": "nominal cylinder mass = 1.0 kg",
+  "type": "source",
+  "reproduce": "guia/Leidenfrost-guia.pdf, p.3, 'aproximadamente 1 Kg'",
+  "value": 1.0,
+  "unit": "kg",
+  "detail": "taken from the guide as-is, not re-derived",
+  "origin": "guide"
+ },
+ "guide.CpCv_max_pct": {
+  "statement": "max (Cp-Cv)/Cv in 77-300 K, at 300 K = 3.0 %",
+  "type": "source",
+  "reproduce": "guia/Leidenfrost-guia.pdf, p.2 after eq. (2)",
+  "value": 3.0,
+  "unit": "%",
+  "detail": "taken from the guide as-is, not re-derived",
+  "origin": "guide"
+ },
+ "guide.gamma_max_pct": {
+  "statement": "max electronic contribution gamma*T/Cv in 70-300 K, at 70 K = 2.5 %",
+  "type": "source",
+  "reproduce": "guia/Leidenfrost-guia.pdf, p.2 after eq. (3)",
+  "value": 2.5,
+  "unit": "%",
+  "detail": "taken from the guide as-is, not re-derived",
+  "origin": "guide"
+ },
+ "guide.gamma_cal": {
+  "statement": "electronic gamma of Cu, midpoint of the (1.60-1.80)e-4 range quoted = 0.00017 cal/(mol K^2)",
+  "type": "source",
+  "reproduce": "guia/Leidenfrost-guia.pdf, p.2 after eq. (3)",
+  "value": 0.00017,
+  "unit": "cal/(mol K^2)",
+  "detail": "taken from the guide as-is, not re-derived",
+  "origin": "guide"
+ },
+ "assume.adc_fs_V": {
+  "statement": "ASSUMED ADC input range +-10 V (MPLI datasheet not in the sources) = 10.0 V",
+  "type": "derivation",
+  "reproduce": "assumption, stated in notes.tex sec. 1",
+  "value": 10.0,
+  "unit": "V",
+  "origin": "assumed"
+ },
+ "assume.adc_bits": {
+  "statement": "ASSUMED ADC resolution 12 bit (MPLI datasheet not in the sources) = 12 bit",
+  "type": "derivation",
+  "reproduce": "assumption, stated in notes.tex sec. 1",
+  "value": 12,
+  "unit": "bit",
+  "origin": "assumed"
+ },
+ "assume.film_thickness_m": {
+  "statement": "ASSUMED thickness of one turn of cling film (typical household PE/PVC; not measured) = 1.2e-05 m",
+  "type": "derivation",
+  "reproduce": "assumption, stated in notes.tex sec. 5",
+  "value": 1.2e-05,
+  "unit": "m",
+  "origin": "assumed"
+ },
+ "assume.film_k": {
+  "statement": "ASSUMED thermal conductivity of the film (LDPE/PVC) = 0.2 W/(m K)",
+  "type": "derivation",
+  "reproduce": "assumption, stated in notes.tex sec. 5",
+  "value": 0.2,
+  "unit": "W/(m K)",
+  "origin": "assumed"
+ },
+ "assume.eps_Cu": {
+  "statement": "ASSUMED emissivity of the Cu surface (polished 0.03, lightly oxidised ~0.1) = 0.05",
+  "type": "derivation",
+  "reproduce": "assumption, stated in notes.tex sec. 6",
+  "value": 0.05,
+  "unit": "",
+  "origin": "assumed"
+ },
+ "qual.meas_A_h_m": {
+  "statement": "measured height of cylinder A = 0.094 m (+/- 0.001)",
+  "type": "source",
+  "reproduce": "inbox.jsonl (human direction, 2026-09-18)",
+  "value": 0.094,
+  "unit": "m",
+  "origin": "measured"
+ },
+ "qual.meas_A_d_m": {
+  "statement": "measured diameter of cylinder A = 0.038 m (+/- 0.001)",
+  "type": "source",
+  "reproduce": "inbox.jsonl (human direction, 2026-09-18)",
+  "value": 0.038,
+  "unit": "m",
+  "origin": "measured"
+ },
+ "qual.meas_A_m_kg": {
+  "statement": "measured mass of cylinder A = 0.941 kg (+/- 0.0001)",
+  "type": "source",
+  "reproduce": "inbox.jsonl (human direction, 2026-09-18)",
+  "value": 0.941,
+  "unit": "kg",
+  "origin": "measured"
+ },
+ "qual.meas_B_h_m": {
+  "statement": "measured height of cylinder B = 0.049 m (+/- 0.001)",
+  "type": "source",
+  "reproduce": "inbox.jsonl (human direction, 2026-09-18)",
+  "value": 0.049,
+  "unit": "m",
+  "origin": "measured"
+ },
+ "qual.meas_B_d_m": {
+  "statement": "measured diameter of cylinder B = 0.022 m (+/- 0.001)",
+  "type": "source",
+  "reproduce": "inbox.jsonl (human direction, 2026-09-18)",
+  "value": 0.022,
+  "unit": "m",
+  "origin": "measured"
+ },
+ "qual.meas_B_m_kg": {
+  "statement": "measured mass of cylinder B = 0.1658 kg (+/- 0.0001)",
+  "type": "source",
+  "reproduce": "inbox.jsonl (human direction, 2026-09-18)",
+  "value": 0.1658,
+  "unit": "kg",
+  "origin": "measured"
+ },
+ "qual.meas_C_h_m": {
+  "statement": "measured height of cylinder C = 0.027 m (+/- 0.001)",
+  "type": "source",
+  "reproduce": "inbox.jsonl (human direction, 2026-09-18)",
+  "value": 0.027,
+  "unit": "m",
+  "origin": "measured"
+ },
+ "qual.meas_C_d_m": {
+  "statement": "measured diameter of cylinder C = 0.035 m (+/- 0.001)",
+  "type": "source",
+  "reproduce": "inbox.jsonl (human direction, 2026-09-18)",
+  "value": 0.035,
+  "unit": "m",
+  "origin": "measured"
+ },
+ "qual.meas_C_m_kg": {
+  "statement": "measured mass of cylinder C = 0.2262 kg (+/- 0.0001)",
+  "type": "source",
+  "reproduce": "inbox.jsonl (human direction, 2026-09-18)",
+  "value": 0.2262,
+  "unit": "kg",
+  "origin": "measured"
+ },
+ "qual.V_nom_m3": {
+  "statement": "volume of the guide's nominal 10 cm x 4 cm cylinder (remark only; measured geometry is used everywhere else) = 0.000126 m^3",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::geometry",
+  "detail": "inputs: guide.h_m, guide.d_m",
+  "value": 0.000126,
+  "unit": "m^3",
+  "origin": "derived"
+ },
+ "qual.A_nom_m2": {
+  "statement": "total surface area of the guide's nominal cylinder (remark only) = 0.01508 m^2",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::geometry",
+  "detail": "inputs: guide.h_m, guide.d_m",
+  "value": 0.01508,
+  "unit": "m^2",
+  "origin": "derived"
+ },
+ "qual.m_from_rho_kg": {
+  "statement": "mass implied by rho_Cu x nominal volume (consistency remark on the guide's '~1 kg'; not used) = 1.126 kg",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::geometry",
+  "detail": "inputs: phys.rho_Cu, qual.V_nom_m3",
+  "value": 1.126,
+  "unit": "kg",
+  "origin": "derived"
+ },
+ "qual.p_nom_kgm2": {
+  "statement": "p = m/A for the guide's nominal cylinder (remark only) = 66.3 kg/m^2",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::geometry",
+  "detail": "inputs: guide.m_kg, qual.A_nom_m2",
+  "value": 66.3,
+  "unit": "kg/m^2",
+  "origin": "derived"
+ },
+ "qual.A_A_m2": {
+  "statement": "total surface area (2 caps + lateral) of cylinder A, measured h, d = 0.01349 m^2",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::geometry",
+  "detail": "inputs: qual.meas_A_h_m, qual.meas_A_d_m",
+  "value": 0.01349,
+  "unit": "m^2",
+  "origin": "derived"
+ },
+ "qual.V_A_m3": {
+  "statement": "volume of cylinder A = 0.0001066 m^3",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::geometry",
+  "detail": "inputs: qual.meas_A_h_m, qual.meas_A_d_m",
+  "value": 0.0001066,
+  "unit": "m^3",
+  "origin": "derived"
+ },
+ "qual.n_A_mol": {
+  "statement": "moles of Cu in cylinder A = 14.808 mol",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::geometry",
+  "detail": "inputs: qual.meas_A_m_kg, phys.M_Cu",
+  "value": 14.808,
+  "unit": "mol",
+  "origin": "derived"
+ },
+ "qual.p_A_kgm2": {
+  "statement": "p = m/A for cylinder A = 69.8 kg/m^2",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::geometry",
+  "detail": "inputs: qual.meas_A_m_kg, qual.A_A_m2",
+  "value": 69.8,
+  "unit": "kg/m^2",
+  "origin": "derived"
+ },
+ "qual.Lc_A_m": {
+  "statement": "characteristic length V/A of cylinder A = 0.0079 m",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::geometry",
+  "detail": "inputs: qual.V_A_m3, qual.A_A_m2",
+  "value": 0.0079,
+  "unit": "m",
+  "origin": "derived"
+ },
+ "qual.rho_mV_A_kgm3": {
+  "statement": "m/V of cylinder A (solid Cu 8960; lower = thermocouple hole / caliper rounding) = 8827 kg/m^3",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::geometry",
+  "detail": "inputs: qual.meas_A_m_kg, qual.V_A_m3",
+  "value": 8827,
+  "unit": "kg/m^3",
+  "origin": "derived"
+ },
+ "qual.A_B_m2": {
+  "statement": "total surface area (2 caps + lateral) of cylinder B, measured h, d = 0.00415 m^2",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::geometry",
+  "detail": "inputs: qual.meas_B_h_m, qual.meas_B_d_m",
+  "value": 0.00415,
+  "unit": "m^2",
+  "origin": "derived"
+ },
+ "qual.V_B_m3": {
+  "statement": "volume of cylinder B = 1.863e-05 m^3",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::geometry",
+  "detail": "inputs: qual.meas_B_h_m, qual.meas_B_d_m",
+  "value": 1.863e-05,
+  "unit": "m^3",
+  "origin": "derived"
+ },
+ "qual.n_B_mol": {
+  "statement": "moles of Cu in cylinder B = 2.609 mol",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::geometry",
+  "detail": "inputs: qual.meas_B_m_kg, phys.M_Cu",
+  "value": 2.609,
+  "unit": "mol",
+  "origin": "derived"
+ },
+ "qual.p_B_kgm2": {
+  "statement": "p = m/A for cylinder B = 40.0 kg/m^2",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::geometry",
+  "detail": "inputs: qual.meas_B_m_kg, qual.A_B_m2",
+  "value": 40.0,
+  "unit": "kg/m^2",
+  "origin": "derived"
+ },
+ "qual.Lc_B_m": {
+  "statement": "characteristic length V/A of cylinder B = 0.00449 m",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::geometry",
+  "detail": "inputs: qual.V_B_m3, qual.A_B_m2",
+  "value": 0.00449,
+  "unit": "m",
+  "origin": "derived"
+ },
+ "qual.rho_mV_B_kgm3": {
+  "statement": "m/V of cylinder B (solid Cu 8960; lower = thermocouple hole / caliper rounding) = 8901 kg/m^3",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::geometry",
+  "detail": "inputs: qual.meas_B_m_kg, qual.V_B_m3",
+  "value": 8901,
+  "unit": "kg/m^3",
+  "origin": "derived"
+ },
+ "qual.A_C_m2": {
+  "statement": "total surface area (2 caps + lateral) of cylinder C, measured h, d = 0.00489 m^2",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::geometry",
+  "detail": "inputs: qual.meas_C_h_m, qual.meas_C_d_m",
+  "value": 0.00489,
+  "unit": "m^2",
+  "origin": "derived"
+ },
+ "qual.V_C_m3": {
+  "statement": "volume of cylinder C = 2.598e-05 m^3",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::geometry",
+  "detail": "inputs: qual.meas_C_h_m, qual.meas_C_d_m",
+  "value": 2.598e-05,
+  "unit": "m^3",
+  "origin": "derived"
+ },
+ "qual.n_C_mol": {
+  "statement": "moles of Cu in cylinder C = 3.56 mol",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::geometry",
+  "detail": "inputs: qual.meas_C_m_kg, phys.M_Cu",
+  "value": 3.56,
+  "unit": "mol",
+  "origin": "derived"
+ },
+ "qual.p_C_kgm2": {
+  "statement": "p = m/A for cylinder C = 46.2 kg/m^2",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::geometry",
+  "detail": "inputs: qual.meas_C_m_kg, qual.A_C_m2",
+  "value": 46.2,
+  "unit": "kg/m^2",
+  "origin": "derived"
+ },
+ "qual.Lc_C_m": {
+  "statement": "characteristic length V/A of cylinder C = 0.00531 m",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::geometry",
+  "detail": "inputs: qual.V_C_m3, qual.A_C_m2",
+  "value": 0.00531,
+  "unit": "m",
+  "origin": "derived"
+ },
+ "qual.rho_mV_C_kgm3": {
+  "statement": "m/V of cylinder C (solid Cu 8960; lower = thermocouple hole / caliper rounding) = 8708 kg/m^3",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::geometry",
+  "detail": "inputs: qual.meas_C_m_kg, qual.V_C_m3",
+  "value": 8708,
+  "unit": "kg/m^3",
+  "origin": "derived"
+ },
+ "qual.alpha_Cu_m2s": {
+  "statement": "thermal diffusivity of Cu, k/(rho c) = 0.000116 m^2/s",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::thermal",
+  "detail": "inputs: phys.k_Cu, phys.rho_Cu, phys.c_Cu",
+  "value": 0.000116,
+  "unit": "m^2/s",
+  "origin": "derived"
+ },
+ "qual.tau_diff_s": {
+  "statement": "radial diffusion time r^2/alpha of cylinder A (r = 1.9 cm, the largest) = 3.1 s",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::thermal",
+  "detail": "inputs: qual.alpha_Cu_m2s, qual.meas_A_d_m",
+  "value": 3.1,
+  "unit": "s",
+  "origin": "derived"
+ },
+ "qual.Bi_film": {
+  "statement": "Biot number h Lc/k in film boiling (h=150 W/m2K), cylinder A (largest Lc) = 0.003",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::thermal",
+  "detail": "inputs: phys.h_film_Wm2K, qual.Lc_A_m, phys.k_Cu",
+  "value": 0.003,
+  "unit": "",
+  "origin": "derived"
+ },
+ "qual.Bi_nucleate": {
+  "statement": "Biot number in nucleate boiling (h=1e4 W/m2K), i.e. during the collapse, cylinder A = 0.2",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::thermal",
+  "detail": "inputs: phys.h_nucleate_Wm2K, qual.Lc_A_m, phys.k_Cu",
+  "value": 0.2,
+  "unit": "",
+  "origin": "derived"
+ },
+ "qual.q_film_Wm2": {
+  "statement": "film-boiling flux h (296-77) K with h=150 W/m2K = 32850 W/m^2",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::thermal",
+  "detail": "inputs: phys.h_film_Wm2K",
+  "value": 32850,
+  "unit": "W/m^2",
+  "origin": "derived"
+ },
+ "qual.dT_internal_film_K": {
+  "statement": "centre-to-surface temperature difference q r/(2k) at the film-boiling flux, cylinder A = 0.78 K",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::thermal",
+  "detail": "inputs: qual.q_film_Wm2, qual.meas_A_d_m, phys.k_Cu",
+  "value": 0.78,
+  "unit": "K",
+  "origin": "derived"
+ },
+ "qual.dT_internal_peak_K": {
+  "statement": "centre-to-surface difference at the LN2 critical heat flux (worst case, during collapse), cylinder A = 3.56 K",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::thermal",
+  "detail": "inputs: phys.qmax_LN2_Wm2, qual.meas_A_d_m, phys.k_Cu",
+  "value": 3.56,
+  "unit": "K",
+  "origin": "derived"
+ },
+ "qual.tau_cool_film_A_s": {
+  "statement": "lumped cooling time scale p c/h in film boiling, cylinder A = 179 s",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::thermal",
+  "detail": "inputs: qual.p_A_kgm2, phys.c_Cu, phys.h_film_Wm2K",
+  "value": 179,
+  "unit": "s",
+  "origin": "derived"
+ },
+ "qual.tau_cool_film_B_s": {
+  "statement": "lumped cooling time scale p c/h in film boiling, cylinder B = 103 s",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::thermal",
+  "detail": "inputs: qual.p_B_kgm2, phys.c_Cu, phys.h_film_Wm2K",
+  "value": 103,
+  "unit": "s",
+  "origin": "derived"
+ },
+ "qual.tau_cool_film_C_s": {
+  "statement": "lumped cooling time scale p c/h in film boiling, cylinder C = 119 s",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::thermal",
+  "detail": "inputs: qual.p_C_kgm2, phys.c_Cu, phys.h_film_Wm2K",
+  "value": 119,
+  "unit": "s",
+  "origin": "derived"
+ },
+ "qual.tau_cool_film_s": {
+  "statement": "lumped cooling time scale p c/h in film boiling, cylinder A = 179 s",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::thermal",
+  "detail": "inputs: qual.p_A_kgm2, phys.c_Cu, phys.h_film_Wm2K",
+  "value": 179,
+  "unit": "s",
+  "origin": "derived"
+ },
+ "qual.thetaE_300K": {
+  "statement": "Einstein temperature from eq. (5) at 300 K = 242.6 K",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::thetaE",
+  "detail": "inputs: guide.a,b,c,thetaD_K",
+  "value": 242.6,
+  "unit": "K",
+  "origin": "derived"
+ },
+ "qual.thetaE_77K": {
+  "statement": "Einstein temperature from eq. (5) at 77 K = 251.3 K",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::thetaE",
+  "detail": "inputs: guide.a,b,c,thetaD_K",
+  "value": 251.3,
+  "unit": "K",
+  "origin": "derived"
+ },
+ "qual.Cv_einstein_300K": {
+  "statement": "Einstein Cv at 300 K with theta_E everywhere in eq. (4) = 23.63 J/(mol K)",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::einstein",
+  "detail": "inputs: qual.thetaE_300K, phys.R",
+  "value": 23.63,
+  "unit": "J/(mol K)",
+  "origin": "derived"
+ },
+ "qual.Cv_einstein_77K": {
+  "statement": "Einstein Cv at 77 K with theta_E everywhere in eq. (4) = 10.99 J/(mol K)",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::einstein",
+  "detail": "inputs: qual.thetaE_77K, phys.R",
+  "value": 10.99,
+  "unit": "J/(mol K)",
+  "origin": "derived"
+ },
+ "qual.Cv_debye_300K": {
+  "statement": "Debye Cv at 300 K (thetaD = 315 K), cross-check = 23.62 J/(mol K)",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::debye",
+  "detail": "inputs: guide.thetaD_K, phys.R",
+  "value": 23.62,
+  "unit": "J/(mol K)",
+  "origin": "derived"
+ },
+ "qual.Cv_debye_77K": {
+  "statement": "Debye Cv at 77 K (thetaD = 315 K), cross-check = 12.21 J/(mol K)",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::debye",
+  "detail": "inputs: guide.thetaD_K, phys.R",
+  "value": 12.21,
+  "unit": "J/(mol K)",
+  "origin": "derived"
+ },
+ "qual.eq4_literal_300K": {
+  "statement": "eq. (4) read literally (exp(thetaD/T) with (thetaE/T)^2 prefactor) at 300 K -- violates Dulong-Petit, so the printed thetaD is a typo for thetaE = 13.5 J/(mol K)",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::eq4_literal",
+  "detail": "inputs: guide.thetaD_K, qual.thetaE_300K",
+  "value": 13.5,
+  "unit": "J/(mol K)",
+  "origin": "derived"
+ },
+ "qual.dulong_petit": {
+  "statement": "Dulong-Petit limit 3R = 24.94 J/(mol K)",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::-",
+  "detail": "inputs: phys.R",
+  "value": 24.94,
+  "unit": "J/(mol K)",
+  "origin": "derived"
+ },
+ "qual.einstein_vs_debye_77K_pct": {
+  "statement": "relative deviation of Einstein(eq.4-5) from Debye at 77 K = -10.0 %",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::einstein,debye",
+  "detail": "inputs: ",
+  "value": -10.0,
+  "unit": "%",
+  "origin": "derived"
+ },
+ "qual.einstein_vs_debye_300K_pct": {
+  "statement": "relative deviation of Einstein(eq.4-5) from Debye at 300 K = 0.03 %",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::einstein,debye",
+  "detail": "inputs: ",
+  "value": 0.03,
+  "unit": "%",
+  "origin": "derived"
+ },
+ "qual.H_296_77_Jmol": {
+  "statement": "integral of Einstein Cv dT from 77 K to 296 K, per mole = 4479.8 J/mol",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::energy_296_77",
+  "detail": "inputs: qual.Cv_einstein_*",
+  "value": 4479.8,
+  "unit": "J/mol",
+  "origin": "derived"
+ },
+ "qual.Q_cu_296_77_kJ_A": {
+  "statement": "heat released by cylinder A cooling 296 -> 77 K, n * integral Cv_Einstein dT = 66.34 kJ",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::energy_296_77",
+  "detail": "inputs: qual.n_A_mol, qual.Cv_einstein_*",
+  "value": 66.34,
+  "unit": "kJ",
+  "origin": "derived"
+ },
+ "qual.m_N2_boiled_g_A": {
+  "statement": "LN2 mass that the heat of cylinder A evaporates, Q / L_v = 333 g",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::energy_296_77",
+  "detail": "inputs: qual.Q_cu_296_77_kJ_A, phys.L_v_N2",
+  "value": 333,
+  "unit": "g",
+  "origin": "derived"
+ },
+ "qual.Q_cu_296_77_kJ_B": {
+  "statement": "heat released by cylinder B cooling 296 -> 77 K, n * integral Cv_Einstein dT = 11.69 kJ",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::energy_296_77",
+  "detail": "inputs: qual.n_B_mol, qual.Cv_einstein_*",
+  "value": 11.69,
+  "unit": "kJ",
+  "origin": "derived"
+ },
+ "qual.m_N2_boiled_g_B": {
+  "statement": "LN2 mass that the heat of cylinder B evaporates, Q / L_v = 59 g",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::energy_296_77",
+  "detail": "inputs: qual.Q_cu_296_77_kJ_B, phys.L_v_N2",
+  "value": 59,
+  "unit": "g",
+  "origin": "derived"
+ },
+ "qual.Q_cu_296_77_kJ_C": {
+  "statement": "heat released by cylinder C cooling 296 -> 77 K, n * integral Cv_Einstein dT = 15.95 kJ",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::energy_296_77",
+  "detail": "inputs: qual.n_C_mol, qual.Cv_einstein_*",
+  "value": 15.95,
+  "unit": "kJ",
+  "origin": "derived"
+ },
+ "qual.m_N2_boiled_g_C": {
+  "statement": "LN2 mass that the heat of cylinder C evaporates, Q / L_v = 80 g",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::energy_296_77",
+  "detail": "inputs: qual.Q_cu_296_77_kJ_C, phys.L_v_N2",
+  "value": 80,
+  "unit": "g",
+  "origin": "derived"
+ },
+ "qual.Q_cu_296_77_kJ": {
+  "statement": "heat released by cylinder A (941 g) cooling 296 -> 77 K = 66.3 kJ",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::energy_296_77",
+  "detail": "inputs: qual.n_A_mol, qual.Cv_einstein_*",
+  "value": 66.3,
+  "unit": "kJ",
+  "origin": "derived"
+ },
+ "qual.m_N2_boiled_g": {
+  "statement": "LN2 mass that the heat of cylinder A evaporates, Q / L_v = 333 g",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::energy_296_77",
+  "detail": "inputs: qual.Q_cu_296_77_kJ, phys.L_v_N2",
+  "value": 333,
+  "unit": "g",
+  "origin": "derived"
+ },
+ "qual.gamma_T_over_Cv_77K_pct": {
+  "statement": "electronic gamma*T / Cv at 77 K, own check of the guide's 2.5 % = 0.5 %",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::-",
+  "detail": "inputs: guide.gamma_cal, qual.Cv_einstein_77K",
+  "value": 0.5,
+  "unit": "%",
+  "origin": "derived"
+ },
+ "qual.Cv_ratio_77_300": {
+  "statement": "Cv(77 K)/Cv(300 K), Einstein = 0.465",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::einstein",
+  "detail": "inputs: ",
+  "value": 0.465,
+  "unit": "",
+  "origin": "derived"
+ },
+ "qual.tc_sens_hi_uVK": {
+  "statement": "thermocouple sensitivity implied by the acquisition calibration near 295 K (run A): 1/(dT/dV) = 40.2 uV/K",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::tc_calibration",
+  "detail": "inputs: datos/CilindroA_sumergido.csv",
+  "value": 40.2,
+  "unit": "uV/K",
+  "origin": "derived"
+ },
+ "qual.tc_sens_lo_uVK": {
+  "statement": "thermocouple sensitivity implied by the acquisition calibration at 78-90 K (run A) = 17.2 uV/K",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::tc_calibration",
+  "detail": "inputs: datos/CilindroA_sumergido.csv",
+  "value": 17.2,
+  "unit": "uV/K",
+  "origin": "derived"
+ },
+ "qual.V_max_mV_A": {
+  "statement": "largest thermocouple EMF recorded in run A (room temperature, 0 C reference) = 0.952 mV",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::tc_calibration",
+  "detail": "inputs: datos/CilindroA_sumergido.csv",
+  "value": 0.952,
+  "unit": "mV",
+  "origin": "derived"
+ },
+ "qual.V_min_mV_A": {
+  "statement": "smallest (most negative) valid thermocouple EMF recorded in run A = -5.778 mV",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::tc_calibration",
+  "detail": "inputs: datos/CilindroA_sumergido.csv",
+  "value": -5.778,
+  "unit": "mV",
+  "origin": "derived"
+ },
+ "qual.T_min_K_A": {
+  "statement": "lowest valid temperature in run A = 80.1 K",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::tc_calibration",
+  "detail": "inputs: datos/CilindroA_sumergido.csv",
+  "value": 80.1,
+  "unit": "K",
+  "origin": "derived"
+ },
+ "qual.duration_s_A": {
+  "statement": "duration of run A = 315 s",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::tc_calibration",
+  "detail": "inputs: datos/CilindroA_sumergido.csv",
+  "value": 315,
+  "unit": "s",
+  "origin": "derived"
+ },
+ "qual.dt_sample_s": {
+  "statement": "median sampling interval of the temperature files = 1.439 s",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::tc_calibration",
+  "detail": "inputs: datos/CilindroA_sumergido.csv",
+  "value": 1.439,
+  "unit": "s",
+  "origin": "derived"
+ },
+ "qual.V_step_uV_A": {
+  "statement": "smallest voltage step between distinct recorded values in run A (effective resolution referred to the thermocouple) = 0.095 uV",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::tc_calibration",
+  "detail": "inputs: datos/CilindroA_sumergido.csv",
+  "value": 0.095,
+  "unit": "uV",
+  "origin": "derived"
+ },
+ "qual.T_step_K_A": {
+  "statement": "temperature resolution implied by that voltage step near 295 K = 0.0024 K",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::tc_calibration",
+  "detail": "inputs: datos/CilindroA_sumergido.csv",
+  "value": 0.0024,
+  "unit": "K",
+  "origin": "derived"
+ },
+ "qual.n_spikes_A": {
+  "statement": "rows with T outside 70-310 K (impossible values = acquisition spikes) in run A; at t = [] s = 0 rows",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::tc_calibration",
+  "detail": "inputs: datos/CilindroA_sumergido.csv",
+  "value": 0,
+  "unit": "rows",
+  "origin": "derived"
+ },
+ "qual.n_rows_A": {
+  "statement": "rows in run A = 220 rows",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::tc_calibration",
+  "detail": "inputs: datos/CilindroA_sumergido.csv",
+  "value": 220,
+  "unit": "rows",
+  "origin": "derived"
+ },
+ "qual.n_spikes_B": {
+  "statement": "rows with T outside 70-310 K (impossible values = acquisition spikes) in run B; at t = [308.3, 309.7, 324.1, 325.5, 352.9, 370.1] s = 6 rows",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::tc_calibration",
+  "detail": "inputs: datos/CilindroB_sumergido.csv",
+  "value": 6,
+  "unit": "rows",
+  "origin": "derived"
+ },
+ "qual.n_rows_B": {
+  "statement": "rows in run B = 260 rows",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::tc_calibration",
+  "detail": "inputs: datos/CilindroB_sumergido.csv",
+  "value": 260,
+  "unit": "rows",
+  "origin": "derived"
+ },
+ "qual.duration_s_B": {
+  "statement": "duration of run B = 373 s",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::tc_calibration",
+  "detail": "inputs: datos/CilindroB_sumergido.csv",
+  "value": 373,
+  "unit": "s",
+  "origin": "derived"
+ },
+ "qual.T_min_K_B": {
+  "statement": "lowest valid temperature in run B = 77.2 K",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::tc_calibration",
+  "detail": "inputs: datos/CilindroB_sumergido.csv",
+  "value": 77.2,
+  "unit": "K",
+  "origin": "derived"
+ },
+ "qual.n_spikes_C": {
+  "statement": "rows with T outside 70-310 K (impossible values = acquisition spikes) in run C; at t = [217.7, 308.3, 309.7, 342.8] s = 4 rows",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::tc_calibration",
+  "detail": "inputs: datos/CilindroC_sumergido.csv",
+  "value": 4,
+  "unit": "rows",
+  "origin": "derived"
+ },
+ "qual.n_rows_C": {
+  "statement": "rows in run C = 260 rows",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::tc_calibration",
+  "detail": "inputs: datos/CilindroC_sumergido.csv",
+  "value": 260,
+  "unit": "rows",
+  "origin": "derived"
+ },
+ "qual.duration_s_C": {
+  "statement": "duration of run C = 373 s",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::tc_calibration",
+  "detail": "inputs: datos/CilindroC_sumergido.csv",
+  "value": 373,
+  "unit": "s",
+  "origin": "derived"
+ },
+ "qual.T_min_K_C": {
+  "statement": "lowest valid temperature in run C = 77.4 K",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::tc_calibration",
+  "detail": "inputs: datos/CilindroC_sumergido.csv",
+  "value": 77.4,
+  "unit": "K",
+  "origin": "derived"
+ },
+ "qual.n_spikes_C1": {
+  "statement": "rows with T outside 70-310 K (impossible values = acquisition spikes) in run C1; at t = [] s = 0 rows",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::tc_calibration",
+  "detail": "inputs: datos/cilindroC(aislado con 1 vuelta).csv",
+  "value": 0,
+  "unit": "rows",
+  "origin": "derived"
+ },
+ "qual.n_rows_C1": {
+  "statement": "rows in run C1 = 350 rows",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::tc_calibration",
+  "detail": "inputs: datos/cilindroC(aislado con 1 vuelta).csv",
+  "value": 350,
+  "unit": "rows",
+  "origin": "derived"
+ },
+ "qual.duration_s_C1": {
+  "statement": "duration of run C1 = 494 s",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::tc_calibration",
+  "detail": "inputs: datos/cilindroC(aislado con 1 vuelta).csv",
+  "value": 494,
+  "unit": "s",
+  "origin": "derived"
+ },
+ "qual.T_min_K_C1": {
+  "statement": "lowest valid temperature in run C1 = 76.1 K",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::tc_calibration",
+  "detail": "inputs: datos/cilindroC(aislado con 1 vuelta).csv",
+  "value": 76.1,
+  "unit": "K",
+  "origin": "derived"
+ },
+ "qual.n_spikes_C3": {
+  "statement": "rows with T outside 70-310 K (impossible values = acquisition spikes) in run C3; at t = [] s = 0 rows",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::tc_calibration",
+  "detail": "inputs: datos/cilindroC(aislado con 3 vueltas).csv",
+  "value": 0,
+  "unit": "rows",
+  "origin": "derived"
+ },
+ "qual.n_rows_C3": {
+  "statement": "rows in run C3 = 150 rows",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::tc_calibration",
+  "detail": "inputs: datos/cilindroC(aislado con 3 vueltas).csv",
+  "value": 150,
+  "unit": "rows",
+  "origin": "derived"
+ },
+ "qual.duration_s_C3": {
+  "statement": "duration of run C3 = 211 s",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::tc_calibration",
+  "detail": "inputs: datos/cilindroC(aislado con 3 vueltas).csv",
+  "value": 211,
+  "unit": "s",
+  "origin": "derived"
+ },
+ "qual.T_min_K_C3": {
+  "statement": "lowest valid temperature in run C3 = 77.0 K",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::tc_calibration",
+  "detail": "inputs: datos/cilindroC(aislado con 3 vueltas).csv",
+  "value": 77.0,
+  "unit": "K",
+  "origin": "derived"
+ },
+ "qual.effusivity_Cu": {
+  "statement": "thermal effusivity sqrt(k rho c) of Cu = 37146 J/(m^2 K s^0.5)",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::effusivity",
+  "detail": "inputs: phys.k_Cu, phys.rho_Cu, phys.c_Cu",
+  "value": 37146,
+  "unit": "J/(m^2 K s^0.5)",
+  "origin": "derived"
+ },
+ "qual.effusivity_film": {
+  "statement": "thermal effusivity of the polymer film (k=0.2, rho=950, c=1900 assumed) = 601 J/(m^2 K s^0.5)",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::effusivity",
+  "detail": "inputs: assume.film_k",
+  "value": 601,
+  "unit": "J/(m^2 K s^0.5)",
+  "origin": "derived"
+ },
+ "qual.effusivity_LN2": {
+  "statement": "thermal effusivity of liquid N2 (k=0.14, rho=807, c=2040) = 480 J/(m^2 K s^0.5)",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::effusivity",
+  "detail": "inputs: phys.k_N2liq, phys.rho_LN2",
+  "value": 480,
+  "unit": "J/(m^2 K s^0.5)",
+  "origin": "derived"
+ },
+ "qual.T_contact_Cu_LN2_K": {
+  "statement": "instantaneous contact temperature Cu(296 K)/LN2(77 K) on liquid touch-down = 293.2 K",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::effusivity",
+  "detail": "inputs: qual.effusivity_Cu, qual.effusivity_LN2",
+  "value": 293.2,
+  "unit": "K",
+  "origin": "derived"
+ },
+ "qual.T_contact_film_LN2_K": {
+  "statement": "instantaneous contact temperature polymer film(296 K)/LN2(77 K) = 198.7 K",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::effusivity",
+  "detail": "inputs: qual.effusivity_film, qual.effusivity_LN2",
+  "value": 198.7,
+  "unit": "K",
+  "origin": "derived"
+ },
+ "qual.mean_flux_A_Wm2": {
+  "statement": "mean flux Q/(A t_run) for run A with measured geometry (whole run, incl. plateau) = 15610 W/m^2",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::flux_estimates",
+  "detail": "inputs: qual.Q_cu_296_77_kJ_A, qual.A_A_m2, qual.duration_s_A",
+  "value": 15610,
+  "unit": "W/m^2",
+  "origin": "derived"
+ },
+ "qual.flux_C1_10s_Wm2": {
+  "statement": "mean flux needed to cool cylinder C (measured 226 g, 48.9 cm2) 296->77 K in 10 s (what the 1-turn run shows); compare the LN2 critical heat flux = 325902 W/m^2",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::flux_estimates",
+  "detail": "inputs: qual.Q_cu_296_77_kJ_C, qual.A_C_m2",
+  "value": 325902,
+  "unit": "W/m^2",
+  "origin": "derived"
+ },
+ "qual.flux_C1_over_CHF": {
+  "statement": "ratio of that flux to the LN2 critical heat flux = 2.2",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::flux_estimates",
+  "detail": "inputs: qual.flux_C1_10s_Wm2, phys.qmax_LN2_Wm2",
+  "value": 2.2,
+  "unit": "",
+  "origin": "derived"
+ },
+ "qual.adc_lsb_mV": {
+  "statement": "LSB of the assumed 12-bit, +-10 V ADC = 4.88 mV",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::adc_numbers",
+  "detail": "inputs: assume.adc_fs_V, assume.adc_bits",
+  "value": 4.88,
+  "unit": "mV",
+  "origin": "derived"
+ },
+ "qual.tc_span_mV": {
+  "statement": "full thermocouple EMF span between 296 K and 77 K (0 C reference) = 6.74 mV",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::adc_numbers",
+  "detail": "inputs: phys.seebeck_K_uVK, phys.emf_K_77K_mV",
+  "value": 6.74,
+  "unit": "mV",
+  "origin": "derived"
+ },
+ "qual.adc_counts_unamplified": {
+  "statement": "number of ADC counts the whole 296->77 K span would occupy without amplification = 1.4 counts",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::adc_numbers",
+  "detail": "inputs: qual.tc_span_mV, qual.adc_lsb_mV",
+  "value": 1.4,
+  "unit": "counts",
+  "origin": "derived"
+ },
+ "qual.gain_for_1000_counts": {
+  "statement": "amplifier gain needed to spread the span over ~1000 counts (~0.2 K resolution) = 724 x",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::adc_numbers",
+  "detail": "inputs: qual.tc_span_mV, qual.adc_lsb_mV",
+  "value": 724,
+  "unit": "x",
+  "origin": "derived"
+ },
+ "qual.pt100_signal_mV_per_K_1mA": {
+  "statement": "Pt100 signal with 1 mA excitation: dV/dT = I R0 alpha = 0.385 mV/K",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::-",
+  "detail": "inputs: phys.pt100_alpha",
+  "value": 0.385,
+  "unit": "mV/K",
+  "origin": "derived"
+ },
+ "qual.pt100_self_heat_mW_1mA": {
+  "statement": "Pt100 self-heating I^2 R at 1 mA, 100 ohm = 0.1 mW",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::-",
+  "detail": "inputs: -",
+  "value": 0.1,
+  "unit": "mW",
+  "origin": "derived"
+ },
+ "qual.R_film1_m2KW": {
+  "statement": "conductive resistance of 1 turn of film, t/k = 6e-05 m^2 K/W",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::film_stage_numbers",
+  "detail": "inputs: assume.film_thickness_m, assume.film_k",
+  "value": 6e-05,
+  "unit": "m^2 K/W",
+  "origin": "derived"
+ },
+ "qual.R_vapour_m2KW": {
+  "statement": "thermal resistance of the vapour film, 1/h_film = 0.0067 m^2 K/W",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::film_stage_numbers",
+  "detail": "inputs: phys.h_film_Wm2K",
+  "value": 0.0067,
+  "unit": "m^2 K/W",
+  "origin": "derived"
+ },
+ "qual.film1_over_vapour_pct": {
+  "statement": "1 turn of film as a percentage of the vapour-film resistance = 0.9 %",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::film_stage_numbers",
+  "detail": "inputs: qual.R_film1_m2KW, qual.R_vapour_m2KW",
+  "value": 0.9,
+  "unit": "%",
+  "origin": "derived"
+ },
+ "qual.film3_over_vapour_pct": {
+  "statement": "3 turns of film as a percentage of the vapour-film resistance = 2.7 %",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::film_stage_numbers",
+  "detail": "inputs: qual.R_film1_m2KW, qual.R_vapour_m2KW",
+  "value": 2.7,
+  "unit": "%",
+  "origin": "derived"
+ },
+ "qual.q_rad_296_Wm2": {
+  "statement": "radiative flux eps sigma (296^4 - 77^4) across the vapour film at the start = 21.7 W/m^2",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::radiation",
+  "detail": "inputs: assume.eps_Cu",
+  "value": 21.7,
+  "unit": "W/m^2",
+  "origin": "derived"
+ },
+ "qual.q_rad_over_film_pct": {
+  "statement": "radiation as a percentage of the film-boiling flux at 296 K = 0.1 %",
+  "type": "script",
+  "reproduce": "work/w2/physics_numbers.py::radiation",
+  "detail": "inputs: qual.q_rad_296_Wm2, qual.q_film_Wm2",
+  "value": 0.1,
+  "unit": "%",
+  "origin": "derived"
+ },
+ "bal2.slope1_mgs": {
+  "statement": "Stage-1 (ambient) slope, for reference in this section",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": -92.07215413040107,
+  "unit": "mg/s",
+  "origin": "derived",
+  "inputs": [
+   "bal.slope1_gs"
+  ]
+ },
+ "bal2.slope3_whole_mgs": {
+  "statement": "Stage-3 slope fit over the WHOLE stage (curved: still includes the post-collapse transient)",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": -125.47594649946144,
+  "unit": "mg/s",
+  "origin": "derived",
+  "inputs": [
+   "bal.slope3_gs"
+  ]
+ },
+ "bal2.slope3_tail_mgs": {
+  "statement": "Stage-3 slope over the last 20 s only (best proxy for the true asymptotic ambient rate)",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": -95.52631123845406,
+  "unit": "mg/s",
+  "origin": "derived",
+  "inputs": [
+   "bal.slope3_tail_gs"
+  ]
+ },
+ "bal2.slope_gap_naive_pct": {
+  "statement": "Naive (whole-stage) discrepancy (|slope3|/|slope1| - 1): the ~37 %% the human flagged",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 36.2800161292532,
+  "unit": "%",
+  "origin": "derived",
+  "inputs": []
+ },
+ "bal2.Pres_avg_naive_W": {
+  "statement": "Naive residual power: (|slope3_whole| - |slope1|) x L_v, averaged over the WHOLE stage-3 window",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "matches the previously quoted ~7.1 W to ~7 %; but mixes a real decaying transient with the asymptotic background (see bal2.model_*)",
+  "value": 6.647354681443017,
+  "unit": "W",
+  "origin": "derived",
+  "inputs": [
+   "bal2.slope3_whole_mgs",
+   "bal2.slope1_mgs",
+   "phys.L_v_N2"
+  ]
+ },
+ "bal2.Pres_tail_naive_W": {
+  "statement": "Naive residual power using the last-20-s slope instead: (|slope3_tail| - |slope1|) x L_v",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "an order of magnitude smaller: by the end of the run the excess has mostly decayed",
+  "value": 0.6873772645025436,
+  "unit": "W",
+  "origin": "derived",
+  "inputs": [
+   "bal2.slope3_tail_mgs",
+   "bal2.slope1_mgs"
+  ]
+ },
+ "bal2.model_P0_W": {
+  "statement": "Fitted model m(t)=m0+a*t-(P0/Lv)*tau*(1-exp(-t/tau)) for stage 3 (a fixed = tail slope): initial residual power right after the burst",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::decay_model (scipy.optimize.curve_fit)",
+  "detail": "+/- 0.43 W (fit stderr only; does not include the ~10 %% Cv and L_v systematic uncertainties)",
+  "value": 38.01985807667293,
+  "unit": "W",
+  "origin": "derived",
+  "inputs": []
+ },
+ "bal2.model_tau_s": {
+  "statement": "Fitted relaxation time constant of the residual power",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::decay_model",
+  "detail": "+/- 0.21 s (fit stderr only)",
+  "value": 14.876178577611675,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "bal2.model_rms_g": {
+  "statement": "RMS residual of the exponential-decay fit to stage 3",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "vs 0.38 g RMS for the straight-line fit (bal.slope3_gs): the decay model removes the curvature the straight line could not",
+  "value": 0.048168754463038574,
+  "unit": "g",
+  "origin": "derived",
+  "inputs": []
+ },
+ "bal2.model_Pavg_W": {
+  "statement": "Time-average of the fitted P(t)=P0 exp(-t/tau) over the actual stage-3 duration",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "consistency check against bal2.Pres_avg_naive_W and the previous ~7.1 W estimate",
+  "value": 7.787484184118923,
+  "unit": "W",
+  "origin": "derived",
+  "inputs": [
+   "bal2.model_P0_W",
+   "bal2.model_tau_s"
+  ]
+ },
+ "bal2.model_dT0_K": {
+  "statement": "Initial temperature excess above 77 K implied by the fitted P0 and tau via P0 = n Cv(T) dT0/tau",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "+/- 0.2 K (fit stderr propagated; does not include Cv systematic)",
+  "value": 13.610691441853062,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": [
+   "bal2.model_P0_W",
+   "bal2.model_tau_s",
+   "geom.C.n_mol"
+  ]
+ },
+ "bal2.model_T0_K": {
+  "statement": "Fitted post-burst absolute temperature T0 = 77 K + dT0",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "+/- 0.2 K (same stderr as bal2.model_dT0_K, added to the fixed 77 K reference)",
+  "value": 90.61069144185306,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": [
+   "bal2.model_dT0_K"
+  ]
+ },
+ "bal2.model_h_implied_Wm2K": {
+  "statement": "Effective heat-transfer coefficient implied by tau = n Cv/(h A_C) (order of magnitude, NOT a calibrated result)",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "between the film-boiling (~150) and nucleate-boiling (~1e4) order-of-magnitude estimates of phys.*: plausible for a transition-boiling relaxation",
+  "value": 570.8899199057146,
+  "unit": "W/(m2 K)",
+  "origin": "derived",
+  "inputs": []
+ },
+ "bal2.Tlo_C_temperature_run_K": {
+  "statement": "Lower edge of the collapse band measured in the SEPARATE temperature-only run of cylinder C (for comparison, not the same immersion)",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 82.40706080487566,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": [
+   "tc.C.Tlo_K"
+  ]
+ },
+ "bal2.model_T0_vs_Tlo_K": {
+  "statement": "Fitted post-burst temperature (77+dT0) minus the collapse-band lower edge of the temperature run (cross-check, different immersion)",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 8.203630636977408,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "bal2.noise_std_dTdt_plateau_C_Ks": {
+  "statement": "Std of dT/dt on the T<85 K plateau of the temperature-only run of C (noise floor for comparison)",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 0.02217623625386852,
+  "unit": "K/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "bal2.noise_mean_dTdt_plateau_C_Ks": {
+  "statement": "Mean of dT/dt on the same plateau (consistent with 0 within the noise)",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": -0.006434254889046742,
+  "unit": "K/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "bal2.dTdt_implied_avg_Ks": {
+  "statement": "|dT/dt| that the naive whole-stage residual power would require at 77 K via Q/A eq. (1): Pres/(n Cv(77))",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "well above the plateau noise floor: if sustained, it would be visible in a temperature trace -- consistent with a real (not yet decayed) transient, not a steady residual",
+  "value": 0.16993099778503473,
+  "unit": "K/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "bal2.dTdt_implied_tail_Ks": {
+  "statement": "Same, from the tail-based residual power",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "comparable to or below the plateau noise floor: consistent with the cylinder being close to 77 K within the resolution of the temperature measurement by the end of the run",
+  "value": 0.01757190792568156,
+  "unit": "K/s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "cvcmp.table_T_K": {
+  "statement": "Temperature grid for the Einstein/Debye Cv comparison table",
+  "type": "data",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": [
+   77.0,
+   90.0,
+   100.0,
+   120.0,
+   150.0,
+   180.0,
+   200.0,
+   220.0,
+   250.0,
+   280.0,
+   300.0
+  ],
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "cvcmp.table_Cv_Einstein": {
+  "statement": "Einstein Cv(T) on the grid",
+  "type": "data",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": [
+   10.9893,
+   13.699,
+   15.3601,
+   17.8225,
+   20.1153,
+   21.4773,
+   22.0933,
+   22.5608,
+   23.0747,
+   23.4402,
+   23.6278
+  ],
+  "unit": "J/(mol K)",
+  "origin": "derived",
+  "inputs": []
+ },
+ "cvcmp.table_Cv_Debye": {
+  "statement": "Debye Cv(T) on the grid",
+  "type": "data",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": [
+   12.2124,
+   14.4846,
+   15.9102,
+   18.0893,
+   20.205,
+   21.5054,
+   22.1041,
+   22.5626,
+   23.0704,
+   23.4336,
+   23.6207
+  ],
+  "unit": "J/(mol K)",
+  "origin": "derived",
+  "inputs": []
+ },
+ "cvcmp.table_diff_abs": {
+  "statement": "Cv_Einstein - Cv_Debye on the grid",
+  "type": "data",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": [
+   -1.2231,
+   -0.7856,
+   -0.5501,
+   -0.2668,
+   -0.0896,
+   -0.0281,
+   -0.0108,
+   -0.0018,
+   0.0043,
+   0.0066,
+   0.0071
+  ],
+  "unit": "J/(mol K)",
+  "origin": "derived",
+  "inputs": []
+ },
+ "cvcmp.table_diff_pct": {
+  "statement": "100 (Cv_Einstein-Cv_Debye)/Cv_Debye on the grid",
+  "type": "data",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": [
+   -10.015,
+   -5.424,
+   -3.457,
+   -1.475,
+   -0.444,
+   -0.131,
+   -0.049,
+   -0.008,
+   0.019,
+   0.028,
+   0.03
+  ],
+  "unit": "%",
+  "origin": "derived",
+  "inputs": []
+ },
+ "cvcmp.max_abs_diff_pct": {
+  "statement": "Signed relative difference at the point of largest |difference| (always 77 K in 77-300 K)",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": -10.014880594882479,
+  "unit": "%",
+  "origin": "derived",
+  "inputs": [
+   "cvcmp.table_diff_pct"
+  ]
+ },
+ "cvcmp.max_abs_diff_T_K": {
+  "statement": "T where the difference is largest",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 77.0,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": []
+ },
+ "cvcmp.qa.A.plateau_Einstein_Wm2": {
+  "statement": "Q/A (plateau) of run A, Einstein Cv (= qa.A.*, repeated here for the side-by-side comparison)",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 14590.026106435032,
+  "unit": "W/m2",
+  "origin": "derived",
+  "inputs": []
+ },
+ "cvcmp.qa.A.plateau_Debye_Wm2": {
+  "statement": "Same Q/A (plateau) of run A, recomputed with Debye Cv on the identical T(t)/dT/dt/geometry",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 14600.624634479509,
+  "unit": "W/m2",
+  "origin": "derived",
+  "inputs": []
+ },
+ "cvcmp.qa.A.plateau_diff_pct": {
+  "statement": "(Einstein-Debye)/Debye for Q/A (plateau) of run A",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": -0.07258955222674536,
+  "unit": "%",
+  "origin": "derived",
+  "inputs": []
+ },
+ "cvcmp.qa.A.peak_Einstein_Wm2": {
+  "statement": "Q/A (peak) of run A, Einstein Cv (= qa.A.*, repeated here for the side-by-side comparison)",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 91526.20328331266,
+  "unit": "W/m2",
+  "origin": "derived",
+  "inputs": []
+ },
+ "cvcmp.qa.A.peak_Debye_Wm2": {
+  "statement": "Same Q/A (peak) of run A, recomputed with Debye Cv on the identical T(t)/dT/dt/geometry",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 94360.72235473248,
+  "unit": "W/m2",
+  "origin": "derived",
+  "inputs": []
+ },
+ "cvcmp.qa.A.peak_diff_pct": {
+  "statement": "(Einstein-Debye)/Debye for Q/A (peak) of run A",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": -3.0039183684541446,
+  "unit": "%",
+  "origin": "derived",
+  "inputs": []
+ },
+ "cvcmp.qa.A.min_film_Einstein_Wm2": {
+  "statement": "Q/A (min_film) of run A, Einstein Cv (= qa.A.*, repeated here for the side-by-side comparison)",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 6925.571819995927,
+  "unit": "W/m2",
+  "origin": "derived",
+  "inputs": []
+ },
+ "cvcmp.qa.A.min_film_Debye_Wm2": {
+  "statement": "Same Q/A (min_film) of run A, recomputed with Debye Cv on the identical T(t)/dT/dt/geometry",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 7007.592449949163,
+  "unit": "W/m2",
+  "origin": "derived",
+  "inputs": []
+ },
+ "cvcmp.qa.A.min_film_diff_pct": {
+  "statement": "(Einstein-Debye)/Debye for Q/A (min_film) of run A",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": -1.1704537690948424,
+  "unit": "%",
+  "origin": "derived",
+  "inputs": []
+ },
+ "cvcmp.qa.B.plateau_Einstein_Wm2": {
+  "statement": "Q/A (plateau) of run B, Einstein Cv (= qa.B.*, repeated here for the side-by-side comparison)",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 19093.841359853024,
+  "unit": "W/m2",
+  "origin": "derived",
+  "inputs": []
+ },
+ "cvcmp.qa.B.plateau_Debye_Wm2": {
+  "statement": "Same Q/A (plateau) of run B, recomputed with Debye Cv on the identical T(t)/dT/dt/geometry",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 19112.76152653825,
+  "unit": "W/m2",
+  "origin": "derived",
+  "inputs": []
+ },
+ "cvcmp.qa.B.plateau_diff_pct": {
+  "statement": "(Einstein-Debye)/Debye for Q/A (plateau) of run B",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": -0.09899232331734624,
+  "unit": "%",
+  "origin": "derived",
+  "inputs": []
+ },
+ "cvcmp.qa.B.peak_Einstein_Wm2": {
+  "statement": "Q/A (peak) of run B, Einstein Cv (= qa.B.*, repeated here for the side-by-side comparison)",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 68899.23055637241,
+  "unit": "W/m2",
+  "origin": "derived",
+  "inputs": []
+ },
+ "cvcmp.qa.B.peak_Debye_Wm2": {
+  "statement": "Same Q/A (peak) of run B, recomputed with Debye Cv on the identical T(t)/dT/dt/geometry",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 70906.73846803591,
+  "unit": "W/m2",
+  "origin": "derived",
+  "inputs": []
+ },
+ "cvcmp.qa.B.peak_diff_pct": {
+  "statement": "(Einstein-Debye)/Debye for Q/A (peak) of run B",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": -2.8311948272285408,
+  "unit": "%",
+  "origin": "derived",
+  "inputs": []
+ },
+ "cvcmp.qa.B.min_film_Einstein_Wm2": {
+  "statement": "Q/A (min_film) of run B, Einstein Cv (= qa.B.*, repeated here for the side-by-side comparison)",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 13784.90487859979,
+  "unit": "W/m2",
+  "origin": "derived",
+  "inputs": []
+ },
+ "cvcmp.qa.B.min_film_Debye_Wm2": {
+  "statement": "Same Q/A (min_film) of run B, recomputed with Debye Cv on the identical T(t)/dT/dt/geometry",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 13932.018137253513,
+  "unit": "W/m2",
+  "origin": "derived",
+  "inputs": []
+ },
+ "cvcmp.qa.B.min_film_diff_pct": {
+  "statement": "(Einstein-Debye)/Debye for Q/A (min_film) of run B",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": -1.0559364566167966,
+  "unit": "%",
+  "origin": "derived",
+  "inputs": []
+ },
+ "cvcmp.qa.C.plateau_Einstein_Wm2": {
+  "statement": "Q/A (plateau) of run C, Einstein Cv (= qa.C.*, repeated here for the side-by-side comparison)",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 17483.84288359638,
+  "unit": "W/m2",
+  "origin": "derived",
+  "inputs": []
+ },
+ "cvcmp.qa.C.plateau_Debye_Wm2": {
+  "statement": "Same Q/A (plateau) of run C, recomputed with Debye Cv on the identical T(t)/dT/dt/geometry",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 17493.50391523954,
+  "unit": "W/m2",
+  "origin": "derived",
+  "inputs": []
+ },
+ "cvcmp.qa.C.plateau_diff_pct": {
+  "statement": "(Einstein-Debye)/Debye for Q/A (plateau) of run C",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": -0.05522639540924275,
+  "unit": "%",
+  "origin": "derived",
+  "inputs": []
+ },
+ "cvcmp.qa.C.peak_Einstein_Wm2": {
+  "statement": "Q/A (peak) of run C, Einstein Cv (= qa.C.*, repeated here for the side-by-side comparison)",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 70304.4732127234,
+  "unit": "W/m2",
+  "origin": "derived",
+  "inputs": []
+ },
+ "cvcmp.qa.C.peak_Debye_Wm2": {
+  "statement": "Same Q/A (peak) of run C, recomputed with Debye Cv on the identical T(t)/dT/dt/geometry",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 72565.04214683271,
+  "unit": "W/m2",
+  "origin": "derived",
+  "inputs": []
+ },
+ "cvcmp.qa.C.peak_diff_pct": {
+  "statement": "(Einstein-Debye)/Debye for Q/A (peak) of run C",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": -3.1152313389898274,
+  "unit": "%",
+  "origin": "derived",
+  "inputs": []
+ },
+ "cvcmp.qa.C.min_film_Einstein_Wm2": {
+  "statement": "Q/A (min_film) of run C, Einstein Cv (= qa.C.*, repeated here for the side-by-side comparison)",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 8688.36992925479,
+  "unit": "W/m2",
+  "origin": "derived",
+  "inputs": []
+ },
+ "cvcmp.qa.C.min_film_Debye_Wm2": {
+  "statement": "Same Q/A (min_film) of run C, recomputed with Debye Cv on the identical T(t)/dT/dt/geometry",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 8795.983122382315,
+  "unit": "W/m2",
+  "origin": "derived",
+  "inputs": []
+ },
+ "cvcmp.qa.C.min_film_diff_pct": {
+  "statement": "(Einstein-Debye)/Debye for Q/A (min_film) of run C",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": -1.223435648184587,
+  "unit": "%",
+  "origin": "derived",
+  "inputs": []
+ },
+ "fit.through_origin.params": {
+  "statement": "Parameters of the through origin fit t_c(p) over A, B, C",
+  "type": "data",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": {
+   "k_s_m2_per_kg": 3.7555386833933566
+  },
+  "unit": "",
+  "origin": "derived",
+  "inputs": []
+ },
+ "fit.through_origin.resid_pct": {
+  "statement": "Residuals (t_c - pred)/t_c x100 for A, B, C, through origin fit",
+  "type": "data",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": [
+   11.17,
+   -21.37,
+   -3.15
+  ],
+  "unit": "%",
+  "origin": "derived",
+  "inputs": []
+ },
+ "fit.through_origin.max_abs_resid_pct": {
+  "statement": "Max |residual| of the through origin fit",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 21.373845436763453,
+  "unit": "%",
+  "origin": "derived",
+  "inputs": []
+ },
+ "fit.through_origin.dof": {
+  "statement": "Degrees of freedom of the through origin fit with 3 data points",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 2,
+  "unit": "",
+  "origin": "derived",
+  "inputs": []
+ },
+ "fit.power_law.params": {
+  "statement": "Parameters of the power law fit t_c(p) over A, B, C",
+  "type": "data",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": {
+   "A": 0.4761373391206202,
+   "n": 1.517504737681314
+  },
+  "unit": "",
+  "origin": "derived",
+  "inputs": []
+ },
+ "fit.power_law.resid_pct": {
+  "statement": "Residuals (t_c - pred)/t_c x100 for A, B, C, power law fit",
+  "type": "data",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": [
+   -1.32,
+   -3.79,
+   4.91
+  ],
+  "unit": "%",
+  "origin": "derived",
+  "inputs": []
+ },
+ "fit.power_law.max_abs_resid_pct": {
+  "statement": "Max |residual| of the power law fit",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 4.908277587921633,
+  "unit": "%",
+  "origin": "derived",
+  "inputs": []
+ },
+ "fit.power_law.dof": {
+  "statement": "Degrees of freedom of the power law fit with 3 data points",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 1,
+  "unit": "",
+  "origin": "derived",
+  "inputs": []
+ },
+ "fit.general_linear.params": {
+  "statement": "Parameters of the general linear fit t_c(p) over A, B, C",
+  "type": "data",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": {
+   "k_s_m2_per_kg": 5.648142886216098,
+   "b_s": -98.00122417719696
+  },
+  "unit": "",
+  "origin": "derived",
+  "inputs": []
+ },
+ "fit.general_linear.resid_pct": {
+  "statement": "Residuals (t_c - pred)/t_c x100 for A, B, C, general linear fit",
+  "type": "data",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": [
+   -0.37,
+   -3.32,
+   3.09
+  ],
+  "unit": "%",
+  "origin": "derived",
+  "inputs": []
+ },
+ "fit.general_linear.max_abs_resid_pct": {
+  "statement": "Max |residual| of the general linear fit",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 3.322251193836275,
+  "unit": "%",
+  "origin": "derived",
+  "inputs": []
+ },
+ "fit.general_linear.dof": {
+  "statement": "Degrees of freedom of the general linear fit with 3 data points",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 1,
+  "unit": "",
+  "origin": "derived",
+  "inputs": []
+ },
+ "fit.n_datapoints": {
+  "statement": "Number of independent (p, t_c) pairs available (A, B, C): any 2-parameter model has only 1 residual degree of freedom",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "a 2-parameter fit to 3 points is only weakly constrained: it will look good (small residuals) almost regardless of the true functional form, because 2 of the 3 points fix the 2 parameters and only the third point carries information",
+  "value": 3,
+  "unit": "",
+  "origin": "derived",
+  "inputs": []
+ },
+ "pred.D.p_kgm2": {
+  "statement": "Chosen p for the hypothetical cylinder D: midpoint of p_B and p_C",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "+/- 1.5 kg/m2 (quadrature of B, C uncertainties)",
+  "value": 43.105334658821654,
+  "unit": "kg/m2",
+  "origin": "derived",
+  "inputs": [
+   "geom.B.p_kgm2",
+   "geom.C.p_kgm2"
+  ]
+ },
+ "pred.D.dp_kgm2": {
+  "statement": "Uncertainty of p_D",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 1.5439858292171267,
+  "unit": "kg/m2",
+  "origin": "derived",
+  "inputs": []
+ },
+ "pred.D.t_c_through_origin_s": {
+  "statement": "Predicted t_c of cylinder D from the through origin model",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 161.8837517718211,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": [
+   "fit.through_origin.params",
+   "pred.D.p_kgm2"
+  ]
+ },
+ "pred.D.t_c_power_law_s": {
+  "statement": "Predicted t_c of cylinder D from the power law model",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 143.92651483444703,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": [
+   "fit.power_law.params",
+   "pred.D.p_kgm2"
+  ]
+ },
+ "pred.D.t_c_general_linear_s": {
+  "statement": "Predicted t_c of cylinder D from the general linear model",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 145.4638651339908,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": [
+   "fit.general_linear.params",
+   "pred.D.p_kgm2"
+  ]
+ },
+ "pred.D.model_spread_s": {
+  "statement": "Spread of the 3 model predictions for t_c(D): the dominant source of uncertainty",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 17.957236937374063,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "pred.D.geom_sensitivity_range_s": {
+  "statement": "Range of the through-origin t_c(D) prediction when A/B/C geometry is perturbed by +/-1 sigma in every combination (2^3 corners)",
+  "type": "data",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "much narrower than the spread between models (pred.D.model_spread_s): with only 3 cylinders, choosing the functional form matters far more than the geometric measurement uncertainty",
+  "value": [
+   155.0893632774478,
+   169.26378132165857
+  ],
+  "unit": "s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "pred.D.pD_lo_t_c_s": {
+  "statement": "Through-origin t_c(D) if p_D is shifted by -1 sigma",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 156.085253263585,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "pred.D.pD_mid_t_c_s": {
+  "statement": "Through-origin t_c(D) if p_D is shifted by +0 sigma",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 161.8837517718211,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "pred.D.pD_hi_t_c_s": {
+  "statement": "Through-origin t_c(D) if p_D is shifted by +1 sigma",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 167.6822502800572,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "sigmaT.sg_gain_per_s": {
+  "statement": "Noise-gain factor of the 5-point order-2 Savitzky-Golay derivative: sigma_dTdt = this x sigma_T (iid noise on T)",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main (scipy.signal.savgol_coeffs)",
+  "detail": "",
+  "value": 0.21983034240017385,
+  "unit": "1/s",
+  "origin": "derived",
+  "inputs": [
+   "run.sg_window"
+  ]
+ },
+ "sigmaT.formula": {
+  "statement": "Symbolic error chain: quadrature sum of (i) ADC quantisation referred to the thermocouple through the local calibration slope dT/dV and the amplifier gain G, (ii) the thermocouple calibration/polynomial uncertainty, (iii) the ice-point reference-junction uncertainty",
+  "type": "derivation",
+  "reproduce": "derivation, not a fit",
+  "detail": "each sigma is itself possibly T-dependent (dT/dV is, sigma_ADC is not); no cross-terms because the three sources are physically independent",
+  "value": "sigma_T = sqrt[ (dT/dV)^2 (sigma_ADC/G)^2 + sigma_calib^2 + sigma_Tref^2 ]",
+  "unit": "",
+  "origin": "guide",
+  "inputs": []
+ },
+ "sigmaT.sigma_ADC_uV": {
+  "statement": "ILLUSTRATIVE ONLY: half-LSB quantisation noise referred to the thermocouple, using the ASSUMED ADC (assume.adc_fs_V, assume.adc_bits) and the gain that spreads the run's span over ~1000 counts (qual.gain_for_1000_counts)",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "NOT a measured instrument spec: the true ADC/amplifier noise floor is not in the sources; if it is worse than assumed here, sigma_T scales linearly with it",
+  "value": 1.945670407169039,
+  "unit": "uV",
+  "origin": "derived",
+  "inputs": [
+   "assume.adc_fs_V",
+   "assume.adc_bits",
+   "qual.tc_span_mV"
+  ]
+ },
+ "sigmaT.sigma_T_ADC_hi_K": {
+  "statement": "ILLUSTRATIVE: sigma_T from ADC quantisation alone near 295 K (high sensitivity, dT/dV small)",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 0.048399761372364146,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": [
+   "sigmaT.sigma_ADC_uV",
+   "qual.tc_sens_hi_uVK"
+  ]
+ },
+ "sigmaT.sigma_T_ADC_lo_K": {
+  "statement": "ILLUSTRATIVE: sigma_T from ADC quantisation alone near 80 K (low sensitivity, dT/dV large -> worse)",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 0.11312037250982784,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": [
+   "sigmaT.sigma_ADC_uV",
+   "qual.tc_sens_lo_uVK"
+  ]
+ },
+ "sigmaT.sigma_dTdt_hi_Ks": {
+  "statement": "ILLUSTRATIVE: propagated sigma_dTdt near 295 K = sg_gain x sigma_T_ADC_hi",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 0.010639736114573518,
+  "unit": "K/s",
+  "origin": "derived",
+  "inputs": [
+   "sigmaT.sg_gain_per_s",
+   "sigmaT.sigma_T_ADC_hi_K"
+  ]
+ },
+ "sigmaT.sigma_dTdt_lo_Ks": {
+  "statement": "ILLUSTRATIVE: propagated sigma_dTdt near 80 K = sg_gain x sigma_T_ADC_lo",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 0.02486729022127067,
+  "unit": "K/s",
+  "origin": "derived",
+  "inputs": [
+   "sigmaT.sg_gain_per_s",
+   "sigmaT.sigma_T_ADC_lo_K"
+  ]
+ },
+ "sigmaT.crosscheck_vs_observed_noise_pct": {
+  "statement": "How far the ILLUSTRATIVE ADC-only sigma_dTdt near 80 K falls from the actually observed dT/dt noise floor on the plateau of run C (bal2.noise_std_dTdt_plateau_C_Ks)",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "agreement to within a few tens of percent is a nontrivial cross-check that the assumed ADC/gain are in the right ballpark, NOT proof of the true spec",
+  "value": 12.13485433955328,
+  "unit": "%",
+  "origin": "derived",
+  "inputs": [
+   "sigmaT.sigma_dTdt_lo_Ks",
+   "bal2.noise_std_dTdt_plateau_C_Ks"
+  ]
+ },
+ "sigmaT.sigma_tc_halfsample_s": {
+  "statement": "sigma_t_c from finite sampling alone: since the collapse is sharp (peak/plateau ratio 5-11, run.frac), the identified peak sample changes only if the noise perturbation rivals the peak-to-neighbour drop; the residual uncertainty is +/- half a sample",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "matches the <=3 s sensitivity-sweep spread already reported (tc.*.sens_t_spread_s): dominated by sampling, not by sigma_T",
+  "value": 0.7192541360855103,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": [
+   "run.dt_s"
+  ]
+ },
+ "sigmaT.relQA_plateau_A_pct": {
+  "statement": "ILLUSTRATIVE relative Q/A uncertainty from sigma_dTdt alone on the film plateau of run A (dominant term there)",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 4.10028424831893,
+  "unit": "%",
+  "origin": "derived",
+  "inputs": []
+ },
+ "sigmaT.relQA_peak_A_pct": {
+  "statement": "ILLUSTRATIVE relative Q/A uncertainty from sigma_dTdt alone at the Q/A peak of run A (small: the signal is huge there)",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 0.20193693444772282,
+  "unit": "%",
+  "origin": "derived",
+  "inputs": []
+ },
+ "sigmaT.relQA_plateau_B_pct": {
+  "statement": "ILLUSTRATIVE relative Q/A uncertainty from sigma_dTdt alone on the film plateau of run B (dominant term there)",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 1.8087898099301887,
+  "unit": "%",
+  "origin": "derived",
+  "inputs": []
+ },
+ "sigmaT.relQA_peak_B_pct": {
+  "statement": "ILLUSTRATIVE relative Q/A uncertainty from sigma_dTdt alone at the Q/A peak of run B (small: the signal is huge there)",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 0.15558554812146502,
+  "unit": "%",
+  "origin": "derived",
+  "inputs": []
+ },
+ "sigmaT.relQA_plateau_C_pct": {
+  "statement": "ILLUSTRATIVE relative Q/A uncertainty from sigma_dTdt alone on the film plateau of run C (dominant term there)",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 2.2723132586986226,
+  "unit": "%",
+  "origin": "derived",
+  "inputs": []
+ },
+ "sigmaT.relQA_peak_C_pct": {
+  "statement": "ILLUSTRATIVE relative Q/A uncertainty from sigma_dTdt alone at the Q/A peak of run C (small: the signal is huge there)",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 0.17292903272173651,
+  "unit": "%",
+  "origin": "derived",
+  "inputs": []
+ },
+ "stage.status": {
+  "statement": "Evidentiary status of each stage given this experiment (observed / indications only / not resolved), used verbatim in sec. 6",
+  "type": "data",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": {
+   "VI: película + radiación": "indicios (rad. <1% del flujo, sec. 5x)",
+   "V: película estable": "observada",
+   "IV: transición": "observada",
+   "III–II: nucleada": "observada (pocas muestras)",
+   "I: convección": "no resuelta (Q/A~ruido)"
+  },
+  "unit": "",
+  "origin": "derived",
+  "inputs": []
+ },
+ "stage.bounds_dT_K": {
+  "statement": "ΔT boundaries used to shade stages VI/V/IV/III-II/I on cylinder C (right to left: 300(edge), 150(VI/V, arbitrary, matches the plateau window already used elsewhere), T_hi-77(V/IV, measured), T_lo-77(IV/III-II, measured), 5(III-II/I, arbitrary: below this Q/A is noise-dominated), 1(edge))",
+  "type": "data",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "only the IV/III-II and III-II-side boundaries (T_hi, T_lo) come from a measured feature; the VI/V and I edges are drawn where the report's own qualitative description already puts them and are not separately justified by a data feature",
+  "value": [
+   300.0,
+   150.0,
+   34.8,
+   5.4,
+   5.0,
+   1.0
+  ],
+  "unit": "K",
+  "origin": "derived",
+  "inputs": [
+   "tc.C.Thi_K",
+   "tc.C.Tlo_K"
+  ]
+ },
+ "c1x.peak_Wm2_vs_window": {
+  "statement": "Peak Q/A of run C1 recomputed with different Savitzky-Golay windows (samples), everything else fixed",
+  "type": "data",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": {
+   "3": 797084.0,
+   "5": 528806.0,
+   "7": 434615.0,
+   "9": 371487.0,
+   "11": 316792.0
+  },
+  "unit": "W/m2",
+  "origin": "derived",
+  "inputs": []
+ },
+ "c1x.peak_window_spread_ratio": {
+  "statement": "Ratio of the largest to the smallest peak Q/A over window in {3,5,7,9,11}: the reported C1 peak is not resolution-independent",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "the whole 296->77 K drop spans only ~6 samples (run.dt_s ~1.42 s over ~8.5 s), so the numerical derivative -- and hence the peak Q/A -- is itself window-dependent by a factor >2",
+  "value": 2.5161137819985715,
+  "unit": "",
+  "origin": "derived",
+  "inputs": []
+ },
+ "c1x.n_samples_full_transition": {
+  "statement": "Number of samples spanning the ENTIRE 296 K -> <80 K transition of run C1",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 7,
+  "unit": "samples",
+  "origin": "derived",
+  "inputs": []
+ },
+ "c1x.duration_full_transition_s": {
+  "statement": "Duration of that transition",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 8.498958110809324,
+  "unit": "s",
+  "origin": "derived",
+  "inputs": []
+ },
+ "c1x.h_equiv_at_peak_Wm2K": {
+  "statement": "Equivalent heat-transfer coefficient at the SG-window-5 peak Q/A of C1, using an order-of-magnitude Delta T ~ 100 K",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": 5288.057016338219,
+  "unit": "W/(m2 K)",
+  "origin": "derived",
+  "inputs": []
+ },
+ "c1x.Bi_at_peak": {
+  "statement": "Biot number h Lc/k_Cu implied by that equivalent h, cylinder C (Lc = geom.C.Lc_m, k_Cu = 400 W/mK)",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "Bi ~ 0.05-0.1: not overwhelmingly >1, but no longer negligible either -- the lumped-body assumption is marginal, not clearly satisfied, during this specific transient",
+  "value": 0.07018558820842158,
+  "unit": "",
+  "origin": "derived",
+  "inputs": []
+ },
+ "c1x.plateau_T_diff_K": {
+  "statement": "Plateau temperature of C1 minus that of C (bare): if the junction were reading a locally colder/wetted spot, a persistent offset would be expected here",
+  "type": "script",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "the observed difference is comparable to the plateau's own noise level: the data neither support nor rule out the wetted-junction hypothesis",
+  "value": -0.8843126431152939,
+  "unit": "K",
+  "origin": "derived",
+  "inputs": [
+   "tc.C1.plateau_T_K",
+   "tc.C.plateau_T_K"
+  ]
+ },
+ "verif.seebeck_K_room_vs_wikipedia": {
+  "statement": "phys.seebeck_K_uVK (41 uV/K) cross-checked against an independent secondary source (Wikipedia, 'Thermocouple' article, accessed this session): 'a sensitivity of approximately 41 uV/degC' for type K -- exact match",
+  "type": "source",
+  "reproduce": "WebFetch: https://en.wikipedia.org/wiki/Thermocouple (this session)",
+  "detail": "",
+  "value": true,
+  "unit": "bool",
+  "origin": "literature",
+  "inputs": [
+   "phys.seebeck_K_uVK"
+  ]
+ },
+ "verif.nist_type_k_table_attempt": {
+  "statement": "Attempted to fetch the primary NIST ITS-90 type-K inverse-polynomial coefficient table directly (srdata.nist.gov/its90 redirected to a navigation-only page; a secondary mirror returned HTTP 403). The digit-level polynomial used in work/analysis.py::typeK_T_from_V therefore remains UNVERIFIED against the primary source in this session",
+  "type": "source",
+  "reproduce": "WebFetch attempts, this session (see session log)",
+  "detail": "mitigating evidence: (i) recomputing T from the CSV's own V with this polynomial reproduces the CSV's T column to <=0.2 K over two independent runs (tc_check.B/C.max_abs_dev_K), which is strong internal/empirical evidence the polynomial is correct even though its digits were not re-derived from the primary table here; (ii) the 41 uV/K room-T slope implied by the same polynomial matches the independently-sourced Wikipedia figure exactly (verif.seebeck_K_room_vs_wikipedia)",
+  "value": "not retrieved",
+  "unit": "",
+  "origin": "literature",
+  "inputs": []
+ },
+ "verif.constants_status": {
+  "statement": "constants cross-check",
+  "type": "source",
+  "reproduce": "guide, this file",
+  "detail": "",
+  "value": "the tabulated constants (phys.*) are standard, widely reproduced textbook/handbook values (CRC Handbook, NIST WebBook, CODATA); this session did not have live access to CRC/NIST WebBook itself (paywalled/DB-only) so they were not re-fetched digit-by-digit, but they agree with each other and with the internal data (e.g. m/V of A/B/C matches rho_Cu to 1-3%, sec. 3) to well within their quoted tolerances",
+  "unit": "",
+  "origin": "literature",
+  "inputs": []
+ },
+ "verif.listerman1986_ref": {
+  "statement": "Bibliographic identification (title/authors/journal/volume/pages) obtained via a CrossRef metadata query this session; the full text was NOT retrieved or read. Directly on-topic: a body cooling by LN2 immersion, the same class of experiment as this lab (already cited as the source of phys.h_film_Wm2K's order-of-magnitude film coefficient)",
+  "type": "source",
+  "reproduce": "WebFetch: api.crossref.org bibliographic search (this session)",
+  "detail": "",
+  "value": "Listerman, T.W., Boshinski, T.A., Knese, L.F. (1986), 'Cooling by immersion in liquid nitrogen', American Journal of Physics 54(6), 554-558",
+  "unit": "",
+  "origin": "literature",
+  "inputs": []
+ },
+ "verif.curzon1978_ref": {
+  "statement": "Bibliographic identification obtained via the same CrossRef query; an automatically-fetched summary (not independently verified against the primary text) describes it as presenting four lecture-hall demonstrations of the Leidenfrost effect (drops floating on a vapour cushion, delayed quenching of heated brass) -- qualitative/demonstration in nature, not a quantitative lumped-body calorimetry study like this one. No numeric result from this paper is used or compared here because the primary text was not read",
+  "type": "source",
+  "reproduce": "WebFetch: api.crossref.org bibliographic search (this session)",
+  "detail": "",
+  "value": "Curzon, F.L. (1978), 'The Leidenfrost phenomenon', American Journal of Physics 46(8), 825-828",
+  "unit": "",
+  "origin": "literature",
+  "inputs": []
+ },
+ "verif.adc_and_film_are_hypotheses": {
+  "statement": "assume.adc_fs_V, assume.adc_bits, assume.film_thickness_m and assume.film_k remain explicit, labelled HYPOTHESES: no ADC/amplifier datasheet or film specification was found in guia/ or datos/. Conclusions that depend on them (the illustrative sigma_T numbers of sec. 5x, and the film-vs-vapour resistance comparison of sec. 5) are flagged as such and are not used to support any quantitative conclusion in sec. 7-10",
+  "type": "check",
+  "reproduce": "work/w3/extensions.py::main",
+  "detail": "",
+  "value": true,
+  "unit": "bool",
+  "origin": "derived",
+  "inputs": [
+   "assume.adc_fs_V",
+   "assume.adc_bits",
+   "assume.film_thickness_m",
+   "assume.film_k"
+  ]
+ }
+}
