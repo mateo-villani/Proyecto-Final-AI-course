@@ -1,22 +1,22 @@
-\# Proyecto Final — Reproducibilidad con agentes de IA aplicada al efecto Leidenfrost
+# Proyecto Final — Reproducibilidad con agentes de IA aplicada al efecto Leidenfrost
 
 
 
-\*\*Autores:\*\* Nikita Kacuk y Mateo Villani
+**Autores:** Nikita Kacuk y Mateo Villani
 
-\*\*Asistente de IA utilizado:\*\* Claude
-
-
-
-\## Descripción
+**Asistente de IA utilizado:** Claude
 
 
 
-Este repositorio contiene el trabajo realizado para el proyecto final, cuyo objetivo fue estudiar el uso de agentes de inteligencia artificial para \*\*verificar y reproducir un análisis experimental de física\*\*.
+## Descripción
 
 
 
-Como caso de estudio se utilizó un experimento previamente realizado sobre el \*\*efecto Leidenfrost en cilindros de cobre sumergidos en nitrógeno líquido\*\*.
+Este repositorio contiene el trabajo realizado para el proyecto final, cuyo objetivo fue estudiar el uso de agentes de inteligencia artificial para **verificar y reproducir un análisis experimental de física**.
+
+
+
+Como caso de estudio se utilizó un experimento previamente realizado sobre el **efecto Leidenfrost en cilindros de cobre sumergidos en nitrógeno líquido**.
 
 
 
@@ -32,11 +32,11 @@ Para estudiarlo se siguieron dos enfoques diferentes.
 
 
 
-\## 1. Verificación con acceso al informe
+## 1. Verificación con acceso al informe
 
 
 
-En el primer enfoque, el agente recibió el \*\*informe experimental terminado\*\*.
+En el primer enfoque, el agente recibió el **informe experimental terminado**.
 
 
 
@@ -48,15 +48,15 @@ Este procedimiento permitió, entre otras cosas:
 
 
 
-\* revisar cantidades geométricas y la relación entre masa y área de los cilindros;
+* revisar cantidades geométricas y la relación entre masa y área de los cilindros;
 
-\* analizar los tiempos críticos reportados;
+* analizar los tiempos críticos reportados;
 
-\* verificar el tratamiento del calor específico;
+* verificar el tratamiento del calor específico;
 
-\* detectar una inconsistencia en el uso de las temperaturas características de Einstein y Debye;
+* detectar una inconsistencia en el uso de las temperaturas características de Einstein y Debye;
 
-\* revisar el análisis de las pendientes obtenidas en la medición con la balanza.
+* revisar el análisis de las pendientes obtenidas en la medición con la balanza.
 
 
 
@@ -64,15 +64,15 @@ Este método responde principalmente a la pregunta:
 
 
 
-\*\*¿Puede un agente auditar y verificar un resultado que ya conoce?\*\*
+**¿Puede un agente auditar y verificar un resultado que ya conoce?**
 
 
 
-\## 2. Reproducción independiente desde los datos
+## 2. Reproducción independiente desde los datos
 
 
 
-En el segundo enfoque, el agente \*\*no recibió el informe experimental original como entrada\*\*.
+En el segundo enfoque, el agente **no recibió el informe experimental original como entrada**.
 
 
 
@@ -80,13 +80,13 @@ En cambio, trabajó a partir de:
 
 
 
-\* los archivos CSV con las mediciones experimentales;
+* los archivos CSV con las mediciones experimentales;
 
-\* las guías de la experiencia;
+* las guías de la experiencia;
 
-\* los parámetros y dimensiones necesarios para el análisis;
+* los parámetros y dimensiones necesarios para el análisis;
 
-\* una descripción de los objetivos que debía alcanzar.
+* una descripción de los objetivos que debía alcanzar.
 
 
 
@@ -94,27 +94,27 @@ A partir de estas fuentes reconstruyó el análisis del experimento, incluyendo:
 
 
 
-\* conversión de las mediciones a temperatura;
+* conversión de las mediciones a temperatura;
 
-\* curvas de temperatura en función del tiempo;
+* curvas de temperatura en función del tiempo;
 
-\* determinación de los tiempos críticos;
+* determinación de los tiempos críticos;
 
-\* cálculo del flujo de calor por unidad de área;
+* cálculo del flujo de calor por unidad de área;
 
-\* análisis de la medición con balanza;
+* análisis de la medición con balanza;
 
-\* comparación entre cilindros;
+* comparación entre cilindros;
 
-\* estudio del efecto de modificar la superficie;
+* estudio del efecto de modificar la superficie;
 
-\* generación de figuras;
+* generación de figuras;
 
-\* análisis adicionales de los resultados.
+* análisis adicionales de los resultados.
 
 
 
-Además, se incorporaron mecanismos de \*\*trazabilidad y verificación automática\*\*, mediante archivos de provenance y checks.
+Además, se incorporaron mecanismos de **trazabilidad y verificación automática**, mediante archivos de provenance y checks.
 
 
 
@@ -122,11 +122,11 @@ Este método responde a una pregunta diferente:
 
 
 
-\*\*¿Puede un agente recuperar los resultados sin conocer previamente la respuesta?\*\*
+**¿Puede un agente recuperar los resultados sin conocer previamente la respuesta?**
 
 
 
-\## Comparación de los métodos
+## Comparación de los métodos
 
 
 
@@ -134,11 +134,11 @@ Los dos procedimientos no realizan exactamente la misma tarea y son complementar
 
 
 
-El método con acceso al informe funciona principalmente como una \*\*auditoría\*\*: parte de un resultado conocido y estudia si está correctamente respaldado.
+El método con acceso al informe funciona principalmente como una **auditoría**: parte de un resultado conocido y estudia si está correctamente respaldado.
 
 
 
-La reproducción independiente funciona como una prueba más exigente de \*\*reproducibilidad\*\*: el agente debe volver desde los datos experimentales hasta los resultados sin utilizar el informe como referencia durante el análisis.
+La reproducción independiente funciona como una prueba más exigente de **reproducibilidad**: el agente debe volver desde los datos experimentales hasta los resultados sin utilizar el informe como referencia durante el análisis.
 
 
 
@@ -150,11 +150,11 @@ También aparecieron diferencias útiles para estudiar las limitaciones del proc
 
 
 
-El proyecto muestra además que obtener un número similar al original no es suficiente para hablar de reproducibilidad: es importante conservar información sobre \*\*qué datos, supuestos y procedimientos produjeron cada resultado\*\*.
+El proyecto muestra además que obtener un número similar al original no es suficiente para hablar de reproducibilidad: es importante conservar información sobre **qué datos, supuestos y procedimientos produjeron cada resultado**.
 
 
 
-\## Estructura del repositorio
+## Estructura del repositorio
 
 
 
@@ -164,11 +164,11 @@ Proyecto-Final-AI-course/
 
 │
 
-├── Para\_humanos/
+├── Para_humanos/
 
-│   ├── ProyectoFinal\_Leidenfrost\_agentesdeIA.pdf
+│   ├── ProyectoFinal_Leidenfrost_agentesdeIA.pdf
 
-│   ├── Grupo\_3\_\_\_Informe\_Leidenfrost\_Reentrega.pdf
+│   ├── Grupo_3___Informe_Leidenfrost_Reentrega.pdf
 
 │   ├── verificacion-informe-leidenfrost.html
 
@@ -178,13 +178,13 @@ Proyecto-Final-AI-course/
 
 │
 
-└── Para\_máquinas/
+└── Para_máquinas/
 
-&#x20;   ├── codigo\_verificacion\_informe.sh
+&#x20;   ├── codigo_verificacion_informe.sh
 
 &#x20;   │
 
-&#x20;   └── reproduccion\_desde\_cero/
+&#x20;   └── reproduccion_desde_cero/
 
 &#x20;       ├── README.md
 
@@ -204,7 +204,7 @@ Proyecto-Final-AI-course/
 
 
 
-\### `Para\_humanos/`
+### `Para_humanos/`
 
 
 
@@ -216,7 +216,7 @@ El documento principal de síntesis del proyecto es:
 
 
 
-\*\*`Para\_humanos/ProyectoFinal\_Leidenfrost\_agentesdeIA.pdf`\*\*
+**`Para_humanos/ProyectoFinal_Leidenfrost_agentesdeIA.pdf`**
 
 
 
@@ -228,15 +228,15 @@ También se encuentran aquí:
 
 
 
-\* el informe experimental original;
+* el informe experimental original;
 
-\* el resultado de la verificación con acceso al informe;
+* el resultado de la verificación con acceso al informe;
 
-\* el informe generado mediante la reproducción independiente desde los datos.
+* el informe generado mediante la reproducción independiente desde los datos.
 
 
 
-\### `Para\_máquinas/`
+### `Para_máquinas/`
 
 
 
@@ -248,7 +248,7 @@ En particular:
 
 
 
-\*\*`Para\_máquinas/reproduccion\_desde\_cero/`\*\*
+**`Para_máquinas/reproduccion_desde_cero/`**
 
 
 
@@ -260,27 +260,27 @@ Dentro de este directorio:
 
 
 
-\* `datos/`: mediciones experimentales crudas;
+* `datos/`: mediciones experimentales crudas;
 
-\* `guia/`: documentación utilizada como fuente;
+* `guia/`: documentación utilizada como fuente;
 
-\* `work/`: código del análisis;
+* `work/`: código del análisis;
 
-\* `out/provenance.json`: trazabilidad de los resultados;
+* `out/provenance.json`: trazabilidad de los resultados;
 
-\* `out/checks.py`: verificaciones automáticas;
+* `out/checks.py`: verificaciones automáticas;
 
-\* `out/report.py`: versión reproducible/interactiva del informe;
+* `out/report.py`: versión reproducible/interactiva del informe;
 
-\* `objective.txt`: objetivo entregado al agente;
+* `objective.txt`: objetivo entregado al agente;
 
-\* `requirements.txt`: dependencias de Python;
+* `requirements.txt`: dependencias de Python;
 
-\* `README.md`: instrucciones específicas para reproducir este análisis.
+* `README.md`: instrucciones específicas para reproducir este análisis.
 
 
 
-\## Reproducción
+## Reproducción
 
 
 
@@ -288,7 +288,7 @@ Las instrucciones detalladas para ejecutar nuevamente la reproducción independi
 
 
 
-`Para\_máquinas/reproduccion\_desde\_cero/README.md`
+`Para_máquinas/reproduccion_desde_cero/README.md`
 
 
 
@@ -296,11 +296,11 @@ El paquete fue organizado para que pueda ser inspeccionado por una persona o por
 
 
 
-\## Resultado principal
+## Resultado principal
 
 
 
-La comparación muestra una diferencia importante entre \*\*verificar un resultado conocido\*\* y \*\*reconstruirlo desde evidencia primaria\*\*.
+La comparación muestra una diferencia importante entre **verificar un resultado conocido** y **reconstruirlo desde evidencia primaria**.
 
 
 
@@ -308,7 +308,7 @@ El acceso al informe permite al agente detectar inconsistencias y auditar las co
 
 
 
-Por este motivo, el proyecto no evalúa únicamente si una IA puede producir una respuesta similar a la original, sino también \*\*qué evidencia permite determinar cómo obtuvo esa respuesta y hasta qué punto el proceso puede repetirse y verificarse\*\*.
+Por este motivo, el proyecto no evalúa únicamente si una IA puede producir una respuesta similar a la original, sino también **qué evidencia permite determinar cómo obtuvo esa respuesta y hasta qué punto el proceso puede repetirse y verificarse**.
 
 
 
