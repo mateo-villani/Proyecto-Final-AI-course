@@ -4,7 +4,7 @@
 
 **Autores:** Nikita Kacuk y Mateo Villani
 
-**Asistente de IA utilizado:** Claude
+**Asistentes de IA utilizados:** Claude y Codex
 
 
 

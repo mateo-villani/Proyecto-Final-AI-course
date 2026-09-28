@@ -31,13 +31,15 @@ Los archivos de `work/fig/`, `work/results.json`, `work/checks_output.txt` y var
 
 ## Dependencias
 
-Se requiere Python 3 y los paquetes indicados en:
+Se requiere Python 3.12. El pipeline fue validado con Python 3.12.5 y las versiones exactas de los paquetes indicadas en:
 
     requirements.txt
 
 Para instalarlos:
 
     python -m pip install -r requirements.txt
+
+Las versiones están fijadas para preservar el entorno validado y evitar cambios silenciosos en los resultados por actualizaciones de dependencias.
 
 ## Reproducción
 

@@ -1,5 +1,5 @@
-numpy
-pandas
-scipy
-matplotlib
-marimo
+numpy==2.0.1
+pandas==2.2.3
+scipy==1.14.1
+matplotlib==3.9.2
+marimo==0.24.2
