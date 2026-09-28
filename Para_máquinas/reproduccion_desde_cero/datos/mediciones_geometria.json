@@ -1,0 +1,49 @@
+{
+  "descripcion": "Mediciones geométricas y de masa utilizadas por el pipeline para los cilindros A, B y C.",
+  "procedencia": "Archivo reconstruido a partir de los valores ya utilizados para generar los gráficos y resultados del proyecto. Debe sustituirse o contrastarse con el registro experimental original si este se recupera.",
+  "unidades": {
+    "h_m": "m",
+    "d_m": "m",
+    "m_kg": "kg",
+    "area_stated_cm2": "cm2",
+    "n_stated_mol": "mol"
+  },
+  "cilindros": {
+    "A": {
+      "h_m": 0.094,
+      "d_m": 0.038,
+      "m_kg": 0.941,
+      "dh_m": 0.001,
+      "dd_m": 0.001,
+      "dm_kg": 0.0001,
+      "area_stated_cm2": 135.0,
+      "darea_stated_cm2": 4.0,
+      "n_stated_mol": 14.82,
+      "dn_stated_mol": 0.002
+    },
+    "B": {
+      "h_m": 0.049,
+      "d_m": 0.022,
+      "m_kg": 0.1658,
+      "dh_m": 0.001,
+      "dd_m": 0.001,
+      "dm_kg": 0.0001,
+      "area_stated_cm2": 42.0,
+      "darea_stated_cm2": 2.0,
+      "n_stated_mol": 2.611,
+      "dn_stated_mol": 0.002
+    },
+    "C": {
+      "h_m": 0.027,
+      "d_m": 0.035,
+      "m_kg": 0.2262,
+      "dh_m": 0.001,
+      "dd_m": 0.001,
+      "dm_kg": 0.0001,
+      "area_stated_cm2": 49.0,
+      "darea_stated_cm2": 2.0,
+      "n_stated_mol": 3.562,
+      "dn_stated_mol": 0.002
+    }
+  }
+}

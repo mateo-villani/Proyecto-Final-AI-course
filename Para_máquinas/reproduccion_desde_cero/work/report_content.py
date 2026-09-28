@@ -60,7 +60,7 @@ def sections(P):
     S.append(dict(id="alcance", title="Alcance, fuentes y trazabilidad", figs=[], html="""
 <p>Este informe reproduce el análisis del laboratorio «Efecto Leidenfrost» usando únicamente los seis CSV de
 <code>datos/</code>, las dos guías de <code>guia/</code> y las dimensiones de los tres cilindros que el humano
-midió y comunicó (<code>inbox.jsonl</code>). El código del pipeline no contiene rutas de lectura hacia
+midió y comunicó, preservadas en <code>datos/mediciones_geometria.json</code>. El código del pipeline no contiene rutas de lectura hacia
 <code>informe-original/</code>. Cada número lleva una etiqueta gris <sup class="src">[clave]</sup> que
 resuelve en <code>out/provenance.json</code>: allí consta qué script y función lo generó, con qué entradas, y si es
 <em>derivado</em>, <em>tomado de la guía</em>, de <em>tablas</em> (<code>phys.*</code>), <em>medido por el humano</em>
@@ -290,7 +290,7 @@ la misma región donde Einstein/Debye tampoco importaban.</p>
 """))
 
     S.append(dict(id="geom", title="3. Geometría, moles y p = m/A; relación p–t_c", figs=["tc_vs_p.png", "tc_vs_p_models.png", "pred_D.png"], html="""
-<p>Dimensiones medidas por el humano (calibre y balanza; <code>inbox.jsonl</code>), ±0,1 cm en h y d, ±0,1 g en m. Área
+<p>Dimensiones medidas por el humano (calibre y balanza; <code>datos/mediciones_geometria.json</code>), ±0,1 cm en h y d, ±0,1 g en m. Área
 A = πd²/2 + πdh con δA = √{[π(d+h)δd]² + [πd δh]²}; n = m/M<sub>Cu</sub> con M<sub>Cu</sub> = 63,546 g/mol; p = m/A con
 δp/p = √{(δm/m)² + (δA/A)²} (propagación lineal, errores independientes).</p>
 <table><thead><tr><th>cil.</th><th>h [cm]</th><th>d [cm]</th><th>m [g]</th><th>A [cm²]</th><th>A humano [cm²]</th><th>n [mol]</th><th>p [kg/m²]</th><th>m/V [kg/m³]</th></tr></thead><tbody>

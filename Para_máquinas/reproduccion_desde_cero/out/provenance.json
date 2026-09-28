@@ -251,9 +251,9 @@
   ]
  },
  "geom.A.h_m": {
-  "statement": "Cylinder A h = 0.094 +/- 0.001 m, measured by the human (caliper/balance), supplied in inbox.jsonl 2026-09-18",
+  "statement": "Cylinder A h = 0.094 +/- 0.001 m, measured by caliper/balance",
   "type": "source",
-  "reproduce": "inbox.jsonl (human direction, 2026-09-18 21:12 and 21:35)",
+  "reproduce": "datos/mediciones_geometria.json::cilindros.A.h_m",
   "detail": "uncertainty +/- 0.001 m as stated by the human",
   "value": 0.094,
   "unit": "m",
@@ -263,7 +263,7 @@
  "geom.A.dh_m": {
   "statement": "Stated uncertainty of h_m for cylinder A",
   "type": "source",
-  "reproduce": "inbox.jsonl (human direction)",
+  "reproduce": "datos/mediciones_geometria.json::cilindros.A.dh_m",
   "detail": "",
   "value": 0.001,
   "unit": "m",
@@ -271,9 +271,9 @@
   "inputs": []
  },
  "geom.A.d_m": {
-  "statement": "Cylinder A d = 0.038 +/- 0.001 m, measured by the human (caliper/balance), supplied in inbox.jsonl 2026-09-18",
+  "statement": "Cylinder A d = 0.038 +/- 0.001 m, measured by caliper/balance",
   "type": "source",
-  "reproduce": "inbox.jsonl (human direction, 2026-09-18 21:12 and 21:35)",
+  "reproduce": "datos/mediciones_geometria.json::cilindros.A.d_m",
   "detail": "uncertainty +/- 0.001 m as stated by the human",
   "value": 0.038,
   "unit": "m",
@@ -283,7 +283,7 @@
  "geom.A.dd_m": {
   "statement": "Stated uncertainty of d_m for cylinder A",
   "type": "source",
-  "reproduce": "inbox.jsonl (human direction)",
+  "reproduce": "datos/mediciones_geometria.json::cilindros.A.dd_m",
   "detail": "",
   "value": 0.001,
   "unit": "m",
@@ -291,9 +291,9 @@
   "inputs": []
  },
  "geom.A.m_kg": {
-  "statement": "Cylinder A m = 0.941 +/- 0.0001 kg, measured by the human (caliper/balance), supplied in inbox.jsonl 2026-09-18",
+  "statement": "Cylinder A m = 0.941 +/- 0.0001 kg, measured by caliper/balance",
   "type": "source",
-  "reproduce": "inbox.jsonl (human direction, 2026-09-18 21:12 and 21:35)",
+  "reproduce": "datos/mediciones_geometria.json::cilindros.A.m_kg",
   "detail": "uncertainty +/- 0.0001 kg as stated by the human",
   "value": 0.941,
   "unit": "kg",
@@ -303,7 +303,7 @@
  "geom.A.dm_kg": {
   "statement": "Stated uncertainty of m_kg for cylinder A",
   "type": "source",
-  "reproduce": "inbox.jsonl (human direction)",
+  "reproduce": "datos/mediciones_geometria.json::cilindros.A.dm_kg",
   "detail": "",
   "value": 0.0001,
   "unit": "kg",
@@ -339,7 +339,7 @@
  "geom.A.area_stated_cm2": {
   "statement": "Area of cylinder A as stated by the human (+/- 4.0 cm2)",
   "type": "source",
-  "reproduce": "inbox.jsonl (human direction)",
+  "reproduce": "datos/mediciones_geometria.json::cilindros.A.area_stated_cm2",
   "detail": "",
   "value": 135.0,
   "unit": "cm2",
@@ -384,7 +384,7 @@
  "geom.A.n_stated_mol": {
   "statement": "n of cylinder A as stated by the human (+/- 0.002 mol)",
   "type": "source",
-  "reproduce": "inbox.jsonl (human direction)",
+  "reproduce": "datos/mediciones_geometria.json::cilindros.A.n_stated_mol",
   "detail": "",
   "value": 14.82,
   "unit": "mol",
@@ -465,9 +465,9 @@
   "inputs": []
  },
  "geom.B.h_m": {
-  "statement": "Cylinder B h = 0.049 +/- 0.001 m, measured by the human (caliper/balance), supplied in inbox.jsonl 2026-09-18",
+  "statement": "Cylinder B h = 0.049 +/- 0.001 m, measured by caliper/balance",
   "type": "source",
-  "reproduce": "inbox.jsonl (human direction, 2026-09-18 21:12 and 21:35)",
+  "reproduce": "datos/mediciones_geometria.json::cilindros.B.h_m",
   "detail": "uncertainty +/- 0.001 m as stated by the human",
   "value": 0.049,
   "unit": "m",
@@ -477,7 +477,7 @@
  "geom.B.dh_m": {
   "statement": "Stated uncertainty of h_m for cylinder B",
   "type": "source",
-  "reproduce": "inbox.jsonl (human direction)",
+  "reproduce": "datos/mediciones_geometria.json::cilindros.B.dh_m",
   "detail": "",
   "value": 0.001,
   "unit": "m",
@@ -485,9 +485,9 @@
   "inputs": []
  },
  "geom.B.d_m": {
-  "statement": "Cylinder B d = 0.022 +/- 0.001 m, measured by the human (caliper/balance), supplied in inbox.jsonl 2026-09-18",
+  "statement": "Cylinder B d = 0.022 +/- 0.001 m, measured by caliper/balance",
   "type": "source",
-  "reproduce": "inbox.jsonl (human direction, 2026-09-18 21:12 and 21:35)",
+  "reproduce": "datos/mediciones_geometria.json::cilindros.B.d_m",
   "detail": "uncertainty +/- 0.001 m as stated by the human",
   "value": 0.022,
   "unit": "m",
@@ -497,7 +497,7 @@
  "geom.B.dd_m": {
   "statement": "Stated uncertainty of d_m for cylinder B",
   "type": "source",
-  "reproduce": "inbox.jsonl (human direction)",
+  "reproduce": "datos/mediciones_geometria.json::cilindros.B.dd_m",
   "detail": "",
   "value": 0.001,
   "unit": "m",
@@ -505,9 +505,9 @@
   "inputs": []
  },
  "geom.B.m_kg": {
-  "statement": "Cylinder B m = 0.1658 +/- 0.0001 kg, measured by the human (caliper/balance), supplied in inbox.jsonl 2026-09-18",
+  "statement": "Cylinder B m = 0.1658 +/- 0.0001 kg, measured by caliper/balance",
   "type": "source",
-  "reproduce": "inbox.jsonl (human direction, 2026-09-18 21:12 and 21:35)",
+  "reproduce": "datos/mediciones_geometria.json::cilindros.B.m_kg",
   "detail": "uncertainty +/- 0.0001 kg as stated by the human",
   "value": 0.1658,
   "unit": "kg",
@@ -517,7 +517,7 @@
  "geom.B.dm_kg": {
   "statement": "Stated uncertainty of m_kg for cylinder B",
   "type": "source",
-  "reproduce": "inbox.jsonl (human direction)",
+  "reproduce": "datos/mediciones_geometria.json::cilindros.B.dm_kg",
   "detail": "",
   "value": 0.0001,
   "unit": "kg",
@@ -553,7 +553,7 @@
  "geom.B.area_stated_cm2": {
   "statement": "Area of cylinder B as stated by the human (+/- 2.0 cm2)",
   "type": "source",
-  "reproduce": "inbox.jsonl (human direction)",
+  "reproduce": "datos/mediciones_geometria.json::cilindros.B.area_stated_cm2",
   "detail": "",
   "value": 42.0,
   "unit": "cm2",
@@ -598,7 +598,7 @@
  "geom.B.n_stated_mol": {
   "statement": "n of cylinder B as stated by the human (+/- 0.002 mol)",
   "type": "source",
-  "reproduce": "inbox.jsonl (human direction)",
+  "reproduce": "datos/mediciones_geometria.json::cilindros.B.n_stated_mol",
   "detail": "",
   "value": 2.611,
   "unit": "mol",
@@ -679,9 +679,9 @@
   "inputs": []
  },
  "geom.C.h_m": {
-  "statement": "Cylinder C h = 0.027 +/- 0.001 m, measured by the human (caliper/balance), supplied in inbox.jsonl 2026-09-18",
+  "statement": "Cylinder C h = 0.027 +/- 0.001 m, measured by caliper/balance",
   "type": "source",
-  "reproduce": "inbox.jsonl (human direction, 2026-09-18 21:12 and 21:35)",
+  "reproduce": "datos/mediciones_geometria.json::cilindros.C.h_m",
   "detail": "uncertainty +/- 0.001 m as stated by the human",
   "value": 0.027,
   "unit": "m",
@@ -691,7 +691,7 @@
  "geom.C.dh_m": {
   "statement": "Stated uncertainty of h_m for cylinder C",
   "type": "source",
-  "reproduce": "inbox.jsonl (human direction)",
+  "reproduce": "datos/mediciones_geometria.json::cilindros.C.dh_m",
   "detail": "",
   "value": 0.001,
   "unit": "m",
@@ -699,9 +699,9 @@
   "inputs": []
  },
  "geom.C.d_m": {
-  "statement": "Cylinder C d = 0.035 +/- 0.001 m, measured by the human (caliper/balance), supplied in inbox.jsonl 2026-09-18",
+  "statement": "Cylinder C d = 0.035 +/- 0.001 m, measured by caliper/balance",
   "type": "source",
-  "reproduce": "inbox.jsonl (human direction, 2026-09-18 21:12 and 21:35)",
+  "reproduce": "datos/mediciones_geometria.json::cilindros.C.d_m",
   "detail": "uncertainty +/- 0.001 m as stated by the human",
   "value": 0.035,
   "unit": "m",
@@ -711,7 +711,7 @@
  "geom.C.dd_m": {
   "statement": "Stated uncertainty of d_m for cylinder C",
   "type": "source",
-  "reproduce": "inbox.jsonl (human direction)",
+  "reproduce": "datos/mediciones_geometria.json::cilindros.C.dd_m",
   "detail": "",
   "value": 0.001,
   "unit": "m",
@@ -719,9 +719,9 @@
   "inputs": []
  },
  "geom.C.m_kg": {
-  "statement": "Cylinder C m = 0.2262 +/- 0.0001 kg, measured by the human (caliper/balance), supplied in inbox.jsonl 2026-09-18",
+  "statement": "Cylinder C m = 0.2262 +/- 0.0001 kg, measured by caliper/balance",
   "type": "source",
-  "reproduce": "inbox.jsonl (human direction, 2026-09-18 21:12 and 21:35)",
+  "reproduce": "datos/mediciones_geometria.json::cilindros.C.m_kg",
   "detail": "uncertainty +/- 0.0001 kg as stated by the human",
   "value": 0.2262,
   "unit": "kg",
@@ -731,7 +731,7 @@
  "geom.C.dm_kg": {
   "statement": "Stated uncertainty of m_kg for cylinder C",
   "type": "source",
-  "reproduce": "inbox.jsonl (human direction)",
+  "reproduce": "datos/mediciones_geometria.json::cilindros.C.dm_kg",
   "detail": "",
   "value": 0.0001,
   "unit": "kg",
@@ -767,7 +767,7 @@
  "geom.C.area_stated_cm2": {
   "statement": "Area of cylinder C as stated by the human (+/- 2.0 cm2)",
   "type": "source",
-  "reproduce": "inbox.jsonl (human direction)",
+  "reproduce": "datos/mediciones_geometria.json::cilindros.C.area_stated_cm2",
   "detail": "",
   "value": 49.0,
   "unit": "cm2",
@@ -812,7 +812,7 @@
  "geom.C.n_stated_mol": {
   "statement": "n of cylinder C as stated by the human (+/- 0.002 mol)",
   "type": "source",
-  "reproduce": "inbox.jsonl (human direction)",
+  "reproduce": "datos/mediciones_geometria.json::cilindros.C.n_stated_mol",
   "detail": "",
   "value": 3.562,
   "unit": "mol",
@@ -3652,7 +3652,7 @@
  "qual.meas_A_h_m": {
   "statement": "measured height of cylinder A = 0.094 m (+/- 0.001)",
   "type": "source",
-  "reproduce": "inbox.jsonl (human direction, 2026-09-18)",
+  "reproduce": "datos/mediciones_geometria.json::cilindros.A.h_m",
   "value": 0.094,
   "unit": "m",
   "origin": "measured"
@@ -3660,7 +3660,7 @@
  "qual.meas_A_d_m": {
   "statement": "measured diameter of cylinder A = 0.038 m (+/- 0.001)",
   "type": "source",
-  "reproduce": "inbox.jsonl (human direction, 2026-09-18)",
+  "reproduce": "datos/mediciones_geometria.json::cilindros.A.d_m",
   "value": 0.038,
   "unit": "m",
   "origin": "measured"
@@ -3668,7 +3668,7 @@
  "qual.meas_A_m_kg": {
   "statement": "measured mass of cylinder A = 0.941 kg (+/- 0.0001)",
   "type": "source",
-  "reproduce": "inbox.jsonl (human direction, 2026-09-18)",
+  "reproduce": "datos/mediciones_geometria.json::cilindros.A.m_kg",
   "value": 0.941,
   "unit": "kg",
   "origin": "measured"
@@ -3676,7 +3676,7 @@
  "qual.meas_B_h_m": {
   "statement": "measured height of cylinder B = 0.049 m (+/- 0.001)",
   "type": "source",
-  "reproduce": "inbox.jsonl (human direction, 2026-09-18)",
+  "reproduce": "datos/mediciones_geometria.json::cilindros.B.h_m",
   "value": 0.049,
   "unit": "m",
   "origin": "measured"
@@ -3684,7 +3684,7 @@
  "qual.meas_B_d_m": {
   "statement": "measured diameter of cylinder B = 0.022 m (+/- 0.001)",
   "type": "source",
-  "reproduce": "inbox.jsonl (human direction, 2026-09-18)",
+  "reproduce": "datos/mediciones_geometria.json::cilindros.B.d_m",
   "value": 0.022,
   "unit": "m",
   "origin": "measured"
@@ -3692,7 +3692,7 @@
  "qual.meas_B_m_kg": {
   "statement": "measured mass of cylinder B = 0.1658 kg (+/- 0.0001)",
   "type": "source",
-  "reproduce": "inbox.jsonl (human direction, 2026-09-18)",
+  "reproduce": "datos/mediciones_geometria.json::cilindros.B.m_kg",
   "value": 0.1658,
   "unit": "kg",
   "origin": "measured"
@@ -3700,7 +3700,7 @@
  "qual.meas_C_h_m": {
   "statement": "measured height of cylinder C = 0.027 m (+/- 0.001)",
   "type": "source",
-  "reproduce": "inbox.jsonl (human direction, 2026-09-18)",
+  "reproduce": "datos/mediciones_geometria.json::cilindros.C.h_m",
   "value": 0.027,
   "unit": "m",
   "origin": "measured"
@@ -3708,7 +3708,7 @@
  "qual.meas_C_d_m": {
   "statement": "measured diameter of cylinder C = 0.035 m (+/- 0.001)",
   "type": "source",
-  "reproduce": "inbox.jsonl (human direction, 2026-09-18)",
+  "reproduce": "datos/mediciones_geometria.json::cilindros.C.d_m",
   "value": 0.035,
   "unit": "m",
   "origin": "measured"
@@ -3716,7 +3716,7 @@
  "qual.meas_C_m_kg": {
   "statement": "measured mass of cylinder C = 0.2262 kg (+/- 0.0001)",
   "type": "source",
-  "reproduce": "inbox.jsonl (human direction, 2026-09-18)",
+  "reproduce": "datos/mediciones_geometria.json::cilindros.C.m_kg",
   "value": 0.2262,
   "unit": "kg",
   "origin": "measured"

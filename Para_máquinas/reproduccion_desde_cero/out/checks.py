@@ -85,6 +85,18 @@ def all_finite(value):
     return False
 
 
+def resolve_json_key(document, dotted_key):
+    """Resolve a provenance pointer such as cilindros.A.h_m inside a JSON document."""
+    if isinstance(document, dict) and dotted_key in document:
+        return document[dotted_key]
+    current = document
+    for part in dotted_key.split("."):
+        if not isinstance(current, dict) or part not in current:
+            raise KeyError(dotted_key)
+        current = current[part]
+    return current
+
+
 def dependency_cycles(graph):
     cycles, visiting, visited = [], set(), set()
 
@@ -143,13 +155,15 @@ def main():
                 broken_local_refs.append((prov_key, relpath))
             elif relpath.endswith(".json") and json_key:
                 document = json.load(open(fullpath, encoding="utf-8"))
-                if json_key not in document:
+                try:
+                    resolve_json_key(document, json_key)
+                except KeyError:
                     broken_json_refs.append((prov_key, relpath, json_key))
     check("prov.all_local_paths_exist", not broken_local_refs,
           f"resolved {len(local_refs)} local provenance references; missing={broken_local_refs}")
     check("prov.json_references_resolve", not broken_json_refs,
           f"JSON references with missing keys={broken_json_refs}")
-    stable_inputs = ("datos/supuestos.json", "guia/referencias.json")
+    stable_inputs = ("datos/supuestos.json", "datos/mediciones_geometria.json", "guia/referencias.json")
     missing_stable_inputs = [path for path in stable_inputs if not os.path.isfile(os.path.join(JOB, path))]
     check("prov.stable_input_files", not missing_stable_inputs,
           f"stable assumption/reference inputs present; missing={missing_stable_inputs}")
@@ -206,7 +220,7 @@ def main():
         if digest != expected["sha256"] or size != expected["bytes"]:
             hash_errors.append((relpath, f"sha256={digest}, bytes={size}"))
     check("inputs.sha256_manifest", not hash_errors,
-          f"{len(manifest['files'])} raw CSV/PDF inputs match input_manifest.json; errors={hash_errors}")
+          f"{len(manifest['files'])} versioned inputs match input_manifest.json; errors={hash_errors}")
     origins = {}
     for e in PROV.values():
         origins[e.get("origin", "?")] = origins.get(e.get("origin", "?"), 0) + 1
@@ -239,7 +253,7 @@ def main():
     check("cv.enthalpy_range", 60e3 < H < 85e3, f"integral Cv dT (77->296 K) = {H/1e3:.1f} kJ/kg (literature Cu ~ 75-80 kJ/kg; Einstein is low at low T)",
           ["cv.enthalpy_77_296_Jkg"], hard=False)
 
-    print("=== geometry (measured h, d, m from inbox.jsonl; area, n, p recomputed with propagated errors) ===")
+    print("=== geometry (measured h, d, m from datos/mediciones_geometria.json; area, n, p recomputed with propagated errors) ===")
     for c in ("A", "B", "C"):
         g = an.geometry(c)
         check(f"geom.sync.{c}", abs(g["area_m2"] - val(f"geom.{c}.area_m2")) < 1e-12 and abs(g["p_kgm2"] - val(f"geom.{c}.p_kgm2")) < 1e-9,

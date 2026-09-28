@@ -1,6 +1,10 @@
 {
   "algorithm": "sha256",
   "files": {
+    "datos/mediciones_geometria.json": {
+      "sha256": "3aab3941fa8d76309a8e6988e007385aabfd373e3b3e3db66c13fed6221a7e42",
+      "bytes": 1280
+    },
     "datos/CilindroA_sumergido.csv": {
       "sha256": "5ca8bc002fed67073d61101c62468ad0a0e1e2b687548c62c44a95c9382ec7a5",
       "bytes": 15508

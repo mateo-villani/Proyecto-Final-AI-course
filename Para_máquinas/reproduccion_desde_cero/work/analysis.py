@@ -37,18 +37,13 @@ L_V_N2 = 199.0e3     # J/kg, latent heat of vaporisation of N2 at 1 atm, 77 K
 RHO_LN2 = 807.0      # kg/m3, liquid N2 density at 77 K
 CP_N2_VAP = 1040.0   # J/(kg K), vapour cp (only used for a sensitivity bound)
 
-# origin="measured": per-cylinder h, d, m supplied by the human (inbox.jsonl, 2026-09-18 21:12 and
-# 21:35) with their stated uncertainties. These replace the preliminary nominal 10 cm / 4 cm / 1 kg.
+# origin="measured": per-cylinder h, d, m and their stated uncertainties, preserved in
+# datos/mediciones_geometria.json. These replace the preliminary nominal 10 cm / 4 cm / 1 kg.
 # The human also stated area and n; those are recomputed here from (h, d, m) and compared
 # (geom.<cyl>.area_stated_cm2 / n_stated_mol) -- the recomputed values are the ones used.
-GEOM = {
-    "A": {"h_m": 0.094, "d_m": 0.038, "m_kg": 0.9410, "dh_m": 0.001, "dd_m": 0.001, "dm_kg": 1e-4,
-          "area_stated_cm2": 135.0, "darea_stated_cm2": 4.0, "n_stated_mol": 14.820, "dn_stated_mol": 0.002},
-    "B": {"h_m": 0.049, "d_m": 0.022, "m_kg": 0.1658, "dh_m": 0.001, "dd_m": 0.001, "dm_kg": 1e-4,
-          "area_stated_cm2": 42.0, "darea_stated_cm2": 2.0, "n_stated_mol": 2.611, "dn_stated_mol": 0.002},
-    "C": {"h_m": 0.027, "d_m": 0.035, "m_kg": 0.2262, "dh_m": 0.001, "dd_m": 0.001, "dm_kg": 1e-4,
-          "area_stated_cm2": 49.0, "darea_stated_cm2": 2.0, "n_stated_mol": 3.562, "dn_stated_mol": 0.002},
-}
+GEOMETRY_PATH = os.path.join(DATOS, "mediciones_geometria.json")
+with open(GEOMETRY_PATH, encoding="utf-8") as fh:
+    GEOM = json.load(fh)["cilindros"]
 # guide nominal (page 3, "aprox. 10 cm, 4 cm, 1 kg"): kept ONLY for the density consistency remark,
 # no longer used in any computation.
 GEOM_NOMINAL_GUIDE = {"h_m": 0.10, "d_m": 0.04, "m_kg": 1.0}
@@ -521,7 +516,7 @@ def main():
          f"{S}::enthalpy_change", "derived", "J/mol")
     results["cv"] = {"T": TT.tolist(), "einstein": cv_einstein(TT).tolist(), "debye": cv_debye(TT).tolist()}
 
-    # --- geometry (measured, human direction in inbox.jsonl)
+    # --- geometry (measured values preserved in datos/mediciones_geometria.json)
     m_rho = RHO_CU * np.pi * (GEOM_NOMINAL_GUIDE["d_m"] / 2) ** 2 * GEOM_NOMINAL_GUIDE["h_m"]
     prov("geom.density_check_m_kg", m_rho, "Mass implied by rho_Cu x pi r^2 h for the guide's nominal 10 cm x 4 cm (consistency remark only; nominal geometry is NOT used)",
          f"{S}::main", "derived", "kg", ["phys.rho_Cu"])
@@ -531,22 +526,22 @@ def main():
         geoms[cyl] = g
         raw = GEOM[cyl]
         for k, unit in (("h_m", "m"), ("d_m", "m"), ("m_kg", "kg")):
-            prov(f"geom.{cyl}.{k}", g[k], f"Cylinder {cyl} {k.split('_')[0]} = {g[k]} +/- {raw['d'+k]} {unit}, measured by the human (caliper/balance), supplied in inbox.jsonl 2026-09-18",
-                 "inbox.jsonl (human direction, 2026-09-18 21:12 and 21:35)", "measured", unit, ptype="source",
+            prov(f"geom.{cyl}.{k}", g[k], f"Cylinder {cyl} {k.split('_')[0]} = {g[k]} +/- {raw['d'+k]} {unit}, measured by caliper/balance",
+                 f"datos/mediciones_geometria.json::cilindros.{cyl}.{k}", "measured", unit, ptype="source",
                  detail=f"uncertainty +/- {raw['d'+k]} {unit} as stated by the human")
-            prov(f"geom.{cyl}.d{k}", raw["d" + k], f"Stated uncertainty of {k} for cylinder {cyl}", "inbox.jsonl (human direction)", "measured", unit, ptype="source")
+            prov(f"geom.{cyl}.d{k}", raw["d" + k], f"Stated uncertainty of {k} for cylinder {cyl}", f"datos/mediciones_geometria.json::cilindros.{cyl}.d{k}", "measured", unit, ptype="source")
         prov(f"geom.{cyl}.area_m2", g["area_m2"], f"Total surface pi d^2/2 + pi d h of cylinder {cyl} from measured h, d", f"{S}::geometry", "derived", "m2",
              [f"geom.{cyl}.h_m", f"geom.{cyl}.d_m"], detail=f"= {g['area_m2']*1e4:.1f} +/- {g['darea_m2']*1e4:.1f} cm2; human stated {raw['area_stated_cm2']} +/- {raw['darea_stated_cm2']} cm2")
         prov(f"geom.{cyl}.darea_m2", g["darea_m2"], f"Uncertainty of the area of cylinder {cyl}: sqrt[(pi(d+h) dd)^2 + (pi d dh)^2]", f"{S}::geometry", "derived", "m2",
              [f"geom.{cyl}.dh_m", f"geom.{cyl}.dd_m"])
-        prov(f"geom.{cyl}.area_stated_cm2", raw["area_stated_cm2"], f"Area of cylinder {cyl} as stated by the human (+/- {raw['darea_stated_cm2']} cm2)", "inbox.jsonl (human direction)", "measured", "cm2", ptype="source")
+        prov(f"geom.{cyl}.area_stated_cm2", raw["area_stated_cm2"], f"Area of cylinder {cyl} as stated by the human (+/- {raw['darea_stated_cm2']} cm2)", f"datos/mediciones_geometria.json::cilindros.{cyl}.area_stated_cm2", "measured", "cm2", ptype="source")
         prov(f"geom.{cyl}.area_agrees_with_stated", bool(abs(g["area_m2"] * 1e4 - raw["area_stated_cm2"]) <= raw["darea_stated_cm2"]),
              f"Recomputed area of {cyl} within the human's stated +/-", f"{S}::geometry", "derived", "bool",
              detail=f"|{g['area_m2']*1e4:.1f} - {raw['area_stated_cm2']}| = {abs(g['area_m2']*1e4-raw['area_stated_cm2']):.1f} cm2 vs +/- {raw['darea_stated_cm2']}")
         prov(f"geom.{cyl}.n_mol", g["n_mol"], f"Moles of Cu in cylinder {cyl} = m/M", f"{S}::geometry", "derived", "mol",
              [f"geom.{cyl}.m_kg", "phys.M_Cu"], detail=f"= {g['n_mol']:.3f} +/- {g['dn_mol']:.4f} mol; human stated {raw['n_stated_mol']} +/- {raw['dn_stated_mol']}")
         prov(f"geom.{cyl}.dn_mol", g["dn_mol"], f"Uncertainty of n for cylinder {cyl} = dm/M", f"{S}::geometry", "derived", "mol", [f"geom.{cyl}.dm_kg"])
-        prov(f"geom.{cyl}.n_stated_mol", raw["n_stated_mol"], f"n of cylinder {cyl} as stated by the human (+/- {raw['dn_stated_mol']} mol)", "inbox.jsonl (human direction)", "measured", "mol", ptype="source")
+        prov(f"geom.{cyl}.n_stated_mol", raw["n_stated_mol"], f"n of cylinder {cyl} as stated by the human (+/- {raw['dn_stated_mol']} mol)", f"datos/mediciones_geometria.json::cilindros.{cyl}.n_stated_mol", "measured", "mol", ptype="source")
         prov(f"geom.{cyl}.n_agrees_with_stated", bool(abs(g["n_mol"] - raw["n_stated_mol"]) <= raw["dn_stated_mol"] + g["dn_mol"]),
              f"Recomputed n of {cyl} within the stated +/- (both uncertainties added)", f"{S}::geometry", "derived", "bool",
              detail=f"|{g['n_mol']:.4f} - {raw['n_stated_mol']}| = {abs(g['n_mol']-raw['n_stated_mol']):.4f} mol")

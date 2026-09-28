@@ -18,10 +18,11 @@ El objetivo completo utilizado para construir el análisis se encuentra en `obje
 ## Estructura
 
 - `datos/`: CSV experimentales originales.
+- `datos/mediciones_geometria.json`: dimensiones, masas, incertidumbres y valores declarados usados por el análisis.
 - `datos/supuestos.json`: hipótesis instrumentales y del film, con justificación y estado explícito.
 - `guia/`: guías de la experiencia.
 - `guia/referencias.json`: metadatos bibliográficos estables y alcance de cada referencia externa.
-- `input_manifest.json`: tamaño y SHA-256 esperado de cada CSV y PDF de entrada.
+- `input_manifest.json`: tamaño y SHA-256 esperado de cada archivo de entrada versionado.
 - `work/`: código de análisis y generación del informe.
 - `out/`: provenance, checks y productos reproducidos.
 - `objective.txt`: objetivo entregado al agente.
@@ -102,11 +103,11 @@ Los checks verifican, entre otras cosas:
 - que los valores numéricos sean JSON estándar y finitos;
 - que no haya colecciones vacías sin una política explícita;
 - que supuestos, referencias estables y resultados estén sincronizados;
-- que los CSV y PDF de entrada coincidan con `input_manifest.json` por tamaño y SHA-256.
+- que los JSON, CSV y PDF de entrada coincidan con `input_manifest.json` por tamaño y SHA-256.
 
 Una colección vacía solo se admite mediante una excepción nominal en `EMPTY_COLLECTION_POLICY` de `out/checks.py`, con una razón verificable. Actualmente la única excepción es la ventana de enfriamiento de C1, cuya transición está submuestreada.
 
-Las hipótesis no medidas se leen desde `datos/supuestos.json`; no dependen de notas o conversaciones externas. Las referencias bibliográficas usadas por el pipeline apuntan a `guia/referencias.json`, que también documenta qué textos no se usaron como fuente numérica.
+Las mediciones geométricas se leen desde `datos/mediciones_geometria.json`. Ese archivo fue reconstruido a partir de los valores que ya utilizaba el pipeline y documenta esta procedencia; puede contrastarse con el registro experimental original si se recupera. Las hipótesis no medidas se leen desde `datos/supuestos.json`; no dependen de notas o conversaciones externas. Las referencias bibliográficas usadas por el pipeline apuntan a `guia/referencias.json`, que también documenta qué textos no se usaron como fuente numérica.
 
 ## Criterio de éxito
 

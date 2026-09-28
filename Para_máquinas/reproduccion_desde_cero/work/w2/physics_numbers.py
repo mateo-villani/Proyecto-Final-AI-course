@@ -19,6 +19,9 @@ ME = "work/w2/physics_numbers.py"
 ASSUMPTIONS_PATH = os.path.join(DATOS, "supuestos.json")
 with open(ASSUMPTIONS_PATH, encoding="utf-8") as fh:
     ASSUMPTIONS = json.load(fh)
+GEOMETRY_PATH = os.path.join(DATOS, "mediciones_geometria.json")
+with open(GEOMETRY_PATH, encoding="utf-8") as fh:
+    MEASUREMENTS = json.load(fh)["cilindros"]
 
 P = {}
 
@@ -103,16 +106,16 @@ for assumption_key in ASSUMPTIONS:
     assume(assumption_key)
 
 
-# ---------------- measured geometry (human direction, inbox.jsonl 2026-09-18) ----------------
-# Same numbers as work/analysis.py::GEOM (single source of truth is the inbox; both scripts copy it).
-MEAS = {"A": (0.094, 0.038, 0.9410), "B": (0.049, 0.022, 0.1658), "C": (0.027, 0.035, 0.2262)}
+# ---------------- measured geometry (versioned input) ----------------
+MEAS = {cyl: (values["h_m"], values["d_m"], values["m_kg"])
+        for cyl, values in MEASUREMENTS.items()}
 for cyl, (h, d, m) in MEAS.items():
     P[f"qual.meas_{cyl}_h_m"] = {"statement": f"measured height of cylinder {cyl} = {h} m (+/- 0.001)", "type": "source",
-                                 "reproduce": "inbox.jsonl (human direction, 2026-09-18)", "value": h, "unit": "m", "origin": "measured"}
+                                 "reproduce": f"datos/mediciones_geometria.json::cilindros.{cyl}.h_m", "value": h, "unit": "m", "origin": "measured"}
     P[f"qual.meas_{cyl}_d_m"] = {"statement": f"measured diameter of cylinder {cyl} = {d} m (+/- 0.001)", "type": "source",
-                                 "reproduce": "inbox.jsonl (human direction, 2026-09-18)", "value": d, "unit": "m", "origin": "measured"}
+                                 "reproduce": f"datos/mediciones_geometria.json::cilindros.{cyl}.d_m", "value": d, "unit": "m", "origin": "measured"}
     P[f"qual.meas_{cyl}_m_kg"] = {"statement": f"measured mass of cylinder {cyl} = {m} kg (+/- 0.0001)", "type": "source",
-                                  "reproduce": "inbox.jsonl (human direction, 2026-09-18)", "value": m, "unit": "kg", "origin": "measured"}
+                                  "reproduce": f"datos/mediciones_geometria.json::cilindros.{cyl}.m_kg", "value": m, "unit": "kg", "origin": "measured"}
 
 
 # ---------------- derived: geometry & thermal ----------------
