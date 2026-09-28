@@ -158,7 +158,7 @@ def _(an, mo, np, ui_cyl, ui_d, ui_frac, ui_h, ui_m, ui_sg, ui_tmax):
         "A (cm²)": round(geom["area_m2"] * 1e4, 1), "n (mol)": round(geom["n_mol"], 3), "p = m/A (kg/m²)": round(geom["p_kgm2"], 1),
         "t0 inmersión (s)": round(run["t0"], 1), "t_c archivo (s)": round(tc["t_s"], 1), "t_c desde t0 (s)": round(tc["t_s"] - run["t0"], 1),
         "T(t_c) (K)": round(tc["T_K"], 1), "T_lo (K)": round(tc["Tlo_K"], 1), "T_hi (K)": round(tc["Thi_K"], 1),
-        "|dT/dt|max (K/s)": round(tc["rate_max_Ks"], 2), "pico/plateau": round(tc["peak_over_plateau"], 1) if np.isfinite(tc["peak_over_plateau"]) else None,
+        "|dT/dt|max (K/s)": round(tc["rate_max_Ks"], 2), "pico/plateau": round(tc["peak_over_plateau"], 1) if tc["peak_over_plateau"] is not None else None,
         "colapso detectado": tc["detected"], "espurios interpolados": int(run["bad"].sum()),
         "Q/A plateau 150-250 K (kW/m²)": round(float(np.median(run["qa"][_plateau])) / 1e3, 1) if _plateau.any() else None,
         "Q/A mín película (kW/m²)": round(float(run["qa"][_film].min()) / 1e3, 1) if _film.any() else None,

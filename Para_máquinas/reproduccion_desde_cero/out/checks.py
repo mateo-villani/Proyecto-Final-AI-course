@@ -7,7 +7,10 @@ with out/provenance.json, then runs physical sanity checks. Prints every check (
 and a coverage summary; exit code 1 if any hard check fails.
 """
 import json
+import hashlib
+import math
 import os
+import re
 import sys
 
 import numpy as np
@@ -22,8 +25,24 @@ JOB = os.path.dirname(HERE)
 sys.path.insert(0, os.path.join(JOB, "work"))
 import analysis as an  # noqa: E402
 
-PROV = json.load(open(os.path.join(HERE, "provenance.json"), encoding="utf-8"))
+
+def reject_nonstandard_json(value):
+    raise ValueError(f"non-standard JSON numeric constant: {value}")
+
+
+PROV = json.load(open(os.path.join(HERE, "provenance.json"), encoding="utf-8"),
+                 parse_constant=reject_nonstandard_json)
 RESULTS = []          # (status, name, message, keys)
+
+EMPTY_COLLECTION_POLICY = {
+    "qa.C1.cooling_window": {
+        "allowed": True,
+        "status": "INFO",
+        "reason": "the transition is under-resolved and does not define a valid cooling window",
+    },
+}
+
+LOCAL_REF_RE = re.compile(r"(?P<path>(?:datos|guia|work|out)/[^,:]+?\.(?:csv|json|pdf|py))(?:::?(?P<key>[^, ]+))?")
 
 
 def check(name, cond, msg, keys=(), hard=True):
@@ -41,10 +60,71 @@ def val(key):
     return PROV[key]["value"]
 
 
+def check_counted_collection(name, count, success, success_message, keys=()):
+    """Never turn an empty collection into a vacuous PASS."""
+    if count > 0:
+        check(name, success, success_message, keys)
+        return True
+    policy = EMPTY_COLLECTION_POLICY.get(name)
+    if policy and policy["allowed"] and policy["status"] == "INFO":
+        info(name, f"not evaluated: {policy['reason']}", keys)
+        return False
+    check(name, False, "empty collection and no explicit allow-empty policy", keys)
+    return False
+
+
+def all_finite(value):
+    if isinstance(value, bool) or value is None or isinstance(value, (str, int)):
+        return True
+    if isinstance(value, float):
+        return math.isfinite(value)
+    if isinstance(value, list):
+        return all(all_finite(item) for item in value)
+    if isinstance(value, dict):
+        return all(all_finite(item) for item in value.values())
+    return False
+
+
+def dependency_cycles(graph):
+    cycles, visiting, visited = [], set(), set()
+
+    def visit(node, trail):
+        if node in visiting:
+            cycles.append(trail[trail.index(node):] + [node])
+            return
+        if node in visited:
+            return
+        visiting.add(node)
+        for child in graph.get(node, ()):
+            visit(child, trail + [child])
+        visiting.remove(node)
+        visited.add(node)
+
+    for node in graph:
+        visit(node, [node])
+    return cycles
+
+
 def main():
     print("=== provenance.json structure ===")
     missing = [k for k, e in PROV.items() if not all(str(e.get(f, "")).strip() for f in ("statement", "type", "reproduce"))]
     check("prov.required_fields", not missing, f"{len(PROV)} entries, {len(missing)} missing statement/type/reproduce")
+    allowed_origins = {"measured", "derived", "assumed", "guide", "literature"}
+    allowed_types = {"script", "source", "data", "derivation", "check"}
+    schema_errors = []
+    for key, entry in PROV.items():
+        absent = [field for field in ("statement", "type", "reproduce", "value", "unit", "origin") if field not in entry]
+        if absent:
+            schema_errors.append(f"{key}:missing={absent}")
+        if entry.get("origin") not in allowed_origins:
+            schema_errors.append(f"{key}:origin={entry.get('origin')!r}")
+        if entry.get("type") not in allowed_types:
+            schema_errors.append(f"{key}:type={entry.get('type')!r}")
+        if "inputs" in entry and not isinstance(entry["inputs"], list):
+            schema_errors.append(f"{key}:inputs-not-list")
+        if entry.get("origin") == "assumed" and (not entry.get("detail") or not str(entry.get("reproduce", "")).startswith("datos/supuestos.json::")):
+            schema_errors.append(f"{key}:assumption-without-versioned-justification")
+    check("prov.schema_by_origin", not schema_errors, f"schema errors={schema_errors[:10]} (total {len(schema_errors)})")
     bad_paths = []
     for k, e in PROV.items():
         if e["type"] in ("script", "check", "data"):
@@ -52,6 +132,23 @@ def main():
             if not os.path.exists(os.path.join(JOB, path)):
                 bad_paths.append(k)
     check("prov.script_paths_exist", not bad_paths, f"{len(bad_paths)} entries with a missing reproduce path")
+    local_refs, broken_local_refs, broken_json_refs = [], [], []
+    for prov_key, entry in PROV.items():
+        reproduce = str(entry.get("reproduce", ""))
+        for match in LOCAL_REF_RE.finditer(reproduce):
+            relpath, json_key = match.group("path"), match.group("key")
+            local_refs.append((prov_key, relpath))
+            fullpath = os.path.join(JOB, relpath)
+            if not os.path.isfile(fullpath):
+                broken_local_refs.append((prov_key, relpath))
+            elif relpath.endswith(".json") and json_key:
+                document = json.load(open(fullpath, encoding="utf-8"))
+                if json_key not in document:
+                    broken_json_refs.append((prov_key, relpath, json_key))
+    check("prov.all_local_paths_exist", not broken_local_refs,
+          f"resolved {len(local_refs)} local provenance references; missing={broken_local_refs}")
+    check("prov.json_references_resolve", not broken_json_refs,
+          f"JSON references with missing keys={broken_json_refs}")
     stable_inputs = ("datos/supuestos.json", "guia/referencias.json")
     missing_stable_inputs = [path for path in stable_inputs if not os.path.isfile(os.path.join(JOB, path))]
     check("prov.stable_input_files", not missing_stable_inputs,
@@ -71,6 +168,45 @@ def main():
                             or PROV[k].get("reproduce") != f"datos/supuestos.json::{k}"]
     check("prov.assumptions_synced", not unsynced_assumptions,
           f"all assumption values and provenance pointers match datos/supuestos.json; mismatches={unsynced_assumptions}")
+    invalid_numeric = [k for k, entry in PROV.items() if not all_finite(entry.get("value"))]
+    check("prov.numeric_values_finite", not invalid_numeric, f"entries with NaN, infinity or unsupported values={invalid_numeric}")
+    empty_values = [k for k, entry in PROV.items()
+                    if isinstance(entry.get("value"), (list, dict)) and not entry["value"]]
+    check("prov.no_empty_collection_values", not empty_values,
+          f"empty list/dict provenance values without a declared policy={empty_values}")
+    missing_dependencies, self_dependencies = [], []
+    graph = {}
+    for key, entry in PROV.items():
+        exact_dependencies = []
+        for dependency in entry.get("inputs", []):
+            if dependency == key:
+                self_dependencies.append(key)
+            if dependency in PROV:
+                exact_dependencies.append(dependency)
+            elif dependency.lower().endswith(".csv") and os.path.isfile(os.path.join(JOB, "datos", dependency)):
+                continue
+            else:
+                missing_dependencies.append((key, dependency))
+        graph[key] = exact_dependencies
+    check("prov.dependencies_exist", not missing_dependencies,
+          f"missing provenance/raw-data dependencies={missing_dependencies}")
+    check("prov.no_self_dependencies", not self_dependencies, f"self dependencies={self_dependencies}")
+    cycles = dependency_cycles(graph)
+    check("prov.dependency_graph_acyclic", not cycles, f"cycles={cycles[:5]}")
+    manifest_path = os.path.join(JOB, "input_manifest.json")
+    manifest = json.load(open(manifest_path, encoding="utf-8"))
+    hash_errors = []
+    for relpath, expected in manifest["files"].items():
+        fullpath = os.path.join(JOB, relpath)
+        if not os.path.isfile(fullpath):
+            hash_errors.append((relpath, "missing"))
+            continue
+        digest = hashlib.sha256(open(fullpath, "rb").read()).hexdigest()
+        size = os.path.getsize(fullpath)
+        if digest != expected["sha256"] or size != expected["bytes"]:
+            hash_errors.append((relpath, f"sha256={digest}, bytes={size}"))
+    check("inputs.sha256_manifest", not hash_errors,
+          f"{len(manifest['files'])} raw CSV/PDF inputs match input_manifest.json; errors={hash_errors}")
     origins = {}
     for e in PROV.values():
         origins[e.get("origin", "?")] = origins.get(e.get("origin", "?"), 0) + 1
@@ -129,12 +265,10 @@ def main():
     print("=== temperature runs: Q/A sign, t_c range, collapse detection ===")
     for c in ("A", "B", "C", "C1", "C3"):
         n_neg, n_cool = val(f"qa.{c}.n_nonpositive"), val(f"qa.{c}.n_cooling_samples")
-        if n_cool == 0:
-            info(f"qa.positive.{c}", "no cooling-window samples: positivity is not evaluated for this run",
-                 [f"qa.{c}.n_nonpositive", f"qa.{c}.n_cooling_samples"])
-        else:
-            check(f"qa.positive.{c}", n_neg == 0, f"{int(n_neg)} of {int(n_cool)} cooling-window samples have Q/A <= 0",
-                  [f"qa.{c}.n_nonpositive", f"qa.{c}.n_cooling_samples"])
+        policy_name = "qa.C1.cooling_window" if c == "C1" else f"qa.{c}.cooling_window"
+        check_counted_collection(policy_name, n_cool, n_neg == 0,
+                                 f"{int(n_neg)} of {int(n_cool)} cooling-window samples have Q/A <= 0",
+                                 [f"qa.{c}.n_nonpositive", f"qa.{c}.n_cooling_samples"])
     for c in ("A", "B", "C"):
         Tc = val(f"tc.{c}.T_K")
         check(f"tc.range.{c}", 77.0 < Tc < 300.0, f"T(t_c) = {Tc:.1f} K within (77, 300)", [f"tc.{c}.T_K"])

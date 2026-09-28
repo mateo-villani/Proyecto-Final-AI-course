@@ -21,6 +21,7 @@ El objetivo completo utilizado para construir el análisis se encuentra en `obje
 - `datos/supuestos.json`: hipótesis instrumentales y del film, con justificación y estado explícito.
 - `guia/`: guías de la experiencia.
 - `guia/referencias.json`: metadatos bibliográficos estables y alcance de cada referencia externa.
+- `input_manifest.json`: tamaño y SHA-256 esperado de cada CSV y PDF de entrada.
 - `work/`: código de análisis y generación del informe.
 - `out/`: provenance, checks y productos reproducidos.
 - `objective.txt`: objetivo entregado al agente.
@@ -56,14 +57,20 @@ Este comando ejecuta el pipeline numérico y reconstruye `out/provenance.json` a
 
 En la versión validada del proyecto, el resultado esperado es:
 
-    117 PASS
+    126 PASS
     0 FAIL
     0 WARN
     8 INFO
 
 Los INFO son observaciones documentales o físicas y no representan fallos.
 
-### 3. Reconstruir el informe HTML
+### 3. Verificar determinismo (recomendado)
+
+    python work/check_determinism.py
+
+Este comando reconstruye el pipeline dos veces y exige que provenance, resultados y figuras sean idénticos byte a byte.
+
+### 4. Reconstruir el informe HTML
 
     python work/build_report.py
 
@@ -85,7 +92,17 @@ Las entradas distinguen entre valores:
 - tomados de literatura;
 - asumidos.
 
-Los checks verifican, entre otras cosas, la estructura del provenance, la existencia de las rutas de reproducción y la sincronización de resultados con los CSV crudos.
+Los checks verifican, entre otras cosas:
+
+- el esquema requerido para cada tipo y origen de entrada;
+- que rutas locales y referencias `archivo.json::clave` existan;
+- que las dependencias existan, no se autorreferencien y no formen ciclos;
+- que los valores numéricos sean JSON estándar y finitos;
+- que no haya colecciones vacías sin una política explícita;
+- que supuestos, referencias estables y resultados estén sincronizados;
+- que los CSV y PDF de entrada coincidan con `input_manifest.json` por tamaño y SHA-256.
+
+Una colección vacía solo se admite mediante una excepción nominal en `EMPTY_COLLECTION_POLICY` de `out/checks.py`, con una razón verificable. Actualmente la única excepción es la ventana de enfriamiento de C1, cuya transición está submuestreada.
 
 Las hipótesis no medidas se leen desde `datos/supuestos.json`; no dependen de notas o conversaciones externas. Las referencias bibliográficas usadas por el pipeline apuntan a `guia/referencias.json`, que también documenta qué textos no se usaron como fuente numérica.
 
@@ -95,8 +112,9 @@ Una reproducción se considera exitosa si:
 
 1. `python work/build_all.py` termina sin error;
 2. `python out/checks.py` termina con 0 FAIL y 0 WARN;
-3. `python work/build_report.py` termina con checks exit 0 y sin placeholders faltantes;
-4. se genera `out/report.html`.
+3. `python work/check_determinism.py` informa que todos los productos comparados son idénticos;
+4. `python work/build_report.py` termina con checks exit 0 y sin placeholders faltantes;
+5. se genera `out/report.html`.
 
 ## Alcance
 

@@ -1893,7 +1893,7 @@
   "type": "script",
   "reproduce": "work/analysis.py::find_tc",
   "detail": "",
-  "value": NaN,
+  "value": null,
   "unit": "K/s",
   "origin": "derived",
   "inputs": []
@@ -1903,7 +1903,7 @@
   "type": "script",
   "reproduce": "work/analysis.py::find_tc",
   "detail": "",
-  "value": NaN,
+  "value": null,
   "unit": "",
   "origin": "derived",
   "inputs": []
@@ -2158,7 +2158,7 @@
   "type": "script",
   "reproduce": "work/analysis.py::find_tc",
   "detail": "",
-  "value": NaN,
+  "value": null,
   "unit": "K/s",
   "origin": "derived",
   "inputs": []
@@ -2168,7 +2168,7 @@
   "type": "script",
   "reproduce": "work/analysis.py::find_tc",
   "detail": "",
-  "value": NaN,
+  "value": null,
   "unit": "",
   "origin": "derived",
   "inputs": []

@@ -1,0 +1,37 @@
+{
+  "algorithm": "sha256",
+  "files": {
+    "datos/CilindroA_sumergido.csv": {
+      "sha256": "5ca8bc002fed67073d61101c62468ad0a0e1e2b687548c62c44a95c9382ec7a5",
+      "bytes": 15508
+    },
+    "datos/CilindroB_sumergido.csv": {
+      "sha256": "148ddb6f3fb309feec0890efa09c4befb5fe1f77a48c7ac6ad74cb7e9825da45",
+      "bytes": 18258
+    },
+    "datos/CilindroC_sumergido.csv": {
+      "sha256": "59df57e2d9aa71ea8b65a2233e562ae737255eac01efb3061f5403000a85840c",
+      "bytes": 18241
+    },
+    "datos/cilindroC(aislado con 1 vuelta).csv": {
+      "sha256": "d482d32c9b58467aa9686782c37649905dabafcc4d7782f7b3a464bc8deebcf2",
+      "bytes": 23962
+    },
+    "datos/cilindroC(aislado con 3 vueltas).csv": {
+      "sha256": "99fbed2511e2ab86c0b132fc56226b8f1f749761f04fea6a79e8222b97f97c39",
+      "bytes": 10266
+    },
+    "datos/medicion_balanza.csv": {
+      "sha256": "0774fe5fa5249213884bcbf719a0ed9c7d197292ac3423269b290eb562df5835",
+      "bytes": 16677
+    },
+    "guia/Leidenfrost-guia.pdf": {
+      "sha256": "749cd4e1d31450030a72ba0c601751150aa3f7d3621feac5cb2d076d8e8725bc",
+      "bytes": 122470
+    },
+    "guia/Leidenfrost-preguntas.pdf": {
+      "sha256": "6ce9831bbdcd43812424426ff3372ee5d6624bb53650d471db95fb7ccae181f6",
+      "bytes": 47810
+    }
+  }
+}

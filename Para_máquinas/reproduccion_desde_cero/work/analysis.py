@@ -201,12 +201,12 @@ def find_tc(t, Ts, dTdt, frac=FRAC, T_search_max=T_SEARCH_MAX, detect_ratio=DETE
     while hi + 1 < len(rate) and rate[hi + 1] >= frac * peak:
         hi += 1
     plateau = np.where((Ts >= Ts[ipk] + 20) & (Ts < T_search_max))[0]
-    plateau_rate = float(np.median(rate[plateau])) if len(plateau) >= 3 else np.nan
-    ratio = peak / plateau_rate if plateau_rate and plateau_rate > 0 else np.nan
+    plateau_rate = float(np.median(rate[plateau])) if len(plateau) >= 3 else None
+    ratio = float(peak / plateau_rate) if plateau_rate is not None and plateau_rate > 0 else None
     return {"i": int(ipk), "t_s": float(t[ipk]), "T_K": float(Ts[ipk]), "rate_max_Ks": float(peak),
             "Thi_K": float(Ts[lo]), "Tlo_K": float(Ts[hi]), "t_lo_s": float(t[lo]), "t_hi_s": float(t[hi]),
-            "plateau_rate_Ks": plateau_rate, "peak_over_plateau": float(ratio),
-            "detected": bool(np.isfinite(ratio) and ratio >= detect_ratio)}
+            "plateau_rate_Ks": plateau_rate, "peak_over_plateau": ratio,
+            "detected": bool(ratio is not None and ratio >= detect_ratio)}
 
 
 def cooling_start(t, Ts, drop_K=1.0):
@@ -813,8 +813,10 @@ def main():
     print(f"H(77->296)={H:.1f} J/mol = {H/M_CU:.0f} J/kg")
     for cyl, r in runs.items():
         tc = r["tc"]
+        plateau_text = f"{tc['plateau_rate_Ks']:.2f}" if tc["plateau_rate_Ks"] is not None else "not-defined"
+        ratio_text = f"{tc['peak_over_plateau']:.1f}" if tc["peak_over_plateau"] is not None else "not-defined"
         print(f"{cyl:3s} outliers={int(r['bad'].sum()):2d} t0={r['t0']:6.1f}  t_c={tc['t_s']:6.1f} s (from imm. {tc['t_s']-r['t0']:6.1f})  T_c={tc['T_K']:6.1f} K "
-              f"band [{tc['Tlo_K']:.1f},{tc['Thi_K']:.1f}] K  rate_max={tc['rate_max_Ks']:.2f} K/s plateau={tc['plateau_rate_Ks']:.2f} ratio={tc['peak_over_plateau']:.1f} detected={tc['detected']}")
+              f"band [{tc['Tlo_K']:.1f},{tc['Thi_K']:.1f}] K  rate_max={tc['rate_max_Ks']:.2f} K/s plateau={plateau_text} ratio={ratio_text} detected={tc['detected']}")
     print("balance:", {k: (round(v, 3) if isinstance(v, float) else v) for k, v in bal.items() if k not in ("t", "m", "s1", "s3", "tail", "st")})
     print("s1", bal["s1"], "\ns3", bal["s3"], "\ntail", bal["tail"])
     print(f"Q_bal={Qbal:.0f} J  Q_cu(C)={QCu:.0f} J  m_eff={m_eff:.3f} kg (upper {m_eff_hi:.3f})  m_buoy={V_b*RHO_CU:.3f} kg")
