@@ -1,0 +1,134 @@
+﻿<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Presentación Codex — Leidenfrost e IA</title>
+  <style>
+    :root { --navy:#071d2b; --blue:#39b9ef; --copper:#d77b45; --ice:#dff5ff; --ink:#152936; --paper:#fbfdfe; }
+    * { box-sizing:border-box; }
+    html,body { width:100%; height:100%; margin:0; overflow:hidden; background:#071722; font-family:"Aptos","Segoe UI",Arial,sans-serif; color:var(--ink); }
+    button { font:inherit; }
+    .deck { position:relative; width:100vw; height:100vh; display:grid; place-items:center; padding:22px 72px 58px; }
+    .slide { position:absolute; width:min(calc((100vh - 82px)*16/9),calc(100vw - 144px)); aspect-ratio:16/9; overflow:hidden; border-radius:7px; background:var(--paper); box-shadow:0 25px 80px #0008; opacity:0; transform:translateY(28px) scale(.985); pointer-events:none; transition:.35s ease; }
+    .slide.active { opacity:1; transform:none; pointer-events:auto; z-index:2; }
+    .slide::after { content:attr(data-n); position:absolute; right:3.8%; bottom:3.3%; color:#7a919d; font-weight:700; font-size:clamp(11px,.9vw,16px); }
+    .cover { color:white; background:var(--navy) url("../Para_humanos/Presentacion_codex/assets/portada-leidenfrost.png") center/cover no-repeat; }
+    .cover::before { content:""; position:absolute; inset:0; background:linear-gradient(90deg,#041923f5 0%,#062332da 52%,#06233235),linear-gradient(0deg,#061924aa,transparent 55%); }
+    .brand { position:absolute; z-index:1; top:6%; left:5%; display:flex; align-items:center; gap:12px; font-size:clamp(11px,1vw,17px); }
+    .brand img { width:clamp(58px,5vw,88px); aspect-ratio:1; object-fit:contain; }
+    .hero { position:absolute; z-index:1; left:8%; top:30%; width:66%; }
+    .kicker { margin:0 0 2%; color:#70d4ff; text-transform:uppercase; letter-spacing:.18em; font-weight:800; font-size:clamp(11px,.9vw,16px); }
+    h1 { margin:0; font-size:clamp(31px,4.2vw,73px); line-height:1.03; letter-spacing:-.04em; text-wrap:balance; }
+    .byline { margin:3% 0 0; color:#d8f3ff; font-size:clamp(14px,1.4vw,24px); }
+    .frame { display:grid; grid-template-rows:18% 1fr; }
+    header { position:relative; padding:4% 6% 1.8%; display:flex; align-items:flex-end; }
+    header::before { content:""; position:absolute; left:6%; top:0; width:11%; height:7px; background:var(--copper); }
+    header::after { content:""; position:absolute; left:6%; right:6%; bottom:0; height:2px; background:linear-gradient(90deg,var(--blue),#b8e9fa 60%,transparent); }
+    h2 { margin:0; color:#074f73; font-size:clamp(28px,3.1vw,54px); line-height:1; letter-spacing:-.035em; }
+    .content { min-height:0; padding:3% 6% 4%; }
+    .lead { margin:0; font-size:clamp(18px,1.85vw,33px); line-height:1.38; text-wrap:pretty; }
+    .split { height:100%; display:grid; grid-template-columns:1fr .95fr; gap:5%; align-items:center; }
+    .image { height:90%; margin:0; border-radius:18px; overflow:hidden; box-shadow:0 15px 34px #0b5c7b30; position:relative; }
+    .image img { width:100%; height:100%; object-fit:cover; }
+    .image figcaption { position:absolute; left:0; right:0; bottom:0; padding:4% 5%; color:white; background:linear-gradient(transparent,#061c28dc); font-size:clamp(11px,.9vw,16px); }
+    .question { height:100%; display:grid; place-items:center; }
+    .question blockquote { margin:0; max-width:90%; padding-left:4%; border-left:8px solid var(--copper); color:#123347; font-size:clamp(22px,2.45vw,43px); line-height:1.35; font-weight:650; }
+    .routes { height:100%; display:grid; grid-template-columns:1fr 1fr; gap:3%; align-items:stretch; }
+    .route { padding:7% 7%; border-radius:18px; background:#eef9fd; border:1px solid #cceaf6; }
+    .route:last-child { background:#fff5ee; border-color:#f0d1bd; }
+    .route .num { display:block; color:var(--blue); font-weight:900; letter-spacing:.13em; margin-bottom:5%; }
+    .route:last-child .num { color:var(--copper); }
+    .route h3 { margin:0 0 5%; font-size:clamp(20px,2vw,35px); color:#0a4f70; }
+    .route p { margin:0; font-size:clamp(15px,1.35vw,24px); line-height:1.4; }
+    .agenda { display:grid; gap:3.5%; height:100%; align-content:center; }
+    .agenda div { display:grid; grid-template-columns:55px 1fr auto; align-items:center; gap:20px; padding:2.4% 3%; border-bottom:1px solid #cce8f3; }
+    .agenda b { color:var(--blue); font-size:clamp(17px,1.5vw,26px); }
+    .agenda span { font-size:clamp(18px,1.8vw,31px); font-weight:700; }
+    .agenda em { color:#6a818c; font-style:normal; font-size:clamp(11px,.95vw,17px); }
+    .result .content { display:grid; grid-template-rows:auto 1fr; gap:2.3%; padding-top:2.3%; padding-bottom:3%; }
+    .result .lead { font-size:clamp(15px,1.35vw,24px); line-height:1.3; }
+    .chart { min-height:0; margin:0; display:grid; place-items:center; border-radius:14px; overflow:hidden; border:1px solid #d3e4eb; box-shadow:0 8px 24px #123b4d14; background:white; }
+    .chart img { width:100%; height:100%; object-fit:contain; }
+    .long h2 { font-size:clamp(23px,2.35vw,41px); white-space:nowrap; }
+    .takeaway { height:100%; display:grid; grid-template-columns:1.2fr .8fr; gap:5%; align-items:center; }
+    .takeaway .lead { padding-left:5%; border-left:8px solid var(--copper); font-size:clamp(20px,2.05vw,36px); }
+    .tags { display:grid; gap:13px; }
+    .tags span { padding:5% 6%; border-radius:999px; text-align:center; color:#07547b; background:#e2f5fc; font-size:clamp(15px,1.3vw,23px); font-weight:750; }
+    .controls { position:fixed; z-index:10; left:50%; bottom:12px; transform:translateX(-50%); display:flex; align-items:center; gap:12px; padding:7px 12px; border-radius:999px; background:#f9fdffee; box-shadow:0 8px 30px #0005; }
+    .controls button { width:34px; height:34px; border:0; border-radius:50%; background:#07547b; color:white; cursor:pointer; font-weight:800; }
+    .controls button:disabled { opacity:.3; cursor:default; }
+    #count { min-width:54px; text-align:center; color:#07547b; font-weight:800; }
+    .progress { position:fixed; z-index:9; left:0; bottom:0; height:4px; width:12.5%; background:linear-gradient(90deg,var(--copper),var(--blue)); transition:width .3s ease; }
+    @media(max-width:850px),(max-height:570px){ .deck{padding:12px 44px 48px}.slide{width:min(calc((100vh - 60px)*16/9),calc(100vw - 88px))}.controls{bottom:6px} }
+    @media print { html,body{overflow:visible;background:white}.deck{display:block;width:auto;height:auto;padding:0}.slide{position:relative;width:100%;opacity:1;transform:none;box-shadow:none;break-after:page}.controls,.progress{display:none} }
+  </style>
+</head>
+<body>
+  <main class="deck">
+    <section class="slide cover active" data-n="01 / 09">
+      <div class="brand"><img src="../Para_humanos/Presentacion_codex/assets/logo-uba.png" alt="Sello UBA"><span>Universidad de<br>Buenos Aires</span></div>
+      <div class="hero"><p class="kicker">Reproducir · auditar · comprender</p><h1>Agentes de IA frente al efecto Leidenfrost</h1><p class="byline">Nikita Kacuk y Mateo Villani</p></div>
+    </section>
+
+    <section class="slide frame" data-n="02 / 09">
+      <header><h2>El fenómeno bajo estudio</h2></header>
+      <div class="content split">
+        <p class="lead">Al sumergir cobre caliente en nitrógeno líquido aparece una envoltura de vapor. Esa barrera reduce el intercambio térmico; cuando pierde estabilidad, el líquido vuelve a contactar la superficie y el enfriamiento se acelera de forma abrupta.</p>
+        <figure class="image"><img src="../Para_humanos/Presentacion_codex/assets/cilindro-cobre.png" alt="Cilindro de cobre en nitrógeno líquido"><figcaption>La película de vapor separa transitoriamente el sólido del líquido.</figcaption></figure>
+      </div>
+    </section>
+
+    <section class="slide frame" data-n="03 / 09">
+      <header><h2>La pregunta del proyecto</h2></header>
+      <div class="content question"><blockquote>¿Una IA puede llegar a los mismos resultados cuando audita un informe terminado y cuando debe reconstruir el análisis únicamente desde los datos y la guía experimental?</blockquote></div>
+    </section>
+
+    <section class="slide frame" data-n="04 / 09">
+      <header><h2>Dos caminos, una misma experiencia</h2></header>
+      <div class="content routes">
+        <article class="route"><span class="num">RUTA 01</span><h3>Verificación</h3><p>El agente conoce el informe y comprueba si ecuaciones, cifras, figuras y conclusiones se sostienen entre sí.</p></article>
+        <article class="route"><span class="num">RUTA 02</span><h3>Reconstrucción</h3><p>El agente recibe mediciones y documentación primaria; debe recuperar el análisis sin consultar la respuesta humana.</p></article>
+      </div>
+    </section>
+
+    <section class="slide frame" data-n="05 / 09">
+      <header><h2>Tres observables para comparar</h2></header>
+      <div class="content agenda">
+        <div><b>01</b><span>Temperatura del cobre</span><em>T(t) y tiempo crítico</em></div>
+        <div><b>02</b><span>Evaporación del nitrógeno</span><em>masa en función del tiempo</em></div>
+        <div><b>03</b><span>Transferencia térmica</span><em>Q/A frente a ΔT</em></div>
+      </div>
+    </section>
+
+    <section class="slide frame result" data-n="06 / 09">
+      <header><h2>Temperatura y tiempo crítico</h2></header>
+      <div class="content"><p class="lead">La curva reconstruida conserva el patrón experimental y recupera el orden de los tiempos críticos. La principal diferencia aparece al asignar una temperatura puntual al rápido colapso de la película.</p><figure class="chart"><img src="../Para_humanos/Presentacion_codex/assets/comparacion-temperatura.png?v=4" alt="Curvas de temperatura comparadas"></figure></div>
+    </section>
+
+    <section class="slide frame result long" data-n="07 / 09">
+      <header><h2>La balanza: de una inconsistencia a una explicación</h2></header>
+      <div class="content"><p class="lead">La auditoría mostró que dos pendientes declaradas compatibles no lo eran según sus incertidumbres. Al volver a la serie completa, la reconstrucción reveló una relajación térmica tardía capaz de explicar parte de esa diferencia.</p><figure class="chart"><img src="../Para_humanos/Presentacion_codex/assets/comparacion-balanza.png?v=4" alt="Registros de masa comparados"></figure></div>
+    </section>
+
+    <section class="slide frame result" data-n="08 / 09">
+      <header><h2>Flujo térmico y regímenes de ebullición</h2></header>
+      <div class="content"><p class="lead">La verificación revisó la consistencia del cálculo de Q/A. La reconstrucción fue un paso más allá: rehízo la curva desde las mediciones y la vinculó con los distintos regímenes del efecto Leidenfrost a medida que disminuye ΔT.</p><figure class="chart"><img src="../Para_humanos/Presentacion_codex/assets/comparacion-qa-dt.png?v=4" alt="Q sobre A frente a delta T comparado"></figure></div>
+    </section>
+
+    <section class="slide frame" data-n="09 / 09">
+      <header><h2>Conclusiones</h2></header>
+      <div class="content takeaway"><p class="lead">La IA no solo recuperó los rasgos centrales del experimento: la combinación de auditoría y reconstrucción permitió detectar límites del informe, proponer explicaciones nuevas y señalar mejoras para futuras mediciones.</p><div class="tags"><span>Resultados reproducibles</span><span>Supuestos visibles</span><span>Nuevas preguntas</span></div></div>
+    </section>
+  </main>
+  <nav class="controls" aria-label="Navegación"><button id="prev" aria-label="Anterior">←</button><span id="count">1 / 9</span><button id="next" aria-label="Siguiente">→</button><button id="full" aria-label="Pantalla completa">⛶</button></nav>
+  <div class="progress" id="progress"></div>
+  <script>
+    const slides=[...document.querySelectorAll('.slide')],prev=document.querySelector('#prev'),next=document.querySelector('#next'),count=document.querySelector('#count'),progress=document.querySelector('#progress'); let index=0;
+    function show(n){ index=Math.max(0,Math.min(slides.length-1,n)); slides.forEach((s,i)=>s.classList.toggle('active',i===index)); count.textContent=`${index+1} / ${slides.length}`; progress.style.width=`${(index+1)/slides.length*100}%`; prev.disabled=index===0; next.disabled=index===slides.length-1; history.replaceState(null,'',`#${index+1}`); }
+    prev.onclick=()=>show(index-1); next.onclick=()=>show(index+1); document.querySelector('#full').onclick=()=>document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();
+    document.addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' ','Enter'].includes(e.key)){e.preventDefault();show(index+1)} if(['ArrowLeft','PageUp','Backspace'].includes(e.key)){e.preventDefault();show(index-1)} if(e.key==='Home')show(0);if(e.key==='End')show(slides.length-1);if(e.key.toLowerCase()==='f')document.querySelector('#full').click()});
+    const initial=Number(location.hash.slice(1))-1; show(Number.isInteger(initial)&&initial>=0?initial:0);
+  </script>
+</body>
+</html>
