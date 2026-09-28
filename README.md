@@ -282,6 +282,18 @@ Dentro de este directorio:
 
 ## Reproducción
 
+La verificación automatizada del informe terminado se ejecuta con:
+
+```powershell
+python "Para_máquinas/verificacion_informe/run_all.py"
+```
+
+Sus instrucciones, alcance y dependencias se encuentran en:
+
+`Para_máquinas/verificacion_informe/README.md`
+
+Este pipeline comprueba la identidad del PDF, renderiza sus páginas y reproduce los cálculos numéricos auditables. La interpretación física del informe permanece documentada por separado como revisión humana.
+
 
 
 Las instrucciones detalladas para ejecutar nuevamente la reproducción independiente se encuentran en:

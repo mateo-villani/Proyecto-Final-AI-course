@@ -1,0 +1,66 @@
+{
+  "pdf": {
+    "path": "../../Para_humanos/Grupo_3___Informe_Leidenfrost_Reentrega.pdf",
+    "sha256": "73bf6d5b1cc1cacc3b0aa9c80d359a7a3c69a14e159eefe3c9f06ed39ccc5977",
+    "pages": 13
+  },
+  "render_dpi": 150,
+  "copper_molar_mass_g_mol": {
+    "value": 63.5,
+    "source": "PDF p.3"
+  },
+  "cylinders": {
+    "A": {
+      "height_cm": 9.4,
+      "diameter_cm": 3.8,
+      "mass_g": 941.0,
+      "area_reported_cm2": 135.0,
+      "area_uncertainty_cm2": 4.0,
+      "moles_reported": 14.820,
+      "p_reported_g_cm2": 7.0,
+      "p_uncertainty_g_cm2": 0.2,
+      "tc_s": 302.1,
+      "source": "PDF Tabla 1 p.4; p y t_c en p.6"
+    },
+    "B": {
+      "height_cm": 4.9,
+      "diameter_cm": 2.2,
+      "mass_g": 165.8,
+      "area_reported_cm2": 42.0,
+      "area_uncertainty_cm2": 2.0,
+      "moles_reported": 2.611,
+      "p_reported_g_cm2": 3.9,
+      "p_uncertainty_g_cm2": 0.2,
+      "tc_s": 129.5,
+      "source": "PDF Tabla 1 p.4; p y t_c en p.6"
+    },
+    "C": {
+      "height_cm": 2.7,
+      "diameter_cm": 3.5,
+      "mass_g": 226.2,
+      "area_reported_cm2": 49.0,
+      "area_uncertainty_cm2": 2.0,
+      "moles_reported": 3.562,
+      "p_reported_g_cm2": 4.6,
+      "p_uncertainty_g_cm2": 0.2,
+      "tc_s": 172.6,
+      "source": "PDF Tabla 1 p.4; p y t_c en p.6"
+    }
+  },
+  "balance": {
+    "slope_1_g_s": -0.0952,
+    "slope_1_uncertainty_g_s": 0.0002,
+    "slope_3_g_s": -0.131,
+    "slope_3_uncertainty_g_s": 0.003,
+    "latent_heat_j_g": 199.0,
+    "source": "PDF pie de Figura 6 p.9; calor latente p.3"
+  },
+  "einstein": {
+    "theta_d_k": 315.0,
+    "a": 0.77,
+    "b": 0.26,
+    "c": 9.17,
+    "temperatures_k": [77.0, 300.0],
+    "source": "PDF Ecuación 3 y definición de theta_E p.3"
+  }
+}
