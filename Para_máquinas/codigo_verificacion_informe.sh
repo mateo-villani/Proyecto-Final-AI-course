@@ -15,37 +15,41 @@
 #
 # Nota sobre lo que este script NO reproduce: los calculos numericos de la
 # Seccion 3 del reporte (areas, moles, parametro p, test de compatibilidad
-# de pendientes en ~12 sigma, potencia residual de 7,1 W) se hicieron a mano
-# con calculadora, a partir de los valores que el PDF reporta en su Tabla 1
-# y en los pies de Figura 6. No hay script para esa parte porque son cuentas
-# de una sola linea cada una; estan explicitadas paso a paso dentro del
-# propio HTML del reporte (Seccion 3).
+# de pendientes en ~12 sigma, potencia residual de 7,1 W). Esos calculos,
+# originalmente hechos a mano, ahora se reproducen por separado con
+# verificacion_informe/run_all.py. Este script conserva solamente el flujo
+# historico de conversion y renderizado usado para la inspeccion visual.
 # ---------------------------------------------------------------------------
 set -e
 
 PDF="Grupo_3___Informe_Leidenfrost_Reentrega.pdf"
-PAGES_DIR="pages_render"
-mkdir -p "$PAGES_DIR"
+SCRIPT_DIR="$(dirname "${BASH_SOURCE[0]}")"
+OUTPUT_DIR="$SCRIPT_DIR/verificacion_informe/out/conversion_exploratoria"
+PAGES_DIR="$OUTPUT_DIR/pages_render"
+export OUTPUT_DIR
+mkdir -p "$OUTPUT_DIR" "$PAGES_DIR"
 
 # ---------------------------------------------------------------------------
 # Paso 0 (exploratorio, anterior a la verificacion): conversiones automaticas
 # de PDF a HTML. Se hicieron ANTES de decidir el metodo de verificacion y NO
 # se usaron como fuente de ningun dato citado en verificacion-informe-
 # leidenfrost.html -- el texto extraido automaticamente rompe subindices y
-# exponentes de las ecuaciones. Se dejan documentadas por transparencia,
-# ya que sus salidas (infome_Leidenfrost.html, informe_Leidenfrost_poppler.html)
-# quedaron versionadas en este mismo repositorio.
+# exponentes de las ecuaciones. Se dejan documentadas por transparencia.
+# Sus salidas son productos regenerables y se escriben en OUTPUT_DIR, dentro
+# de la carpeta out/ ignorada por Git. La conversion historica de Poppler que
+# ya estaba versionada se conserva, pero las ejecuciones nuevas no la pisan.
 # ---------------------------------------------------------------------------
 
 # 0a. Conversion con PyMuPDF: texto real posicionado + figuras embebidas en
 #     base64 (una imagen solo por cada figura real del informe, no por pagina).
 python3 - <<'PY'
-import fitz  # PyMuPDF
+import os
+import pymupdf
 
 src = "Grupo_3___Informe_Leidenfrost_Reentrega.pdf"
-dst = "infome_Leidenfrost.html"
+dst = os.path.join(os.environ["OUTPUT_DIR"], "informe_Leidenfrost_pymupdf.html")
 
-doc = fitz.open(src)
+doc = pymupdf.open(src)
 parts = [
     "<!DOCTYPE html>\n<html lang=\"es\">\n<head>\n<meta charset=\"utf-8\">\n"
     "<title>Informe Leidenfrost</title>\n</head>\n<body>\n"
@@ -65,7 +69,7 @@ PY
 #     (PNG) con el texto real superpuesto en una capa transparente para
 #     busqueda/seleccion. Visualmente identica al PDF, pero el "contenido"
 #     es una imagen, no texto reestructurado.
-"${POPPLER_BIN:-}pdftohtml" -c -noframes "$PDF" informe_Leidenfrost_poppler.html
+"${POPPLER_BIN:-}pdftohtml" -c -noframes "$PDF" "$OUTPUT_DIR/informe_Leidenfrost_poppler.html"
 
 # ---------------------------------------------------------------------------
 # Paso 1: renderizado pagina por pagina a 150 dpi.
