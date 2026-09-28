@@ -12,6 +12,11 @@ import sys
 
 import numpy as np
 
+for stream in (sys.stdout, sys.stderr):
+    reconfigure = getattr(stream, "reconfigure", None)
+    if reconfigure is not None:
+        reconfigure(encoding="utf-8")
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 JOB = os.path.dirname(HERE)
 sys.path.insert(0, os.path.join(JOB, "work"))
@@ -47,6 +52,25 @@ def main():
             if not os.path.exists(os.path.join(JOB, path)):
                 bad_paths.append(k)
     check("prov.script_paths_exist", not bad_paths, f"{len(bad_paths)} entries with a missing reproduce path")
+    stable_inputs = ("datos/supuestos.json", "guia/referencias.json")
+    missing_stable_inputs = [path for path in stable_inputs if not os.path.isfile(os.path.join(JOB, path))]
+    check("prov.stable_input_files", not missing_stable_inputs,
+          f"stable assumption/reference inputs present; missing={missing_stable_inputs}")
+    ephemeral_terms = ("notes.tex", "this session", "session log", "WebFetch:")
+    ephemeral_entries = [k for k, e in PROV.items()
+                         if any(term.lower() in json.dumps(e, ensure_ascii=False).lower() for term in ephemeral_terms)]
+    check("prov.no_ephemeral_nonmeasurement_refs", not ephemeral_entries,
+          f"entries tied to unavailable notes/sessions={ephemeral_entries}")
+    assumptions = json.load(open(os.path.join(JOB, "datos", "supuestos.json"), encoding="utf-8"))
+    malformed_assumptions = [k for k, e in assumptions.items()
+                             if e.get("status") != "assumed" or "value" not in e or not e.get("justification")]
+    check("prov.assumptions_explicit", not malformed_assumptions,
+          f"{len(assumptions)} assumptions have value, justification and status='assumed'; malformed={malformed_assumptions}")
+    unsynced_assumptions = [k for k, e in assumptions.items()
+                            if k not in PROV or PROV[k].get("value") != e["value"]
+                            or PROV[k].get("reproduce") != f"datos/supuestos.json::{k}"]
+    check("prov.assumptions_synced", not unsynced_assumptions,
+          f"all assumption values and provenance pointers match datos/supuestos.json; mismatches={unsynced_assumptions}")
     origins = {}
     for e in PROV.values():
         origins[e.get("origin", "?")] = origins.get(e.get("origin", "?"), 0) + 1
@@ -96,17 +120,21 @@ def main():
         check(f"geom.p_err.{c}", val(f"geom.{c}.dp_kgm2") / val(f"geom.{c}.p_kgm2") < 0.08, f"p = {val(f'geom.{c}.p_kgm2'):.1f} +/- {val(f'geom.{c}.dp_kgm2'):.1f} kg/m2 ({100*val(f'geom.{c}.dp_kgm2')/val(f'geom.{c}.p_kgm2'):.1f} %)",
               [f"geom.{c}.dp_kgm2"])
     check("geom.no_assumed_left", not any(k.startswith("geom.") and e.get("origin") == "assumed" for k, e in PROV.items()),
-          f"no geom.* provenance entry has origin 'assumed' (the round-1 nominal geometry is gone, replaced by measured dimensions); "
+          f"no geom.* provenance entry has origin 'assumed' (the preliminary nominal geometry was replaced by measured dimensions); "
           f"{sum(1 for e in PROV.values() if e.get('origin')=='measured')} entries are 'measured', "
-          f"{sum(1 for e in PROV.values() if e.get('origin')=='assumed')} entries elsewhere (ADC/film/emissivity, disclosed in notes.tex) are legitimately 'assumed'")
+          f"{sum(1 for e in PROV.values() if e.get('origin')=='assumed')} entries elsewhere are declared in datos/supuestos.json")
     check("geom.order", val("geom.A.p_kgm2") > val("geom.C.p_kgm2") > val("geom.B.p_kgm2"), f"p ordering A ({val('geom.A.p_kgm2'):.1f}) > C ({val('geom.C.p_kgm2'):.1f}) > B ({val('geom.B.p_kgm2'):.1f}) kg/m2 matches t_c ordering A > C > B",
           ["geom.A.p_kgm2", "geom.B.p_kgm2", "geom.C.p_kgm2", "tc.A.t_from_immersion_s", "tc.B.t_from_immersion_s", "tc.C.t_from_immersion_s"])
 
     print("=== temperature runs: Q/A sign, t_c range, collapse detection ===")
     for c in ("A", "B", "C", "C1", "C3"):
         n_neg, n_cool = val(f"qa.{c}.n_nonpositive"), val(f"qa.{c}.n_cooling_samples")
-        check(f"qa.positive.{c}", n_neg == 0, f"{int(n_neg)} of {int(n_cool)} cooling-window samples have Q/A <= 0",
-              [f"qa.{c}.n_nonpositive", f"qa.{c}.n_cooling_samples"])
+        if n_cool == 0:
+            info(f"qa.positive.{c}", "no cooling-window samples: positivity is not evaluated for this run",
+                 [f"qa.{c}.n_nonpositive", f"qa.{c}.n_cooling_samples"])
+        else:
+            check(f"qa.positive.{c}", n_neg == 0, f"{int(n_neg)} of {int(n_cool)} cooling-window samples have Q/A <= 0",
+                  [f"qa.{c}.n_nonpositive", f"qa.{c}.n_cooling_samples"])
     for c in ("A", "B", "C"):
         Tc = val(f"tc.{c}.T_K")
         check(f"tc.range.{c}", 77.0 < Tc < 300.0, f"T(t_c) = {Tc:.1f} K within (77, 300)", [f"tc.{c}.T_K"])
@@ -219,7 +247,7 @@ def main():
               f"CSV T vs NIST type-K inverse polynomial (ice reference): max dev {val(f'tc_check.{c}.max_abs_dev_K'):.2f} K; emf at 77 K = {val(f'tc_check.{c}.V_at_77K_mV'):.3f} mV",
               [f"tc_check.{c}.max_abs_dev_K", f"tc_check.{c}.V_at_77K_mV"])
 
-    print("=== round-3: balance residual power model ===")
+    print("=== balance residual power model ===")
     check("bal2.decay_beats_linear", val("bal2.model_rms_g") < 0.2 and val("bal2.model_rms_g") < bal["s3"]["rms"],
           f"exponential-decay fit to stage 3 has rms {val('bal2.model_rms_g'):.3f} g (< 0.2 g; the straight-line fit has rms {bal['s3']['rms']:.2f} g): the decay model is a materially better description",
           ["bal2.model_rms_g"])
@@ -239,7 +267,7 @@ def main():
           f"whole-stage implied |dT/dt| ({val('bal2.dTdt_implied_avg_Ks'):.3f} K/s) is well above the plateau noise floor: if it were a steady residual (not a decaying transient) it would be visible in a temperature trace",
           ["bal2.dTdt_implied_avg_Ks"])
 
-    print("=== round-3: Einstein vs Debye impact on Q/A ===")
+    print("=== Einstein vs Debye impact on Q/A ===")
     check("cvcmp.max_diff_at_77K", abs(val("cvcmp.max_abs_diff_pct") + 10) < 2, f"max Einstein/Debye relative difference on the table is {val('cvcmp.max_abs_diff_pct'):.1f} % at {val('cvcmp.max_abs_diff_T_K'):.0f} K (matches cv.einstein_vs_debye_maxdev_pct)",
           ["cvcmp.max_abs_diff_pct"])
     for c in ("A", "B", "C"):
@@ -250,7 +278,7 @@ def main():
     check("stage.bounds_ordered", val("stage.bounds_dT_K")[0] > val("stage.bounds_dT_K")[1] > val("stage.bounds_dT_K")[2] > val("stage.bounds_dT_K")[3] > val("stage.bounds_dT_K")[4] > val("stage.bounds_dT_K")[5],
           f"the six stage boundaries are strictly decreasing in Delta T: {val('stage.bounds_dT_K')}", ["stage.bounds_dT_K"])
 
-    print("=== round-3: t_c(p) fits and 4th-cylinder prediction ===")
+    print("=== t_c(p) fits and 4th-cylinder prediction ===")
     check("fit.origin_worse_than_2param", val("fit.through_origin.max_abs_resid_pct") > val("fit.power_law.max_abs_resid_pct"),
           f"the 1-parameter through-origin fit has larger max residual ({val('fit.through_origin.max_abs_resid_pct'):.1f} %) than the 2-parameter power law ({val('fit.power_law.max_abs_resid_pct'):.1f} %), as expected with only 1 dof vs 1 dof less: NOT evidence that the power law is the true model",
           ["fit.through_origin.max_abs_resid_pct", "fit.power_law.max_abs_resid_pct"])
@@ -263,14 +291,14 @@ def main():
           f"model-choice spread ({val('pred.D.model_spread_s'):.0f} s) exceeds the geometry-uncertainty sensitivity range ({val('pred.D.geom_sensitivity_range_s')[1]-val('pred.D.geom_sensitivity_range_s')[0]:.0f} s): with 3 cylinders, functional-form uncertainty dominates over measurement uncertainty",
           ["pred.D.model_spread_s", "pred.D.geom_sensitivity_range_s"])
 
-    print("=== round-3: sigma_T propagation (illustrative) ===")
+    print("=== sigma_T propagation (illustrative) ===")
     check("sigmaT.tc_uncertainty_is_sampling", val("sigmaT.sigma_tc_halfsample_s") <= 3.0,
           f"half-sample t_c uncertainty ({val('sigmaT.sigma_tc_halfsample_s'):.2f} s) matches the <=3 s sensitivity-sweep spread already reported: t_c uncertainty is sampling-, not noise-, dominated", ["sigmaT.sigma_tc_halfsample_s"])
     check("sigmaT.crosscheck_plausible", abs(val("sigmaT.crosscheck_vs_observed_noise_pct")) < 100,
           f"the illustrative ADC-only sigma_dTdt near 80 K is within a factor of 2 of the observed plateau noise floor ({val('sigmaT.crosscheck_vs_observed_noise_pct'):+.0f} %): the assumed ADC/gain are a plausible order of magnitude, not verified as the true spec",
           ["sigmaT.crosscheck_vs_observed_noise_pct"], hard=False)
 
-    print("=== round-3: C1 anomaly ===")
+    print("=== C1 anomaly ===")
     check("c1x.window_sensitivity_material", val("c1x.peak_window_spread_ratio") > 1.5,
           f"C1 peak Q/A changes by {val('c1x.peak_window_spread_ratio'):.1f}x over SG windows 3-11: the reported peak is not resolution-independent", ["c1x.peak_window_spread_ratio"])
     check("c1x.few_samples", val("c1x.n_samples_full_transition") < 10,
@@ -278,10 +306,10 @@ def main():
     check("c1x.biot_marginal", 0.01 < val("c1x.Bi_at_peak") < 0.5,
           f"Biot number at the C1 peak-flux estimate is {val('c1x.Bi_at_peak'):.2f}: marginal, not clearly << 1 as elsewhere in the analysis", ["c1x.Bi_at_peak"], hard=False)
 
-    print("=== round-3: constants and reference verification ===")
-    check("verif.seebeck_crosscheck", val("verif.seebeck_K_room_vs_wikipedia") is True, "type-K room-T Seebeck coefficient (41 uV/K) matches an independent secondary source (Wikipedia) fetched this session", ["verif.seebeck_K_room_vs_wikipedia"])
+    print("=== constants and reference verification ===")
+    check("verif.reference_catalog", val("verif.reference_catalog_available") is True, "external-reference metadata is versioned in guia/referencias.json", ["verif.reference_catalog_available"])
     check("verif.hypotheses_flagged", val("verif.adc_and_film_are_hypotheses") is True, "ADC/amplifier and film specs remain explicitly flagged as hypotheses, not measured facts", ["verif.adc_and_film_are_hypotheses"])
-    info("verif.refs", f"Curzon (1978) and Listerman et al. (1986) identified bibliographically via CrossRef this session; full text not read, see verif.curzon1978_ref / verif.listerman1986_ref", ["verif.curzon1978_ref", "verif.listerman1986_ref"])
+    info("verif.refs", "Curzon (1978) and Listerman et al. (1986) are catalogued locally; full text was not used for numeric extraction", ["verif.curzon1978_ref", "verif.listerman1986_ref"])
 
     print("=== coverage ===")
     n = {s: sum(1 for r in RESULTS if r[0] == s) for s in ("PASS", "FAIL", "WARN", "INFO")}

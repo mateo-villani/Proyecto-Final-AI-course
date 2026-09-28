@@ -42,9 +42,9 @@ def _(P, mo):
     mo.Html(
         "<h1>Efecto Leidenfrost en cilindros de cobre sumergidos en nitrógeno líquido</h1>"
         "<p><em>Reproducción desde cero a partir de <code>datos/</code>, <code>guia/</code> y las dimensiones medidas por el humano. "
-        "Job 2026-09-18_205159, ronda 2. Los números del texto salen de <code>out/provenance.json</code> "
+        "Los números del texto salen de <code>out/provenance.json</code> "
         f"({len(P)} entradas; cada uno lleva su clave en gris). La sección interactiva del final recomputa todo con parámetros libres.</em></p>"
-        "<p><strong>Fence:</strong> nadie del equipo leyó, listó ni buscó nada bajo <code>informe-original/</code>.</p>"
+        "<p><strong>Alcance verificable:</strong> el código del pipeline no contiene rutas de lectura hacia <code>informe-original/</code>.</p>"
     )
     return
 

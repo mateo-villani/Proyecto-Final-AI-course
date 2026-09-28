@@ -1,4 +1,4 @@
-"""Worker-2 (physics) numbers for out/notes.tex.
+"""Physics constants, explicit assumptions and derived numbers for the report.
 
 Every number here is either a tabulated constant (type 'source', citation given), a value
 copied from the guide (type 'source', page given), an explicit assumption (type 'derivation',
@@ -16,6 +16,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 JOB = os.path.abspath(os.path.join(HERE, "..", ".."))
 DATOS = os.path.join(JOB, "datos")
 ME = "work/w2/physics_numbers.py"
+ASSUMPTIONS_PATH = os.path.join(DATOS, "supuestos.json")
+with open(ASSUMPTIONS_PATH, encoding="utf-8") as fh:
+    ASSUMPTIONS = json.load(fh)
 
 P = {}
 
@@ -37,9 +40,14 @@ def guide(key, value, statement, where, unit=""):
               "detail": "taken from the guide as-is, not re-derived", "origin": "guide"}
 
 
-def assume(key, value, statement, where, unit=""):
-    P[key] = {"statement": f"ASSUMED {statement} = {value} {unit}".strip(), "type": "derivation",
-              "reproduce": f"assumption, stated in {where}", "value": value, "unit": unit, "origin": "assumed"}
+def assume(key):
+    item = ASSUMPTIONS[key]
+    if item.get("status") != "assumed":
+        raise ValueError(f"{key} must be explicitly labelled as assumed")
+    value, unit = item["value"], item.get("unit", "")
+    P[key] = {"statement": f"ASSUMED {item['description']} = {value} {unit}".strip(), "type": "source",
+              "reproduce": f"datos/supuestos.json::{key}", "detail": item["justification"],
+              "value": value, "unit": unit, "origin": "assumed"}
 
 
 # ---------------- constants (tabulated) ----------------
@@ -91,11 +99,8 @@ guide("guide.gamma_max_pct", 2.5, "max electronic contribution gamma*T/Cv in 70-
 guide("guide.gamma_cal", 1.7e-4, "electronic gamma of Cu, midpoint of the (1.60-1.80)e-4 range quoted", "p.2 after eq. (3)", "cal/(mol K^2)")
 
 # ---------------- assumptions ----------------
-assume("assume.adc_fs_V", 10.0, "ADC input range +-10 V (MPLI datasheet not in the sources)", "notes.tex sec. 1", "V")
-assume("assume.adc_bits", 12, "ADC resolution 12 bit (MPLI datasheet not in the sources)", "notes.tex sec. 1", "bit")
-assume("assume.film_thickness_m", 12e-6, "thickness of one turn of cling film (typical household PE/PVC; not measured)", "notes.tex sec. 5", "m")
-assume("assume.film_k", 0.2, "thermal conductivity of the film (LDPE/PVC)", "notes.tex sec. 5", "W/(m K)")
-assume("assume.eps_Cu", 0.05, "emissivity of the Cu surface (polished 0.03, lightly oxidised ~0.1)", "notes.tex sec. 6", "")
+for assumption_key in ASSUMPTIONS:
+    assume(assumption_key)
 
 
 # ---------------- measured geometry (human direction, inbox.jsonl 2026-09-18) ----------------
@@ -265,7 +270,7 @@ for lab, f in RUNS:
 def effusivity():
     """Contact temperature of two semi-infinite bodies: T_i = (e1 T1 + e2 T2)/(e1 + e2), e = sqrt(k rho c)."""
     e_cu = math.sqrt(P["phys.k_Cu"]["value"] * P["phys.rho_Cu"]["value"] * P["phys.c_Cu"]["value"])
-    e_pe = math.sqrt(P["assume.film_k"]["value"] * 950 * 1900)          # LDPE: rho 950, c 1900
+    e_pe = math.sqrt(P["assume.film_k"]["value"] * P["assume.film_rho_kgm3"]["value"] * P["assume.film_c_JkgK"]["value"])
     e_ln2 = math.sqrt(P["phys.k_N2liq"]["value"] * P["phys.rho_LN2"]["value"] * 2040)   # c_p LN2 2040 J/kgK
     Ti_cu = (e_cu * 296 + e_ln2 * 77) / (e_cu + e_ln2)
     Ti_pe = (e_pe * 296 + e_ln2 * 77) / (e_pe + e_ln2)
@@ -274,7 +279,7 @@ def effusivity():
 
 e = effusivity()
 der("qual.effusivity_Cu", round(e["e_cu"]), "thermal effusivity sqrt(k rho c) of Cu", "effusivity", "phys.k_Cu, phys.rho_Cu, phys.c_Cu", "J/(m^2 K s^0.5)")
-der("qual.effusivity_film", round(e["e_pe"]), "thermal effusivity of the polymer film (k=0.2, rho=950, c=1900 assumed)", "effusivity", "assume.film_k", "J/(m^2 K s^0.5)")
+der("qual.effusivity_film", round(e["e_pe"]), "thermal effusivity of the polymer film from explicit assumed properties", "effusivity", "assume.film_k, assume.film_rho_kgm3, assume.film_c_JkgK", "J/(m^2 K s^0.5)")
 der("qual.effusivity_LN2", round(e["e_ln2"]), "thermal effusivity of liquid N2 (k=0.14, rho=807, c=2040)", "effusivity", "phys.k_N2liq, phys.rho_LN2", "J/(m^2 K s^0.5)")
 der("qual.T_contact_Cu_LN2_K", round(e["Ti_cu"], 1), "instantaneous contact temperature Cu(296 K)/LN2(77 K) on liquid touch-down", "effusivity", "qual.effusivity_Cu, qual.effusivity_LN2", "K")
 der("qual.T_contact_film_LN2_K", round(e["Ti_pe"], 1), "instantaneous contact temperature polymer film(296 K)/LN2(77 K)", "effusivity", "qual.effusivity_film, qual.effusivity_LN2", "K")

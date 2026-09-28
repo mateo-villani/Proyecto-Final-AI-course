@@ -38,7 +38,7 @@ RHO_LN2 = 807.0      # kg/m3, liquid N2 density at 77 K
 CP_N2_VAP = 1040.0   # J/(kg K), vapour cp (only used for a sensitivity bound)
 
 # origin="measured": per-cylinder h, d, m supplied by the human (inbox.jsonl, 2026-09-18 21:12 and
-# 21:35) with their stated uncertainties. These replace the round-1 nominal 10 cm / 4 cm / 1 kg.
+# 21:35) with their stated uncertainties. These replace the preliminary nominal 10 cm / 4 cm / 1 kg.
 # The human also stated area and n; those are recomputed here from (h, d, m) and compared
 # (geom.<cyl>.area_stated_cm2 / n_stated_mol) -- the recomputed values are the ones used.
 GEOM = {
@@ -697,7 +697,7 @@ def main():
     pv = np.array(list(plateaus.values()))
     prov("qa.plateau_spread_pct", float(100 * (pv.max() - pv.min()) / pv.mean()), "(max-min)/mean of the film-boiling plateau Q/A across A, B, C with measured geometry",
          f"{S}::main", "derived", "%", [f"qa.{c}.plateau_Wm2" for c in ("A", "B", "C")],
-         detail="with the round-1 nominal geometry (same m/A for all) this spread was ~78 %")
+         detail="with the preliminary nominal geometry (same m/A for all) this spread was ~78 %")
     results["tcp"] = {c: list(tcp[c]) for c in tcp}
 
     # --- balance

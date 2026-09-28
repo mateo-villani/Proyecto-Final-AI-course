@@ -2,7 +2,7 @@
 """Shared text of out/report.html and out/report.py (marimo).
 
 Every number in the prose is a placeholder  [[key|fmt]]  resolved against out/provenance.json
-by render(); the rendered number carries a small [key] tag exactly like \\src{} in notes.tex.
+by render(); the rendered number carries a small [key] tag linked to provenance.json.
     [[key|.1f]]        value formatted, tag shown
     [[key|.1f|notag]]  value only
     [[key|.1f|x1e-3]]  value scaled before formatting (kW from W, cm2 from m2 ...)
@@ -22,7 +22,7 @@ FIG_CAPTIONS = {
     "QA_vs_dT_A_log.png": "Fig. 9 — Q/A vs ΔT, cilindro A, log–log.",
     "QA_vs_dT_B_log.png": "Fig. 10 — Q/A vs ΔT, cilindro B, log–log.",
     "Cv_diff.png": "Fig. 11 — Izq.: C_v(T) de Einstein y Debye superpuestos. Der.: diferencia relativa (Einstein−Debye)/Debye; máxima a la temperatura más baja de la grilla.",
-    "QA_models_compare.png": "Fig. 12 — Cilindro C: Q/A(ΔT) recalculado con C_v de Einstein y con C_v de Debye sobre la misma T(t) y geometría (round-3, sec. 2.4).",
+    "QA_models_compare.png": "Fig. 12 — Cilindro C: Q/A(ΔT) recalculado con C_v de Einstein y con C_v de Debye sobre la misma T(t) y geometría (sec. 2.4).",
     "tc_vs_p_models.png": "Fig. 13 — t_c vs p: ajuste físico por el origen, ley de potencia y recta general (2 parámetros, 3 puntos); derecha: residuos por cilindro y modelo.",
     "pred_D.png": "Fig. 14 — Predicción de t_c para un cuarto cilindro D hipotético (p intermedio entre B y C) según los tres modelos de la Fig. 13.",
     "balance_residual_model.png": "Fig. 15 — Balanza, etapa 3: modelo de relajación exponencial P(t) = P₀ e^(−t/τ) (izq.) y comparación de residuos contra la recta simple (der.).",
@@ -60,8 +60,8 @@ def sections(P):
     S.append(dict(id="alcance", title="Alcance, fuentes y trazabilidad", figs=[], html="""
 <p>Este informe reproduce el análisis del laboratorio «Efecto Leidenfrost» usando únicamente los seis CSV de
 <code>datos/</code>, las dos guías de <code>guia/</code> y las dimensiones de los tres cilindros que el humano
-midió y comunicó (<code>inbox.jsonl</code>). <strong>Nadie del equipo abrió <code>informe-original/</code></strong>
-(ni lectura, ni búsqueda, ni listado). Cada número lleva una etiqueta gris <sup class="src">[clave]</sup> que
+midió y comunicó (<code>inbox.jsonl</code>). El código del pipeline no contiene rutas de lectura hacia
+<code>informe-original/</code>. Cada número lleva una etiqueta gris <sup class="src">[clave]</sup> que
 resuelve en <code>out/provenance.json</code>: allí consta qué script y función lo generó, con qué entradas, y si es
 <em>derivado</em>, <em>tomado de la guía</em>, de <em>tablas</em> (<code>phys.*</code>), <em>medido por el humano</em>
 (<code>geom.*</code>) o <em>supuesto</em> (<code>assume.*</code>). Todo se regenera con
@@ -84,16 +84,15 @@ que coincide con Debye ([[qual.Cv_debye_300K|.2f]] J/(mol K)) a [[qual.einstein_
 <div class="eq">C<sub>l</sub>(T) = 3R (Θ<sub>E</sub>/T)² e<sup>Θ<sub>E</sub>/T</sup> / (e<sup>Θ<sub>E</sub>/T</sup> − 1)²,
 &nbsp;&nbsp; Θ<sub>E</sub>(T) = Θ<sub>D</sub> [a + b e<sup>−cT/Θ<sub>D</sub></sup>],
 &nbsp;&nbsp; Q/A = −(n/A) C<sub>v</sub>(T) dT/dt &nbsp;(signo: Q/A &gt; 0 mientras el cuerpo se enfría).</div>
-<p><strong>Ronda 3 (revisión, verificación y extensión, 2026-09-23).</strong> Este pase revisó las constantes y
+<p><strong>Revisión, verificación y extensión.</strong> Esta etapa revisó las constantes y
 supuestos (§1), modeló cuantitativamente la brecha de pendientes de la balanza (§4.4), extendió la comparación
 Einstein/Debye a Q/A (§2.4), agregó ajustes alternativos y una predicción para un cuarto cilindro a la relación
 p–t<sub>c</sub> (§3.3–3.4), derivó la cadena de propagación de σ<sub>T</sub> (§2.5), investigó cuantitativamente la
 anomalía de C1 (§5.1), construyó la figura de las seis etapas sobre los datos reales (§6) y añadió una validación
 dimensional (§6.1). Se preservó todo lo que ya estaba correctamente calculado; el resumen final (§7) separa
-explícitamente qué se verificó, qué se corrigió, qué es nuevo y qué sigue sin poder resolverse. Para la verificación
-de constantes se intentó además una consulta en línea (Wikipedia, «Thermocouple»; los intentos sobre las tablas
-NIST primarias fueron redirigidos o bloqueados, ver <code>verif.*</code> en <code>provenance.json</code>); en ningún
-momento se accedió a <code>informe-original/</code>.</p>
+explícitamente qué se verificó, qué se corrigió, qué es nuevo y qué sigue sin poder resolverse. Las referencias
+externas y el alcance de su uso están registrados en <code>guia/referencias.json</code>; las hipótesis instrumentales y
+del film están registradas en <code>datos/supuestos.json</code>.</p>
 """))
 
     S.append(dict(id="preguntas", title="1. Respuestas a las preguntas de la guía", figs=[], html="""
@@ -235,7 +234,7 @@ en los tres casos.</p>
 <p>Q/A &gt; 0 en todas las muestras de la ventana de enfriamiento ([[qa.A.n_cooling_samples|]]/[[qa.B.n_cooling_samples|]]/[[qa.C.n_cooling_samples|]]
 muestras, [[qa.A.n_nonpositive|]] no positivas). Los picos están por debajo del flujo crítico del NL (~1,5×10⁵ W/m²), como debe
 ser; los plateaus de película de los tres cuerpos coinciden a [[qa.plateau_spread_pct|.0f]] % (máx−mín sobre media). Con una m/A
-común para los tres (ronda 1, geometría nominal) la dispersión era ~78 %: <strong>la geometría medida hace que el flujo de
+común para los tres (en el cálculo preliminar con geometría nominal) la dispersión era ~78 %: <strong>la geometría medida hace que el flujo de
 película salga independiente del cuerpo</strong>, que es lo que la física exige. El residuo (B, el más delgado, d = 2,2 cm, tiene
 el flujo mayor) va en el sentido de las correlaciones de película para cilindros (h ∝ d<sup>−1/4</sup>), pero no se cuantificó.</p>
 
@@ -562,7 +561,7 @@ hipótesis antes que presentar un número no respaldado.</p>
     S.append(dict(id="conclusiones", title="7. Conclusiones", figs=[], html="""
 <p>Resumen final, separado explícitamente en lo que ya estaba bien y se conservó, lo que se corrigió, lo que es nuevo, y lo que
 sigue abierto.</p>
-<h3>A) Resultados de la ronda 2 que se verificaron y siguen siendo válidos</h3>
+<h3>A) Resultados previos que se verificaron y siguen siendo válidos</h3>
 <ul>
 <li>El C<sub>v</sub> de Einstein con Θ<sub>E</sub>(T) de la ec. (5) —corregida la errata de la ec. (4)— reproduce Debye a 0,03 % a 300 K y
 queda 10 % bajo a 77 K; ∫C<sub>v</sub>dT (77→296 K) = [[cv.enthalpy_77_296_Jmol|.0f|notag]] J/mol. (Verificado y extendido en §2.4:
@@ -610,8 +609,8 @@ hipótesis de junta mojada (§5.1).</li>
 <li>Figura de las seis etapas superpuesta directamente sobre los datos de Q/A vs ΔT reales, con el sentido temporal marcado y el
 estado evidenciario (observada/indicios/no resuelta) de cada etapa (§6).</li>
 <li>Validación dimensional explícita y discusión de la aplicabilidad (y no aplicación) de correlaciones tipo Bromley (§6.1).</li>
-<li>Intento de verificación externa de constantes (Wikipedia para el coeficiente Seebeck del tipo K; intentos fallidos sobre la
-tabla NIST primaria), documentado en <code>verif.*</code> (§1).</li>
+<li>Catálogo estable de referencias externas y de sus limitaciones en <code>guia/referencias.json</code>, documentado
+también en <code>verif.*</code> (§1).</li>
 </ul>
 <h3>D) Lo que sigue sin poder resolverse con los datos disponibles</h3>
 <ul>
@@ -623,9 +622,9 @@ mencionado.</li>
 <li>Si el flujo crítico de la corrida C1 refleja física real (CHF distinto sobre una superficie plástica) o es enteramente un
 artefacto de resolución temporal/Biot marginal/posible junta mojada: la evidencia disponible acota el problema pero no lo
 decide (§5.1).</li>
-<li>Los coeficientes exactos del polinomio inverso tipo K no se verificaron dígito a dígito contra la tabla NIST primaria en
-esta sesión (los intentos de acceso en línea fueron redirigidos o bloqueados); la validación sigue siendo indirecta
-(consistencia interna a ≤0,2 K y coincidencia del coeficiente Seebeck con una fuente secundaria independiente).</li>
+<li>Los coeficientes exactos del polinomio inverso tipo K no se rederivaron dígito a dígito desde la tabla NIST primaria;
+la validación sigue siendo indirecta por consistencia interna a ≤0,2 K. Esta limitación está registrada en
+<code>guia/referencias.json</code> y <code>verif.nist_type_k_status</code>.</li>
 <li>El sobrecalentamiento del vapor que abandona el dewar, la dependencia exacta del flujo de película con el diámetro, y si el
 colapso de C1 es enfriamiento real del bulk o un artefacto de la junta: sin datos adicionales (redundancia de sensores,
 termocuplas de referencia, o una cuarta corrida real) no se pueden zanjar.</li>
@@ -636,16 +635,14 @@ termocuplas de referencia, o una cuarta corrida real) no se pueden zanjar.</li>
 <ul>
 <li>Las dimensiones y masas de A, B, C se tomaron tal como las comunicó el humano (con sus incertezas); no se midieron aquí. Que C
 sea el mismo cuerpo en C1 y C3 se asume por el nombre de los archivos.</li>
-<li>El verificador de la ronda 1 no corrió (límite de sesión); sólo existe una recomputación independiente de t<sub>c</sub>
-(<code>work/verifier/verify_r01.py</code>) que coincide en la muestra.</li>
+<li>No se conserva un segundo verificador ejecutable e independiente del pipeline actual para t<sub>c</sub>; la validación
+disponible es la recomputación que ejecuta <code>out/checks.py</code> desde los CSV.</li>
 <li>h<sub>film</sub>, h<sub>nucleado</sub> y q<sub>max</sub> del NL son órdenes de magnitud de literatura (<code>phys.*</code>); sólo sirven para los
 argumentos de Biot, de escala de tiempo y para juzgar la anomalía de C1.</li>
-<li>Los coeficientes exactos del polinomio inverso tipo K no se verificaron dígito a dígito contra la tabla NIST primaria: se
-intentó en esta ronda (<code>verif.nist_type_k_table_attempt</code>) pero <code>srdata.nist.gov/its90</code> redirigió a una página de
-navegación sin datos y un espejo devolvió HTTP 403; el respaldo sigue siendo indirecto (acuerdo a ≤0,2 K con la columna T de los
-CSV, y el coeficiente Seebeck de 41 µV/K que ese mismo polinomio implica coincide exactamente con un valor independiente de
-Wikipedia, <code>verif.seebeck_K_room_vs_wikipedia</code>). Lo mismo para L<sub>v</sub>, ρ<sub>NL</sub>, ρ<sub>Cu</sub>, k<sub>Cu</sub>: son valores
-estándar de CRC/NIST WebBook/CODATA, no re-consultados dígito a dígito en esta sesión por no tener acceso a esas bases de datos.</li>
+<li>Los coeficientes exactos del polinomio inverso tipo K no se rederivaron dígito a dígito desde la tabla NIST primaria;
+el respaldo sigue siendo indirecto por el acuerdo a ≤0,2 K con la columna T de los CSV. Para L<sub>v</sub>, ρ<sub>NL</sub>,
+ρ<sub>Cu</sub> y k<sub>Cu</sub>, las fuentes declaradas y las limitaciones bibliográficas están registradas en
+<code>guia/referencias.json</code>.</li>
 <li>Rango y bits del ADC de la MPLI y ganancia del amplificador no están en las fuentes (supuestos ±10 V, 12 bit); ahora su efecto
 está acotado cuantitativamente en §2.5 y cruzado contra el ruido real de dT/dt, pero el supuesto en sí sigue sin verificarse.</li>
 <li>Espesor y material del film (12 µm, k = 0,2 W/(m K), ρc de LDPE), el gas atrapado en las 3 vueltas y la emisividad del Cu
@@ -657,12 +654,9 @@ suavizado (§5.1), pero no decidido.</li>
 <li>La dependencia del flujo de película con el diámetro (residuo del 15-25 % en t<sub>c</sub>/p, §3.3) no se contrastó con una
 correlación tipo Bromley (§6.1 explica por qué: excedería las hipótesis de esa correlación). Los artículos de Curzon (1978, «The
 Leidenfrost phenomenon», Am. J. Phys. 46(8) 825-828) y Listerman, Boshinski & Knese (1986, «Cooling by immersion in liquid
-nitrogen», Am. J. Phys. 54(6) 554-558) se identificaron bibliográficamente vía CrossRef en esta ronda
-(<code>verif.curzon1978_ref</code>, <code>verif.listerman1986_ref</code>): el segundo es directamente pertinente (mismo tipo de
-experimento, ya citado como fuente del orden de magnitud de h<sub>película</sub>); el primero parece ser, según un resumen obtenido
-automáticamente y no verificado contra el texto primario, un trabajo de demostraciones de cátedra, no una calorimetría
-cuantitativa comparable. No se compararon valores numéricos de ninguno de los dos porque el texto completo no se leyó.</li>
-<li><code>out/notes.tex</code> no se compiló (no hay LaTeX en esta máquina); se verificó balance de llaves y entornos.</li>
+nitrogen», Am. J. Phys. 54(6) 554-558) están catalogados en <code>guia/referencias.json</code>
+(<code>verif.curzon1978_ref</code>, <code>verif.listerman1986_ref</code>). No se compararon valores numéricos de ninguno
+de los dos porque el texto completo no se usó como fuente.</li>
 </ul>
 """))
     return S

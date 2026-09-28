@@ -8,7 +8,16 @@ os.chdir(JOB)
 prov = os.path.join("out", "provenance.json")
 if os.path.exists(prov):
     os.remove(prov)
-for cmd in (["python", "work/analysis.py"], ["python", "work/w2/physics_numbers.py"], ["python", "work/w2/merge_provenance.py"], ["python", "work/w3/extensions.py"]):
-    print(">>", " ".join(cmd)); r = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8")
-    print(r.stdout[-600:]); 
-    if r.returncode: print(r.stderr); sys.exit(r.returncode)
+env = os.environ.copy()
+env["PYTHONIOENCODING"] = "utf-8"
+env["PYTHONUTF8"] = "1"
+for script in ("work/analysis.py", "work/w2/physics_numbers.py", "work/w2/merge_provenance.py", "work/w3/extensions.py"):
+    cmd = [sys.executable, script]
+    print(">>", " ".join(cmd))
+    r = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", env=env)
+    if r.stdout:
+        print(r.stdout[-600:])
+    if r.returncode:
+        if r.stderr:
+            print(r.stderr, file=sys.stderr)
+        sys.exit(r.returncode)

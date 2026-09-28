@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Round-3 review extensions (human request, 2026-09-23): quantify the balance-slope discrepancy,
+"""Review extensions: quantify the balance-slope discrepancy,
 extend Einstein vs Debye, add power-law/general-linear fits to t_c(p) with residuals, derive the
 sigma_T error chain, build the annotated six-stage figure, predict a fourth cylinder, extend the
 C1 anomaly investigation, and cross-check constants against reachable literature.
@@ -29,6 +29,9 @@ import analysis as an  # noqa: E402
 FIG = os.path.join(WORK, "fig")
 OUT = os.path.join(JOB, "out")
 PPATH = os.path.join(OUT, "provenance.json")
+REFERENCES_PATH = os.path.join(JOB, "guia", "referencias.json")
+with open(REFERENCES_PATH, encoding="utf-8") as fh:
+    REFERENCES = json.load(fh)
 S = "work/w3/extensions.py"
 
 PROV = {}
@@ -437,22 +440,21 @@ def main():
     ax.legend(frameon=False, fontsize=8)
     fig.tight_layout(); fig.savefig(os.path.join(FIG, "C1_sensitivity.png"), dpi=150); plt.close(fig)
 
-    # =========================================================================== 1. constants cross-check (best-effort, offline+WebFetch)
-    prov("verif.seebeck_K_room_vs_wikipedia", True,
-         "phys.seebeck_K_uVK (41 uV/K) cross-checked against an independent secondary source (Wikipedia, 'Thermocouple' article, accessed this session): 'a sensitivity of approximately 41 uV/degC' for type K -- exact match",
-         "WebFetch: https://en.wikipedia.org/wiki/Thermocouple (this session)", "literature", "bool", ["phys.seebeck_K_uVK"], ptype="source")
-    prov("verif.nist_type_k_table_attempt", "not retrieved",
-         "Attempted to fetch the primary NIST ITS-90 type-K inverse-polynomial coefficient table directly (srdata.nist.gov/its90 redirected to a navigation-only page; a secondary mirror returned HTTP 403). The digit-level polynomial used in work/analysis.py::typeK_T_from_V therefore remains UNVERIFIED against the primary source in this session",
-         "WebFetch attempts, this session (see session log)", "literature", "", ptype="source",
-         detail="mitigating evidence: (i) recomputing T from the CSV's own V with this polynomial reproduces the CSV's T column to <=0.2 K over two independent runs (tc_check.B/C.max_abs_dev_K), which is strong internal/empirical evidence the polynomial is correct even though its digits were not re-derived from the primary table here; (ii) the 41 uV/K room-T slope implied by the same polynomial matches the independently-sourced Wikipedia figure exactly (verif.seebeck_K_room_vs_wikipedia)")
-    prov("verif.constants_status", "the tabulated constants (phys.*) are standard, widely reproduced textbook/handbook values (CRC Handbook, NIST WebBook, CODATA); this session did not have live access to CRC/NIST WebBook itself (paywalled/DB-only) so they were not re-fetched digit-by-digit, but they agree with each other and with the internal data (e.g. m/V of A/B/C matches rho_Cu to 1-3%, sec. 3) to well within their quoted tolerances",
-         "constants cross-check", "guide, this file", "literature", "", ptype="source")
-    prov("verif.listerman1986_ref", "Listerman, T.W., Boshinski, T.A., Knese, L.F. (1986), 'Cooling by immersion in liquid nitrogen', American Journal of Physics 54(6), 554-558",
-         "Bibliographic identification (title/authors/journal/volume/pages) obtained via a CrossRef metadata query this session; the full text was NOT retrieved or read. Directly on-topic: a body cooling by LN2 immersion, the same class of experiment as this lab (already cited as the source of phys.h_film_Wm2K's order-of-magnitude film coefficient)",
-         "WebFetch: api.crossref.org bibliographic search (this session)", "literature", "", ptype="source")
-    prov("verif.curzon1978_ref", "Curzon, F.L. (1978), 'The Leidenfrost phenomenon', American Journal of Physics 46(8), 825-828",
-         "Bibliographic identification obtained via the same CrossRef query; an automatically-fetched summary (not independently verified against the primary text) describes it as presenting four lecture-hall demonstrations of the Leidenfrost effect (drops floating on a vapour cushion, delayed quenching of heated brass) -- qualitative/demonstration in nature, not a quantitative lumped-body calorimetry study like this one. No numeric result from this paper is used or compared here because the primary text was not read",
-         "WebFetch: api.crossref.org bibliographic search (this session)", "literature", "", ptype="source")
+    # =========================================================================== 1. stable reference catalogue
+    prov("verif.reference_catalog_available", True,
+         "Bibliographic metadata and the evidentiary scope of external references are versioned in guia/referencias.json",
+         "guia/referencias.json", "literature", "bool", ptype="source")
+    prov("verif.nist_type_k_status", "not independently rederived",
+         "The inverse type-K polynomial reproduces the CSV temperature column to <=0.2 K, but its coefficients were not independently rederived from the primary NIST table",
+         "guia/referencias.json::nist_its90_type_k", "literature", "", ptype="source",
+         detail="This is an explicit limitation recorded in the versioned reference catalogue")
+    prov("verif.constants_status", "tabulated constants are attributed to the guide and the stable catalogue; edition/page-level verification remains incomplete where guia/referencias.json says so",
+         "Status of the tabulated constants used by the analysis",
+         "guia/referencias.json", "literature", "", ptype="source")
+    for prov_key, ref_key in (("verif.listerman1986_ref", "listerman_1986"), ("verif.curzon1978_ref", "curzon_1978")):
+        ref = REFERENCES[ref_key]
+        citation = f"{', '.join(ref['authors'])} ({ref['year']}), '{ref['title']}', {ref['journal']} {ref['volume']}({ref['issue']}), {ref['pages']}"
+        prov(prov_key, citation, ref["scope"], f"guia/referencias.json::{ref_key}", "literature", "", ptype="source")
     prov("verif.adc_and_film_are_hypotheses", True,
          "assume.adc_fs_V, assume.adc_bits, assume.film_thickness_m and assume.film_k remain explicit, labelled HYPOTHESES: no ADC/amplifier datasheet or film specification was found in guia/ or datos/. Conclusions that depend on them (the illustrative sigma_T numbers of sec. 5x, and the film-vs-vapour resistance comparison of sec. 5) are flagged as such and are not used to support any quantitative conclusion in sec. 7-10",
          f"{S}::main", "derived", "bool", ["assume.adc_fs_V", "assume.adc_bits", "assume.film_thickness_m", "assume.film_k"], ptype="check")

@@ -2815,7 +2815,7 @@
   "statement": "(max-min)/mean of the film-boiling plateau Q/A across A, B, C with measured geometry",
   "type": "script",
   "reproduce": "work/analysis.py::main",
-  "detail": "with the round-1 nominal geometry (same m/A for all) this spread was ~78 %",
+  "detail": "with the preliminary nominal geometry (same m/A for all) this spread was ~78 %",
   "value": 26.40619575873692,
   "unit": "%",
   "origin": "derived",
@@ -2912,7 +2912,7 @@
   "type": "script",
   "reproduce": "work/analysis.py::main",
   "detail": "",
-  "value": 99.08764132805035,
+  "value": 99.08764132805032,
   "unit": "W",
   "origin": "derived",
   "inputs": []
@@ -2922,7 +2922,7 @@
   "type": "script",
   "reproduce": "work/analysis.py::main",
   "detail": "",
-  "value": 42.63495950986766,
+  "value": 42.634959509867656,
   "unit": "W",
   "origin": "derived",
   "inputs": []
@@ -2952,7 +2952,7 @@
   "type": "script",
   "reproduce": "work/analysis.py::robust_linfit",
   "detail": "+/- 1.83e-04 g/s, rms 0.15 g, n=197",
-  "value": -0.09207215413040107,
+  "value": -0.0920721541304011,
   "unit": "g/s",
   "origin": "derived",
   "inputs": []
@@ -2962,7 +2962,7 @@
   "type": "script",
   "reproduce": "work/analysis.py::linfit",
   "detail": "",
-  "value": 0.00018324577276409982,
+  "value": 0.00018324577276409963,
   "unit": "g/s",
   "origin": "derived",
   "inputs": []
@@ -2972,7 +2972,7 @@
   "type": "script",
   "reproduce": "work/analysis.py::robust_linfit",
   "detail": "+/- 2.14e-03 g/s, rms 0.38 g (curved: still-cooling Cu)",
-  "value": -0.12547594649946145,
+  "value": -0.1254759464994615,
   "unit": "g/s",
   "origin": "derived",
   "inputs": []
@@ -2982,7 +2982,7 @@
   "type": "script",
   "reproduce": "work/analysis.py::linfit",
   "detail": "",
-  "value": 0.002138665928887493,
+  "value": 0.0021386659288874918,
   "unit": "g/s",
   "origin": "derived",
   "inputs": []
@@ -2992,7 +2992,7 @@
   "type": "script",
   "reproduce": "work/analysis.py::linfit",
   "detail": "",
-  "value": -0.09552631123845405,
+  "value": -0.0955263112384555,
   "unit": "g/s",
   "origin": "derived",
   "inputs": []
@@ -3002,7 +3002,7 @@
   "type": "script",
   "reproduce": "work/analysis.py::main",
   "detail": "",
-  "value": 1.362800161292532,
+  "value": 1.3628001612925322,
   "unit": "",
   "origin": "derived",
   "inputs": [
@@ -3015,7 +3015,7 @@
   "type": "script",
   "reproduce": "work/analysis.py::main",
   "detail": "",
-  "value": 1.0375157629434941,
+  "value": 1.0375157629435094,
   "unit": "",
   "origin": "derived",
   "inputs": []
@@ -3272,7 +3272,7 @@
   "type": "script",
   "reproduce": "work/analysis.py::main",
   "detail": "",
-  "value": 20250.771000547014,
+  "value": 20250.77100054701,
   "unit": "W/m2",
   "origin": "derived",
   "inputs": [
@@ -3285,7 +3285,7 @@
   "type": "script",
   "reproduce": "work/analysis.py::main",
   "detail": "",
-  "value": 8713.405527471266,
+  "value": 8713.405527471265,
   "unit": "W/m2",
   "origin": "derived",
   "inputs": [
@@ -3318,7 +3318,7 @@
   "type": "script",
   "reproduce": "work/analysis.py::main",
   "detail": "",
-  "value": 0.8781178133545655,
+  "value": 0.8781178133545654,
   "unit": "",
   "origin": "derived",
   "inputs": [
@@ -3331,7 +3331,7 @@
   "type": "script",
   "reproduce": "work/analysis.py::main",
   "detail": "",
-  "value": 0.8430997046119272,
+  "value": 0.843099704611927,
   "unit": "",
   "origin": "derived",
   "inputs": [
@@ -3587,41 +3587,64 @@
   "origin": "guide"
  },
  "assume.adc_fs_V": {
-  "statement": "ASSUMED ADC input range +-10 V (MPLI datasheet not in the sources) = 10.0 V",
-  "type": "derivation",
-  "reproduce": "assumption, stated in notes.tex sec. 1",
+  "statement": "ASSUMED Rango de entrada simétrico del ADC de la MPLI = 10.0 V",
+  "type": "source",
+  "reproduce": "datos/supuestos.json::assume.adc_fs_V",
+  "detail": "Valor ilustrativo; la hoja de datos del instrumento no está entre las fuentes",
   "value": 10.0,
   "unit": "V",
   "origin": "assumed"
  },
  "assume.adc_bits": {
-  "statement": "ASSUMED ADC resolution 12 bit (MPLI datasheet not in the sources) = 12 bit",
-  "type": "derivation",
-  "reproduce": "assumption, stated in notes.tex sec. 1",
+  "statement": "ASSUMED Resolución del ADC de la MPLI = 12 bit",
+  "type": "source",
+  "reproduce": "datos/supuestos.json::assume.adc_bits",
+  "detail": "Valor ilustrativo; la hoja de datos del instrumento no está entre las fuentes",
   "value": 12,
   "unit": "bit",
   "origin": "assumed"
  },
  "assume.film_thickness_m": {
-  "statement": "ASSUMED thickness of one turn of cling film (typical household PE/PVC; not measured) = 1.2e-05 m",
-  "type": "derivation",
-  "reproduce": "assumption, stated in notes.tex sec. 5",
+  "statement": "ASSUMED Espesor de una vuelta de film doméstico = 1.2e-05 m",
+  "type": "source",
+  "reproduce": "datos/supuestos.json::assume.film_thickness_m",
+  "detail": "Valor típico para film PE/PVC; no fue medido",
   "value": 1.2e-05,
   "unit": "m",
   "origin": "assumed"
  },
  "assume.film_k": {
-  "statement": "ASSUMED thermal conductivity of the film (LDPE/PVC) = 0.2 W/(m K)",
-  "type": "derivation",
-  "reproduce": "assumption, stated in notes.tex sec. 5",
+  "statement": "ASSUMED Conductividad térmica del film = 0.2 W/(m K)",
+  "type": "source",
+  "reproduce": "datos/supuestos.json::assume.film_k",
+  "detail": "Valor típico para LDPE/PVC; el material exacto no está especificado",
   "value": 0.2,
   "unit": "W/(m K)",
   "origin": "assumed"
  },
+ "assume.film_rho_kgm3": {
+  "statement": "ASSUMED Densidad del film = 950.0 kg/m^3",
+  "type": "source",
+  "reproduce": "datos/supuestos.json::assume.film_rho_kgm3",
+  "detail": "Valor típico de LDPE usado sólo para una estimación de efusividad",
+  "value": 950.0,
+  "unit": "kg/m^3",
+  "origin": "assumed"
+ },
+ "assume.film_c_JkgK": {
+  "statement": "ASSUMED Calor específico del film = 1900.0 J/(kg K)",
+  "type": "source",
+  "reproduce": "datos/supuestos.json::assume.film_c_JkgK",
+  "detail": "Valor típico de LDPE usado sólo para una estimación de efusividad",
+  "value": 1900.0,
+  "unit": "J/(kg K)",
+  "origin": "assumed"
+ },
  "assume.eps_Cu": {
-  "statement": "ASSUMED emissivity of the Cu surface (polished 0.03, lightly oxidised ~0.1) = 0.05",
-  "type": "derivation",
-  "reproduce": "assumption, stated in notes.tex sec. 6",
+  "statement": "ASSUMED Emisividad de la superficie de cobre = 0.05",
+  "type": "source",
+  "reproduce": "datos/supuestos.json::assume.eps_Cu",
+  "detail": "Valor intermedio entre cobre pulido y ligeramente oxidado; no fue medido",
   "value": 0.05,
   "unit": "",
   "origin": "assumed"
@@ -4437,10 +4460,10 @@
   "origin": "derived"
  },
  "qual.effusivity_film": {
-  "statement": "thermal effusivity of the polymer film (k=0.2, rho=950, c=1900 assumed) = 601 J/(m^2 K s^0.5)",
+  "statement": "thermal effusivity of the polymer film from explicit assumed properties = 601 J/(m^2 K s^0.5)",
   "type": "script",
   "reproduce": "work/w2/physics_numbers.py::effusivity",
-  "detail": "inputs: assume.film_k",
+  "detail": "inputs: assume.film_k, assume.film_rho_kgm3, assume.film_c_JkgK",
   "value": 601,
   "unit": "J/(m^2 K s^0.5)",
   "origin": "derived"
@@ -4612,7 +4635,7 @@
   "type": "script",
   "reproduce": "work/w3/extensions.py::main",
   "detail": "",
-  "value": -92.07215413040107,
+  "value": -92.0721541304011,
   "unit": "mg/s",
   "origin": "derived",
   "inputs": [
@@ -4624,7 +4647,7 @@
   "type": "script",
   "reproduce": "work/w3/extensions.py::main",
   "detail": "",
-  "value": -125.47594649946144,
+  "value": -125.4759464994615,
   "unit": "mg/s",
   "origin": "derived",
   "inputs": [
@@ -4636,7 +4659,7 @@
   "type": "script",
   "reproduce": "work/w3/extensions.py::main",
   "detail": "",
-  "value": -95.52631123845406,
+  "value": -95.52631123845549,
   "unit": "mg/s",
   "origin": "derived",
   "inputs": [
@@ -4648,7 +4671,7 @@
   "type": "script",
   "reproduce": "work/w3/extensions.py::main",
   "detail": "",
-  "value": 36.2800161292532,
+  "value": 36.28001612925323,
   "unit": "%",
   "origin": "derived",
   "inputs": []
@@ -4658,7 +4681,7 @@
   "type": "script",
   "reproduce": "work/w3/extensions.py::main",
   "detail": "matches the previously quoted ~7.1 W to ~7 %; but mixes a real decaying transient with the asymptotic background (see bal2.model_*)",
-  "value": 6.647354681443017,
+  "value": 6.647354681443022,
   "unit": "W",
   "origin": "derived",
   "inputs": [
@@ -4672,7 +4695,7 @@
   "type": "script",
   "reproduce": "work/w3/extensions.py::main",
   "detail": "an order of magnitude smaller: by the end of the run the excess has mostly decayed",
-  "value": 0.6873772645025436,
+  "value": 0.6873772645028252,
   "unit": "W",
   "origin": "derived",
   "inputs": [
@@ -4685,7 +4708,7 @@
   "type": "script",
   "reproduce": "work/w3/extensions.py::decay_model (scipy.optimize.curve_fit)",
   "detail": "+/- 0.43 W (fit stderr only; does not include the ~10 %% Cv and L_v systematic uncertainties)",
-  "value": 38.01985807667293,
+  "value": 38.01985789549385,
   "unit": "W",
   "origin": "derived",
   "inputs": []
@@ -4695,7 +4718,7 @@
   "type": "script",
   "reproduce": "work/w3/extensions.py::decay_model",
   "detail": "+/- 0.21 s (fit stderr only)",
-  "value": 14.876178577611675,
+  "value": 14.876178663951649,
   "unit": "s",
   "origin": "derived",
   "inputs": []
@@ -4705,7 +4728,7 @@
   "type": "script",
   "reproduce": "work/w3/extensions.py::main",
   "detail": "vs 0.38 g RMS for the straight-line fit (bal.slope3_gs): the decay model removes the curvature the straight line could not",
-  "value": 0.048168754463038574,
+  "value": 0.04816875446303939,
   "unit": "g",
   "origin": "derived",
   "inputs": []
@@ -4715,7 +4738,7 @@
   "type": "script",
   "reproduce": "work/w3/extensions.py::main",
   "detail": "consistency check against bal2.Pres_avg_naive_W and the previous ~7.1 W estimate",
-  "value": 7.787484184118923,
+  "value": 7.787484190468111,
   "unit": "W",
   "origin": "derived",
   "inputs": [
@@ -4728,7 +4751,7 @@
   "type": "script",
   "reproduce": "work/w3/extensions.py::main",
   "detail": "+/- 0.2 K (fit stderr propagated; does not include Cv systematic)",
-  "value": 13.610691441853062,
+  "value": 13.610691455988144,
   "unit": "K",
   "origin": "derived",
   "inputs": [
@@ -4742,7 +4765,7 @@
   "type": "script",
   "reproduce": "work/w3/extensions.py::main",
   "detail": "+/- 0.2 K (same stderr as bal2.model_dT0_K, added to the fixed 77 K reference)",
-  "value": 90.61069144185306,
+  "value": 90.61069145598815,
   "unit": "K",
   "origin": "derived",
   "inputs": [
@@ -4754,7 +4777,7 @@
   "type": "script",
   "reproduce": "work/w3/extensions.py::main",
   "detail": "between the film-boiling (~150) and nucleate-boiling (~1e4) order-of-magnitude estimates of phys.*: plausible for a transition-boiling relaxation",
-  "value": 570.8899199057146,
+  "value": 570.8899165923219,
   "unit": "W/(m2 K)",
   "origin": "derived",
   "inputs": []
@@ -4776,7 +4799,7 @@
   "type": "script",
   "reproduce": "work/w3/extensions.py::main",
   "detail": "",
-  "value": 8.203630636977408,
+  "value": 8.20363065111249,
   "unit": "K",
   "origin": "derived",
   "inputs": []
@@ -4806,7 +4829,7 @@
   "type": "script",
   "reproduce": "work/w3/extensions.py::main",
   "detail": "well above the plateau noise floor: if sustained, it would be visible in a temperature trace -- consistent with a real (not yet decayed) transient, not a steady residual",
-  "value": 0.16993099778503473,
+  "value": 0.16993099778503487,
   "unit": "K/s",
   "origin": "derived",
   "inputs": []
@@ -4816,7 +4839,7 @@
   "type": "script",
   "reproduce": "work/w3/extensions.py::main",
   "detail": "comparable to or below the plateau noise floor: consistent with the cylinder being close to 77 K within the resolution of the temperature measurement by the end of the run",
-  "value": 0.01757190792568156,
+  "value": 0.01757190792568876,
   "unit": "K/s",
   "origin": "derived",
   "inputs": []
@@ -5275,8 +5298,8 @@
   "reproduce": "work/w3/extensions.py::main",
   "detail": "",
   "value": {
-   "A": 0.4761373391206202,
-   "n": 1.517504737681314
+   "A": 0.476137339120615,
+   "n": 1.5175047376813176
   },
   "unit": "",
   "origin": "derived",
@@ -5301,7 +5324,7 @@
   "type": "script",
   "reproduce": "work/w3/extensions.py::main",
   "detail": "",
-  "value": 4.908277587921633,
+  "value": 4.90827758792138,
   "unit": "%",
   "origin": "derived",
   "inputs": []
@@ -5414,7 +5437,7 @@
   "type": "script",
   "reproduce": "work/w3/extensions.py::main",
   "detail": "",
-  "value": 143.92651483444703,
+  "value": 143.92651483444737,
   "unit": "s",
   "origin": "derived",
   "inputs": [
@@ -5440,7 +5463,7 @@
   "type": "script",
   "reproduce": "work/w3/extensions.py::main",
   "detail": "",
-  "value": 17.957236937374063,
+  "value": 17.95723693737372,
   "unit": "s",
   "origin": "derived",
   "inputs": []
@@ -5776,54 +5799,52 @@
    "tc.C.plateau_T_K"
   ]
  },
- "verif.seebeck_K_room_vs_wikipedia": {
-  "statement": "phys.seebeck_K_uVK (41 uV/K) cross-checked against an independent secondary source (Wikipedia, 'Thermocouple' article, accessed this session): 'a sensitivity of approximately 41 uV/degC' for type K -- exact match",
+ "verif.reference_catalog_available": {
+  "statement": "Bibliographic metadata and the evidentiary scope of external references are versioned in guia/referencias.json",
   "type": "source",
-  "reproduce": "WebFetch: https://en.wikipedia.org/wiki/Thermocouple (this session)",
+  "reproduce": "guia/referencias.json",
   "detail": "",
   "value": true,
   "unit": "bool",
   "origin": "literature",
-  "inputs": [
-   "phys.seebeck_K_uVK"
-  ]
+  "inputs": []
  },
- "verif.nist_type_k_table_attempt": {
-  "statement": "Attempted to fetch the primary NIST ITS-90 type-K inverse-polynomial coefficient table directly (srdata.nist.gov/its90 redirected to a navigation-only page; a secondary mirror returned HTTP 403). The digit-level polynomial used in work/analysis.py::typeK_T_from_V therefore remains UNVERIFIED against the primary source in this session",
+ "verif.nist_type_k_status": {
+  "statement": "The inverse type-K polynomial reproduces the CSV temperature column to <=0.2 K, but its coefficients were not independently rederived from the primary NIST table",
   "type": "source",
-  "reproduce": "WebFetch attempts, this session (see session log)",
-  "detail": "mitigating evidence: (i) recomputing T from the CSV's own V with this polynomial reproduces the CSV's T column to <=0.2 K over two independent runs (tc_check.B/C.max_abs_dev_K), which is strong internal/empirical evidence the polynomial is correct even though its digits were not re-derived from the primary table here; (ii) the 41 uV/K room-T slope implied by the same polynomial matches the independently-sourced Wikipedia figure exactly (verif.seebeck_K_room_vs_wikipedia)",
-  "value": "not retrieved",
+  "reproduce": "guia/referencias.json::nist_its90_type_k",
+  "detail": "This is an explicit limitation recorded in the versioned reference catalogue",
+  "value": "not independently rederived",
   "unit": "",
   "origin": "literature",
   "inputs": []
  },
  "verif.constants_status": {
-  "statement": "constants cross-check",
+  "statement": "Status of the tabulated constants used by the analysis",
   "type": "source",
-  "reproduce": "guide, this file",
+  "reproduce": "guia/referencias.json",
   "detail": "",
-  "value": "the tabulated constants (phys.*) are standard, widely reproduced textbook/handbook values (CRC Handbook, NIST WebBook, CODATA); this session did not have live access to CRC/NIST WebBook itself (paywalled/DB-only) so they were not re-fetched digit-by-digit, but they agree with each other and with the internal data (e.g. m/V of A/B/C matches rho_Cu to 1-3%, sec. 3) to well within their quoted tolerances",
+  "value": "tabulated constants are attributed to the guide and the stable catalogue; edition/page-level verification remains incomplete where guia/referencias.json says so",
   "unit": "",
   "origin": "literature",
   "inputs": []
  },
  "verif.listerman1986_ref": {
-  "statement": "Bibliographic identification (title/authors/journal/volume/pages) obtained via a CrossRef metadata query this session; the full text was NOT retrieved or read. Directly on-topic: a body cooling by LN2 immersion, the same class of experiment as this lab (already cited as the source of phys.h_film_Wm2K's order-of-magnitude film coefficient)",
+  "statement": "Referencia bibliográfica citada por la guía; el texto completo no fue usado para extraer resultados numéricos",
   "type": "source",
-  "reproduce": "WebFetch: api.crossref.org bibliographic search (this session)",
+  "reproduce": "guia/referencias.json::listerman_1986",
   "detail": "",
-  "value": "Listerman, T.W., Boshinski, T.A., Knese, L.F. (1986), 'Cooling by immersion in liquid nitrogen', American Journal of Physics 54(6), 554-558",
+  "value": "T. W. Listerman, T. A. Boshinski, L. F. Knese (1986), 'Cooling by immersion in liquid nitrogen', American Journal of Physics 54(6), 554-558",
   "unit": "",
   "origin": "literature",
   "inputs": []
  },
  "verif.curzon1978_ref": {
-  "statement": "Bibliographic identification obtained via the same CrossRef query; an automatically-fetched summary (not independently verified against the primary text) describes it as presenting four lecture-hall demonstrations of the Leidenfrost effect (drops floating on a vapour cushion, delayed quenching of heated brass) -- qualitative/demonstration in nature, not a quantitative lumped-body calorimetry study like this one. No numeric result from this paper is used or compared here because the primary text was not read",
+  "statement": "Referencia bibliográfica citada por la guía; el texto completo no fue usado para extraer resultados numéricos",
   "type": "source",
-  "reproduce": "WebFetch: api.crossref.org bibliographic search (this session)",
+  "reproduce": "guia/referencias.json::curzon_1978",
   "detail": "",
-  "value": "Curzon, F.L. (1978), 'The Leidenfrost phenomenon', American Journal of Physics 46(8), 825-828",
+  "value": "F. L. Curzon (1978), 'The Leidenfrost phenomenon', American Journal of Physics 46(8), 825-828",
   "unit": "",
   "origin": "literature",
   "inputs": []

@@ -5,7 +5,6 @@ Run from the job directory AFTER work/build_all.py and out/checks.py:
 Inputs: out/provenance.json, work/fig/*.png, work/checks_output.txt, work/report_content.py
 """
 import base64
-import datetime as dt
 import html
 import json
 import os
@@ -20,7 +19,11 @@ import report_content as rc  # noqa: E402
 P = json.load(open(os.path.join(JOB, "out", "provenance.json"), encoding="utf-8"))
 
 # checks output: run checks.py fresh so the pasted text is what the reader can reproduce
-r = subprocess.run([sys.executable, os.path.join(JOB, "out", "checks.py")], capture_output=True, text=True, encoding="utf-8", cwd=JOB)
+child_env = os.environ.copy()
+child_env["PYTHONIOENCODING"] = "utf-8"
+child_env["PYTHONUTF8"] = "1"
+r = subprocess.run([sys.executable, os.path.join(JOB, "out", "checks.py")], capture_output=True,
+                   text=True, encoding="utf-8", cwd=JOB, env=child_env)
 checks_txt = r.stdout + (("\n[stderr]\n" + r.stderr) if r.stderr.strip() else "")
 checks_rc = r.returncode
 open(os.path.join(HERE, "checks_output.txt"), "w", encoding="utf-8").write(checks_txt)
@@ -53,10 +56,10 @@ missing = []
 parts = []
 parts.append(f"""<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Efecto Leidenfrost — cilindros de Cu en N₂ líquido</title><style>{CSS}</style></head><body>
 <h1>Efecto Leidenfrost en cilindros de cobre sumergidos en nitrógeno líquido</h1>
-<p class="sub">Reproducción desde cero a partir de <code>datos/</code>, <code>guia/</code> y las dimensiones medidas por el humano — job
-<code>2026-09-18_205159</code>, ronda 2, generado {dt.date.today().isoformat()}. Autocontenido: abre con <code>file://</code>, sin red.
+<p class="sub">Reproducción desde cero a partir de <code>datos/</code>, <code>guia/</code> y las dimensiones medidas por el humano.
+Autocontenido: abre con <code>file://</code>, sin red.
 Registro de cada número: <code>out/provenance.json</code>. Notebook interactivo con los mismos contenidos y parámetros libres: <code>out/report.py</code> (marimo).</p>
-<div class="box"><strong>Fence:</strong> nadie del equipo leyó, listó ni buscó nada bajo <code>informe-original/</code>.
+<div class="box"><strong>Alcance verificable:</strong> el código del pipeline no contiene rutas de lectura hacia <code>informe-original/</code>.
 <strong>Checks:</strong> <code>python out/checks.py</code> → <span class="{'ok' if checks_rc == 0 else 'bad'}">{'exit 0' if checks_rc == 0 else 'exit ' + str(checks_rc)}</span>,
 {html.escape([l for l in checks_txt.splitlines() if l.startswith('checks:')][0] if any(l.startswith('checks:') for l in checks_txt.splitlines()) else '(sin resumen)')}
 (salida completa en §9).</div>

@@ -1,0 +1,37 @@
+{
+  "curzon_1978": {
+    "authors": ["F. L. Curzon"],
+    "year": 1978,
+    "title": "The Leidenfrost phenomenon",
+    "journal": "American Journal of Physics",
+    "volume": "46",
+    "issue": "8",
+    "pages": "825-828",
+    "scope": "Referencia bibliográfica citada por la guía; el texto completo no fue usado para extraer resultados numéricos"
+  },
+  "listerman_1986": {
+    "authors": ["T. W. Listerman", "T. A. Boshinski", "L. F. Knese"],
+    "year": 1986,
+    "title": "Cooling by immersion in liquid nitrogen",
+    "journal": "American Journal of Physics",
+    "volume": "54",
+    "issue": "6",
+    "pages": "554-558",
+    "scope": "Referencia bibliográfica citada por la guía; el texto completo no fue usado para extraer resultados numéricos"
+  },
+  "nist_its90_type_k": {
+    "organization": "National Institute of Standards and Technology",
+    "title": "ITS-90 Thermocouple Database, Type K",
+    "scope": "Fuente declarada para las tablas de termocupla; los coeficientes del polinomio no fueron rederivados desde esta fuente"
+  },
+  "codata_2018": {
+    "organization": "CODATA",
+    "year": 2018,
+    "title": "Recommended values of the fundamental physical constants",
+    "scope": "Fuente declarada para la constante de los gases"
+  },
+  "crc_handbook": {
+    "title": "CRC Handbook of Chemistry and Physics",
+    "scope": "Fuente declarada para propiedades tabuladas; edición y página no documentadas en los materiales disponibles"
+  }
+}

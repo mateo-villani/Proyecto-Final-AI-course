@@ -18,7 +18,9 @@ El objetivo completo utilizado para construir el análisis se encuentra en `obje
 ## Estructura
 
 - `datos/`: CSV experimentales originales.
+- `datos/supuestos.json`: hipótesis instrumentales y del film, con justificación y estado explícito.
 - `guia/`: guías de la experiencia.
+- `guia/referencias.json`: metadatos bibliográficos estables y alcance de cada referencia externa.
 - `work/`: código de análisis y generación del informe.
 - `out/`: provenance, checks y productos reproducidos.
 - `objective.txt`: objetivo entregado al agente.
@@ -54,10 +56,10 @@ Este comando ejecuta el pipeline numérico y reconstruye `out/provenance.json` a
 
 En la versión validada del proyecto, el resultado esperado es:
 
-    114 PASS
+    117 PASS
     0 FAIL
     0 WARN
-    7 INFO
+    8 INFO
 
 Los INFO son observaciones documentales o físicas y no representan fallos.
 
@@ -84,6 +86,8 @@ Las entradas distinguen entre valores:
 - asumidos.
 
 Los checks verifican, entre otras cosas, la estructura del provenance, la existencia de las rutas de reproducción y la sincronización de resultados con los CSV crudos.
+
+Las hipótesis no medidas se leen desde `datos/supuestos.json`; no dependen de notas o conversaciones externas. Las referencias bibliográficas usadas por el pipeline apuntan a `guia/referencias.json`, que también documenta qué textos no se usaron como fuente numérica.
 
 ## Criterio de éxito
 

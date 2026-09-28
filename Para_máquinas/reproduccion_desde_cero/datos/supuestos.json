@@ -1,0 +1,51 @@
+{
+  "assume.adc_fs_V": {
+    "value": 10.0,
+    "unit": "V",
+    "description": "Rango de entrada simétrico del ADC de la MPLI",
+    "justification": "Valor ilustrativo; la hoja de datos del instrumento no está entre las fuentes",
+    "status": "assumed"
+  },
+  "assume.adc_bits": {
+    "value": 12,
+    "unit": "bit",
+    "description": "Resolución del ADC de la MPLI",
+    "justification": "Valor ilustrativo; la hoja de datos del instrumento no está entre las fuentes",
+    "status": "assumed"
+  },
+  "assume.film_thickness_m": {
+    "value": 0.000012,
+    "unit": "m",
+    "description": "Espesor de una vuelta de film doméstico",
+    "justification": "Valor típico para film PE/PVC; no fue medido",
+    "status": "assumed"
+  },
+  "assume.film_k": {
+    "value": 0.2,
+    "unit": "W/(m K)",
+    "description": "Conductividad térmica del film",
+    "justification": "Valor típico para LDPE/PVC; el material exacto no está especificado",
+    "status": "assumed"
+  },
+  "assume.film_rho_kgm3": {
+    "value": 950.0,
+    "unit": "kg/m^3",
+    "description": "Densidad del film",
+    "justification": "Valor típico de LDPE usado sólo para una estimación de efusividad",
+    "status": "assumed"
+  },
+  "assume.film_c_JkgK": {
+    "value": 1900.0,
+    "unit": "J/(kg K)",
+    "description": "Calor específico del film",
+    "justification": "Valor típico de LDPE usado sólo para una estimación de efusividad",
+    "status": "assumed"
+  },
+  "assume.eps_Cu": {
+    "value": 0.05,
+    "unit": "",
+    "description": "Emisividad de la superficie de cobre",
+    "justification": "Valor intermedio entre cobre pulido y ligeramente oxidado; no fue medido",
+    "status": "assumed"
+  }
+}
